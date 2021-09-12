@@ -3,3 +3,8 @@
 
 # Ada Library Information
 *.ali
+
+# 3D printing intermediate files
+*.stl
+*.gcode
+
