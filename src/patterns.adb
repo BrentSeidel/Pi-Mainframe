@@ -3,7 +3,7 @@ package body patterns is
    procedure count(d : Duration) is
    begin
       counter := counter + 1;
-      i2c.MCP23017_info(i2c.LED_INDEX).set_data(counter, err);
+      i2c.MCP23017_info(i2c.LED_LSW).set_data(counter, err);
       delay d;
    end;
    --
@@ -24,7 +24,7 @@ package body patterns is
             bouncer := bouncer / 2;
          end if;
       end if;
-      i2c.MCP23017_info(i2c.LED_INDEX).set_data(bouncer, err);
+      i2c.MCP23017_info(i2c.LED_LSW).set_data(bouncer, err);
       delay d;
    end;
    --
@@ -35,14 +35,14 @@ package body patterns is
       else
          scanner := scanner * 2;
       end if;
-      i2c.MCP23017_info(i2c.LED_INDEX).set_data(scanner, err);
+      i2c.MCP23017_info(i2c.LED_LSW).set_data(scanner, err);
       delay d;
    end;
    --
    procedure fibonacci(d : Duration) is
       temp : constant BBS.embed.uint16 := fib_1 + fib_2;
    begin
-      i2c.MCP23017_info(i2c.LED_INDEX).set_data(temp, err);
+      i2c.MCP23017_info(i2c.LED_LSW).set_data(temp, err);
       fib_2 := fib_1;
       fib_1 := temp;
       if (fib_1 = 0) and (fib_2 = 0) then

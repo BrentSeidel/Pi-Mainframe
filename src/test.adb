@@ -17,10 +17,10 @@ begin
    i2c.init_i2c;
    Hex_IO.Default_Width := 4;
    Hex_IO.Default_Base  := 16;
-   for i in i2c.MCP23017_found'range loop
+   for i in i2c.MCP23017_use loop
       if i2c.MCP23017_found(i) then
          data := i2c.MCP23017_info(i).get_data(err);
-         Ada.Text_IO.Put("MCP23017(" & Integer'Image(i) &
+         Ada.Text_IO.Put("MCP23017(" & i2c.MCP23017_use'Image(i) &
             ") read ");
          if err /= BBS.embed.i2c.NONE then
             Ada.Text_IO.put_line("failed: " &
@@ -34,9 +34,9 @@ begin
    end loop;
    last_data := data;
    Ada.Text_IO.Put_Line("Setting LED ports to output and displaying data");
-   i2c.MCP23017_info(i2c.LED_INDEX).set_dir(16#0000#, err);
+   i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
    loop
-      data := i2c.MCP23017_info(i2c.SWITCH_INDEX).get_data(err);
+      data := i2c.MCP23017_info(i2c.SWITCH_MSW).get_data(err);
       if last_data /= data then
         Ada.Text_IO.Put("Value change from ");
         Hex_IO.Put(Integer(last_data));
@@ -55,7 +55,7 @@ begin
          when 4 =>
             patterns.fibonacci(0.05);
          when others =>
-            i2c.MCP23017_info(i2c.LED_INDEX).set_data(data, err);
+            i2c.MCP23017_info(i2c.LED_LSW).set_data(data, err);
       end case;
    end loop;
 end Test;
