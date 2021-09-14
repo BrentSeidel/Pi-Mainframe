@@ -36,7 +36,7 @@ begin
    Ada.Text_IO.Put_Line("Setting LED ports to output and displaying data");
    i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
    loop
-      data := i2c.MCP23017_info(i2c.SWITCH_MSW).get_data(err);
+      data := i2c.MCP23017_info(i2c.SWITCH_LSW).get_data(err);
       if last_data /= data then
         Ada.Text_IO.Put("Value change from ");
         Hex_IO.Put(Integer(last_data));
