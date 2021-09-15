@@ -2,11 +2,9 @@ with Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 with BBS.embed;
 use type BBS.embed.addr7;
-use type BBS.embed.uint16;
 with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
 with BBS.embed.RPI;
-with patterns;
 package body i2c is
 
    procedure init_i2c is

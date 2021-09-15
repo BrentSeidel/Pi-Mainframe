@@ -5,6 +5,7 @@ with bbs.internal;
 with bbs.http;
 with bbs.web_server;
 --with bbs.web_common;
+with web_server.internal;
 package body web_server is
    --
    --  Build the map for internal procedure calls.  The key strings must match
@@ -24,7 +25,7 @@ package body web_server is
 --      internal_map.Insert("target", bbs.internal.target'Access);
 --      internal_map.Insert("reload", bbs.internal.html_reload_config'Access);
 --      internal_map.Insert("counter", bbs.internal.xml_count'Access);
-      internal_map.Insert("raise", BBS.internal.html_raise'Access);
+      internal_map.Insert("show_config", web_server.internal.show_config'Access);
       internal_map.Insert("exit", BBS.internal.html_set_exit'Access);
    end;
    --

@@ -1,7 +1,11 @@
 with BBS.embed;
 use type BBS.embed.uint16;
 with BBS.embed.i2c;
-package patterns is
+--
+--  This package contains information and code for the simulator.  Right now,
+--  it just blinks lights in interesting patterns.
+--
+package Sim is
    --
    --  Run the LED patterns.  This is a task so that it can run in parallel with
    --  the web server.

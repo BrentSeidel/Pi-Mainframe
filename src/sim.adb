@@ -1,6 +1,6 @@
 with Ada.Text_IO;
 with i2c;
-package body patterns is
+package body Sim is
    --
    --  Run the LED patterns
    --
@@ -24,13 +24,13 @@ package body patterns is
          end if;
          case data is
          when 1 =>
-            patterns.count(0.1);
+            count(0.1);
          when 2 =>
-            patterns.scan(0.05);
+            scan(0.05);
          when 3 =>
-            patterns.bounce(0.05);
+            bounce(0.05);
          when 4 =>
-            patterns.fibonacci(0.05);
+            fibonacci(0.05);
          when others =>
             i2c.MCP23017_info(i2c.LED_LSW).set_data(data, err);
          end case;

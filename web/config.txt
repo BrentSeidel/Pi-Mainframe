@@ -11,8 +11,8 @@
 #
 # Internal pages
 #
-/exit exit internal
-#/Config configure internal
+#/exit exit internal
+/Config show_config internal
 #/Form_Target target internal
 #/Thermometer thermometer internal
 #/Dial dial internal
