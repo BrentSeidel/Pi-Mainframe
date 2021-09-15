@@ -1,0 +1,51 @@
+#
+# Configuration file for Ada web server
+#
+# HTML pages
+#
+/ web/index.html text/html
+/Main web/index.html text/html
+#/Settings settings.html text/html
+#/Form form.html text/html
+#/Dashboard dashboard.html text/html
+#
+# Internal pages
+#
+/exit exit internal
+#/Config configure internal
+#/Form_Target target internal
+#/Thermometer thermometer internal
+#/Dial dial internal
+#/Devices devices internal
+#/ConfigReload reload internal
+#
+# Plain text
+#
+#/list config.txt text/plain
+#/Proc/Status /proc/self/status text/plain
+#
+# JavaScript
+#
+#/SetJS settings.js application/javascript
+#/DashJS dashboard.js application/javascript
+#
+# Images
+#
+# There are no images right now.
+#
+# XML stuff
+#
+#/xml/Command send-command internal
+#/xml/Counter counter internal
+#/xml/Devices device-count internal
+#/xml/Name name internal
+#/xml/DevData device-data internal
+#/xml/Debug debugging internal
+#/xml/Log logging internal
+#
+# Style sheet for pages.
+#
+/Style web/table.css text/css
+#
+# Some comments at the end of the file.
+#

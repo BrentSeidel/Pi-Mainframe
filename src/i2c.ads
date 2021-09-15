@@ -30,10 +30,13 @@ package i2c is
    --
    procedure init_i2c;
    --
-   -- Constants
+   --  Run the LED patterns.  This is a task so that it can run in parallel with
+   --  the web server.
    --
-   SWITCH_INDEX : constant Integer := 1;
-   LED_INDEX    : constant Integer := 0;
+   task run_patterns is
+      entry Start;
+   end run_patterns;
+   --
 private
    --
    --  Private data

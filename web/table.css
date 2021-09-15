@@ -1,0 +1,74 @@
+table, th, td
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table.noborder, th.noborder, td.noborder
+{
+  border: 0px none White;
+}
+
+th
+{
+  background-color: LightGray;
+  color: black;
+}
+
+.error
+{
+  background-color: Red;
+}
+
+.stale
+{
+  background-color: Yellow;
+}
+
+td.set
+{
+  background-color : Green;
+}
+
+td.clear
+{
+  background-color : Red;
+}
+
+td.container
+{
+  text-align: Center;
+  border: 0px none White;
+}
+
+td.used
+{
+  background-color : White;
+}
+
+td.unused
+{
+  background-color : Grey;
+}
+
+.padded
+{
+  margin: 5px;
+}
+
+.clickable
+{
+  text-decoration: underline;
+  padding: 1px;
+}
+
+.db-none
+{
+  color:red;
+}
+
+.db-csv
+{
+  color:green;
+}
+
