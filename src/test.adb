@@ -3,6 +3,7 @@ with BBS.embed;
 with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
 with i2c;
+with Patterns;
 with web_server;
 --
 --  This is a simple shell routine to call the embedded lisp interpreter.
@@ -31,7 +32,7 @@ begin
       end if;
    end loop;
    if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SWITCH_LSW) then
-      i2c.run_patterns.Start;
+      Patterns.run.Start;
    else
       Ada.Text_IO.Put_Line("Needed MCP23017 devices not found. Exiting.");
    end if;
