@@ -14,3 +14,9 @@ test
 *.stl
 *.gcode
 
+
+# Latex auxiliary files
+*.aux
+*.log
+*.synctex.gz
+*.toc
