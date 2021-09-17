@@ -33,6 +33,8 @@
 #
 # There are no images right now.
 #
+/doc Docs/sim.pdf application/pdf
+#
 # XML stuff
 #
 #/xml/Command send-command internal

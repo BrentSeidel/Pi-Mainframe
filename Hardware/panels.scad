@@ -78,8 +78,8 @@ module panel_control()
   spacing = (width-30)/8;
   led_x = 55;
   switch_x = 25;
-  on_labels  = ["Run", "Ready", "Auto", "Addr", "Load", "", "Aux", "Power"];
-  off_labels = ["Stop", "Halt", "Man", "Data", "N/A", "", "Off", "Off"];
+  on_labels  = ["Run", "Ready", "Auto", "Addr", "Dep", "Exam", "", ""];
+  off_labels = ["Pause", "Halt", "Man", "Data", "", "", "", ""];
   union()
   {
     difference()
@@ -178,9 +178,9 @@ module test()
 rotate([0, 0, 90])
 {
 //  translate([100, 0, 0]) panel_nameplate("RPi-3/1 Mainframe");
-//  translate([00, 0, 0]) panel_control();
-  translate([90, 0, 0]) panel_switch(8);
-  translate([00, 0, 0]) panel_switch(0);
+  translate([00, 0, 0]) panel_control();
+//  translate([90, 0, 0]) panel_switch(8);
+//  translate([00, 0, 0]) panel_switch(0);
 //  translate([140, 0, 0]) panel_lcd7();
 //  translate([0, 0, 0]) panel_lcd20x4();
 //    bbs_pot2_knob();

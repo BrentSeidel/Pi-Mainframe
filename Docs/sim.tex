@@ -60,8 +60,57 @@ A rather simplistic view is that this provides a way to get a Raspberry Pi to bl
 With some modifications, this hardware could be repurposed for a number of other applications that require lots of discrete I/O, such as burglar alarms or sprinkler controls.
 
 \section{Electronics}
+\subsection{Processor}
+I had a Raspberry Pi 3 board laying around so I figured that I would use it.
+
+\subsection{Discrete I/O}
+Each of these boards has one or two MCP23017 16 bit I/O expander chips with I2C interface.  Three pins are provided to configure the address, so the system can have up to 8 of these chips or 128 discrete I/O pins. 
 
 \section{3D Printed Parts}
+\subsection{Address/Data Panels}
+The address/data panels provide 8 switches and LEDs numbered consecutively from right to left.  The starting number is selectable in the model.  Each panel has two cables (one for LEDs and one for switches) that attach to connectors on the discrete I/O boards.  Enough of these need to be provided to account for all the address and data lines in the simulated processor.  A system would typically have two or four of these panels for 16 or 32 bit systems.  Note that there are many cases where the number of address lines does not match the number of data lines.  In these cases panels would need to be provided for whichever number is greater.
+
+\subsection{Control Panel}
+At this point, without an actual CPU simulation, this is mostly a way to organize what needs to be in a relatively generic control panel.  The following functions are needed:
+\begin{itemize}
+  \item Read from a memory location.
+  \item Write to a memory location.
+  \item Stop/pause processor execution.
+  \item Start processor execution at a specified address.
+  \item Continue processor execution.
+  \item Reset the processor.
+\end{itemize}
+
+\subsubsection{To Specify an Address}
+Note that if the word size is greater than 8 bits, some of the lower order address bits may be ignored.
+\begin{itemize}
+  \item Toggle the desired address using the address/data switches.
+  \item Move the ``Addr''/``Data'' switch to the ``Addr'' position.
+  \item Move the ``Dep'' (deposit) switch to the ``Dep'' position.
+  \item Once the LED for the ``Dep'' switch illuminates, move the switch to the unlabeled position.
+\end{itemize}
+
+\subsubsection{To Read Memory}
+\begin{itemize}
+  \item Specify the starting address as described above.
+  \item Move the ``Addr''/``Data'' switch to the ``Data'' position.
+  \item Move the ``Exam'' switch to the ``Exam'' position.
+  \item The contents of memory at the specified address will be displayed in the Address/Data LEDs.
+  \item The ``Addr''/``Data'' switch can be used to toggle between display of the address and the data.
+  \item Move the ``Exam'' switch to the unlabeled position.  This increments the internal address pointer so that by toggling this switch a block of memory can be modified.
+\end{itemize}
+
+\subsubsection{To Write Memory}
+\begin{itemize}
+  \item Specify the starting address as described above.
+  \item Move the ``Addr''/``Data'' switch to the ``Data'' position.
+  \item Toggle the desired data using the address/data switches.
+  \item Move the ``Dep'' switch to the ``Dep'' position.
+  \item The contents of memory at the specified address will be updated and displayed in the Address/Data LEDs.
+  \item The ``Addr''/``Data'' switch can be used to toggle between display of the address and the data.
+  \item Move the ``Dep'' switch to the unlabeled position.  This increments the internal address pointer so that by toggling this switch a block of memory can be examined.
+\end{itemize}
+
 
 \section{Other Hardware}
 
