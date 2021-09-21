@@ -5,22 +5,25 @@
 <script src="ctrl"></script>
 <h1>Simulator Controls</h1>
 <p>Here are web based controls for the simulator</p>
-<p>Enable this to allow the simulator to be controlled by this web page.</p>
-<input type="checkbox" id="auto_man" name="auto_man" value="auto_man"
-  onchange="setAutoMan()" onclick="setAutoMan()">
-<label for="auto_man">Enable remote control</label>
-<hr>
+<fieldset>
+  <legend>Enable this to allow the simulator to be controlled by this web page.</legend>
+  <input type="checkbox" id="auto_man" name="auto_man" value="auto_man"
+    onchange="setAutoMan()" onclick="setAutoMan()">
+  <label for="auto_man">Enable remote control</label>
+</fieldset>
+<p>Note that without remote control enabled, none of the other options will
+have any impact on the simulator.<
 <fieldset>
   <legend>Select the desired simulation type.</legend>
-  <input type="radio" name="sim_type" value="copy" id="sim-copy">
+  <input type="radio" name="sim_type" value="copy" id="sim-copy" onclick="setSimType(0)">
   <label for="sim-copy">Copy switch values</label><br>
-  <input type="radio" name="sim_type" value="count" id="sim-count">
+  <input type="radio" name="sim_type" value="count" id="sim-count" onclick="setSimType(1)">
   <label for="sim-count">Count up in binary</label><br>
-  <input type="radio" name="sim_type" value="scan" id="sim-scan">
+  <input type="radio" name="sim_type" value="scan" id="sim-scan" onclick="setSimType(2)">
   <label for="sim-scan">Light one LED from right to left</label><br>
-  <input type="radio" name="sim_type" value="bounce" id="sim-bounce">
+  <input type="radio" name="sim_type" value="bounce" id="sim-bounce" onclick="setSimType(3)">
   <label for="sim-bounce">Light one LED moving back and forth</label><br>
-  <input type="radio" name="sim_type" value="bounce" id="sim-fib">
+  <input type="radio" name="sim_type" value="bounce" id="sim-fib" onclick="setSimType(4)">
   <label for="sim-fib">Flash LEDs in a pseudo-random pattern</label><br>
 </fieldset>
 </body></html>

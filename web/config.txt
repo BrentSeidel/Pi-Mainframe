@@ -6,19 +6,10 @@
 / web/index.html text/html
 /Main web/index.html text/html
 /Control web/sim_ctrl.html text/html
-#/Settings settings.html text/html
-#/Form form.html text/html
-#/Dashboard dashboard.html text/html
 #
 # Internal pages
 #
-#/exit exit internal
 /Config show_config internal
-#/Form_Target target internal
-#/Thermometer thermometer internal
-#/Dial dial internal
-#/Devices devices internal
-#/ConfigReload reload internal
 #
 # Plain text
 #
@@ -28,7 +19,6 @@
 # JavaScript
 #
 /ctrl web/control.js application/javascript
-#/DashJS dashboard.js application/javascript
 #
 # Images
 #
@@ -38,13 +28,8 @@
 #
 # XML stuff
 #
-#/xml/Command send-command internal
-#/xml/Counter counter internal
-#/xml/Devices device-count internal
 /xml/auto-man auto_man internal
-#/xml/DevData device-data internal
-#/xml/Debug debugging internal
-#/xml/Log logging internal
+/xml/sim-type sim_type internal
 #
 # Style sheet for pages.
 #

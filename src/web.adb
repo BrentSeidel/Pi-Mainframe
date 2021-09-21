@@ -21,10 +21,11 @@ package body web is
       --  Customization goes here to add any internally routines
       --  to generate responses.
       --
-      --      internal_map.Insert("sim_ctrl", web_server.internal.sim_ctrl'Access);
       internal_map.Insert("show_config", web.internal.show_config'Access);
       internal_map.Insert("exit", BBS.internal.html_set_exit'Access);
+      --
       internal_map.Insert("auto_man", web.xml.auto_man'Access);
+      internal_map.Insert("sim_type", web.xml.sim_type'Access);
    end;
    --
    procedure start_server is

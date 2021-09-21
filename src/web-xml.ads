@@ -10,5 +10,10 @@ package web.xml is
    procedure auto_man(s : GNAT.Sockets.Stream_Access;
                       h : bbs.web_common.params.Map;
                       p : bbs.web_common.params.Map);
-
+   --
+   --  Get and optionally set the type of the simulation
+   --
+   procedure sim_type(s : GNAT.Sockets.Stream_Access;
+                      h : bbs.web_common.params.Map;
+                      p : bbs.web_common.params.Map);
 end;
