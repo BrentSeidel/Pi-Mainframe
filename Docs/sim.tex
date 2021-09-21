@@ -53,20 +53,25 @@ This document is \copyright 2021 Brent Seidel.  All rights reserved.
 \mainmatter
 %----------------------------------------------------------
 \chapter{Introduction}
-A rather simplistic view is that this provides a way to get a Raspberry Pi to blink some LEDs and read some switches.
+A rather simplistic view is that this provides a way to get a Raspberry Pi to blink some LEDs and read some switches.  However, this hardware could be modified for a number of other applications that require lots of discrete I/O, such as burglar alarms or sprinkler controls
 
 %----------------------------------------------------------
 \chapter{Hardware}
-With some modifications, this hardware could be repurposed for a number of other applications that require lots of discrete I/O, such as burglar alarms or sprinkler controls.
 
 \section{Electronics}
 \subsection{Processor}
-I had a Raspberry Pi 3 board laying around so I figured that I would use it.
+I had a Raspberry Pi 3 board laying around so I figured that I would use it.  Interestingly, this is a more powerful computer than many of the processors it might be used to simulate.
 
 \subsection{Discrete I/O}
-Each of these boards has one or two MCP23017 16 bit I/O expander chips with I2C interface.  Three pins are provided to configure the address, so the system can have up to 8 of these chips or 128 discrete I/O pins. 
+Each of these boards in built on a 1/2 size perma-proto board from Adafruit.  It has one MCP23017 16 bit I/O expander chip with I2C interface in a socket.  Three pins are provided to configure the address, so the system can have up to 8 of these chips or 128 discrete I/O pins.  There is space on the board for 8 current limiting resistors for LED drive.
 
 \section{3D Printed Parts}
+\subsection{Racks}
+Each rack is a bbs\_rack2(10, 6, 4).  Two of these can be bolted together side-by-side and fit in a 19 inch rack.  This is the approximate size of the classic computer equipment.  Multiple racks can be bolted together vertically as needed to provide panel space.  Each rack has slots for two vertically oriented trays.
+
+\subsection{Discrete I/O Tray}
+Each of these trays has one or two MCP23017 16 bit I/O expander chips with I2C interface.  These trays would typically be mounted in the slot next to the panel.  The tray has 4 DB-9 connections and can interface with up to  16 LEDs and 16 switches.  One additional DB-9 connection is provided to connect the the power and I2C bus from the processor.
+
 \subsection{Address/Data Panels}
 The address/data panels provide 8 switches and LEDs numbered consecutively from right to left.  The starting number is selectable in the model.  Each panel has two cables (one for LEDs and one for switches) that attach to connectors on the discrete I/O boards.  Enough of these need to be provided to account for all the address and data lines in the simulated processor.  A system would typically have two or four of these panels for 16 or 32 bit systems.  Note that there are many cases where the number of address lines does not match the number of data lines.  In these cases panels would need to be provided for whichever number is greater.
 

@@ -7,6 +7,21 @@ with BBS.embed.i2c;
 --
 package Sim is
    --
+   --  Public data for the simulation
+   --
+   --  Is selection automatic (True) or manual (False)
+   --
+   auto_man : Boolean := False;
+   --
+   --  Which pattern to select:
+   --    1 - count
+   --    2 - bounce
+   --    3 - scan
+   --    4 - fibbonacci
+   --    others - Copy switches
+   --
+   pattern : Natural := 0;
+   --
    --  Run the LED patterns.  This is a task so that it can run in parallel with
    --  the web server.
    --

@@ -5,8 +5,9 @@ with bbs.internal;
 with bbs.http;
 with bbs.web_server;
 --with bbs.web_common;
-with web_server.internal;
-package body web_server is
+with web.internal;
+with web.xml;
+package body web is
    --
    --  Build the map for internal procedure calls.  The key strings must match
    --  the identifications in the configuration file.  The generated map is
@@ -20,13 +21,10 @@ package body web_server is
       --  Customization goes here to add any internally routines
       --  to generate responses.
       --
---      internal_map.Insert("thermometer", bbs.svg.thermometer'Access);
---      internal_map.Insert("dial", bbs.svg.dial'Access);
---      internal_map.Insert("target", bbs.internal.target'Access);
---      internal_map.Insert("reload", bbs.internal.html_reload_config'Access);
---      internal_map.Insert("counter", bbs.internal.xml_count'Access);
-      internal_map.Insert("show_config", web_server.internal.show_config'Access);
+      --      internal_map.Insert("sim_ctrl", web_server.internal.sim_ctrl'Access);
+      internal_map.Insert("show_config", web.internal.show_config'Access);
       internal_map.Insert("exit", BBS.internal.html_set_exit'Access);
+      internal_map.Insert("auto_man", web.xml.auto_man'Access);
    end;
    --
    procedure start_server is

@@ -1,7 +1,9 @@
 with bbs.http;
 with bbs.html;
 with i2c;
-package body web_server.internal is
+--with sim;
+--with Ada.Text_IO;
+package body web.internal is
    --
    --  Display information sent in a form
    --

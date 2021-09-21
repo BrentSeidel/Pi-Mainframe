@@ -1,0 +1,26 @@
+<html><head>
+  <title>Simulator Control</title>
+  <link rel="stylesheet" type="text/css" href="Style">
+</head><body onload="page_loaded()">
+<script src="ctrl"></script>
+<h1>Simulator Controls</h1>
+<p>Here are web based controls for the simulator</p>
+<p>Enable this to allow the simulator to be controlled by this web page.</p>
+<input type="checkbox" id="auto_man" name="auto_man" value="auto_man"
+  onchange="setAutoMan()" onclick="setAutoMan()">
+<label for="auto_man">Enable remote control</label>
+<hr>
+<fieldset>
+  <legend>Select the desired simulation type.</legend>
+  <input type="radio" name="sim_type" value="copy" id="sim-copy">
+  <label for="sim-copy">Copy switch values</label><br>
+  <input type="radio" name="sim_type" value="count" id="sim-count">
+  <label for="sim-count">Count up in binary</label><br>
+  <input type="radio" name="sim_type" value="scan" id="sim-scan">
+  <label for="sim-scan">Light one LED from right to left</label><br>
+  <input type="radio" name="sim_type" value="bounce" id="sim-bounce">
+  <label for="sim-bounce">Light one LED moving back and forth</label><br>
+  <input type="radio" name="sim_type" value="bounce" id="sim-fib">
+  <label for="sim-fib">Flash LEDs in a pseudo-random pattern</label><br>
+</fieldset>
+</body></html>

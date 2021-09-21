@@ -5,6 +5,7 @@
 #
 / web/index.html text/html
 /Main web/index.html text/html
+/Control web/sim_ctrl.html text/html
 #/Settings settings.html text/html
 #/Form form.html text/html
 #/Dashboard dashboard.html text/html
@@ -26,7 +27,7 @@
 #
 # JavaScript
 #
-#/SetJS settings.js application/javascript
+/ctrl web/control.js application/javascript
 #/DashJS dashboard.js application/javascript
 #
 # Images
@@ -40,7 +41,7 @@
 #/xml/Command send-command internal
 #/xml/Counter counter internal
 #/xml/Devices device-count internal
-#/xml/Name name internal
+/xml/auto-man auto_man internal
 #/xml/DevData device-data internal
 #/xml/Debug debugging internal
 #/xml/Log logging internal

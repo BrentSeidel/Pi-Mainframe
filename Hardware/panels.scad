@@ -78,8 +78,8 @@ module panel_control()
   spacing = (width-30)/8;
   led_x = 55;
   switch_x = 25;
-  on_labels  = ["Run", "Ready", "Auto", "Addr", "Dep", "Exam", "", ""];
-  off_labels = ["Pause", "Halt", "Man", "Data", "", "", "", ""];
+  on_labels  = ["Run", "Start", "Auto", "Addr", "Dep", "Exam", "", ""];
+  off_labels = ["Pause", "Stop", "Man", "Data", "", "", "", ""];
   union()
   {
     difference()

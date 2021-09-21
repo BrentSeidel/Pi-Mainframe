@@ -3,7 +3,7 @@ with bbs.web_common;
 --
 --  Internally generated pages for the mainframe simulator
 --
-package web_server.internal is
+package web.internal is
    --
    --  Display the hardware and software configuration
    --

@@ -1,5 +1,5 @@
 with bbs.web_common;
-package web_server is
+package web is
    --
    --  Start the web server
    --
