@@ -1,5 +1,4 @@
 with Ada.Text_IO;
---with i2c;
 package body Sim is
    --
    --  Run the LED patterns
@@ -15,7 +14,6 @@ package body Sim is
          i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
          loop
             i2c.read_addr_data(data, res);
---            data := i2c.MCP23017_info(i2c.SW_LSW).get_data(err);
             if last_data /= data then
                Ada.Text_IO.Put("Value change from ");
                Hex_IO.Put(Integer(last_data));
@@ -38,7 +36,6 @@ package body Sim is
                fibonacci(0.05);
             when others =>
                i2c.set_addr_data(data, res);
---               i2c.MCP23017_info(i2c.LED_LSW).set_data(data, err);
             end case;
          end loop;
       else
@@ -52,7 +49,6 @@ package body Sim is
    begin
       counter := counter + 1;
       i2c.set_addr_data(counter, res);
---      i2c.MCP23017_info(i2c.LED_LSW).set_data(counter, err);
       delay d;
    end;
    --
@@ -61,19 +57,19 @@ package body Sim is
       if bounce_dir = left then
          if bouncer = 0 then
             bounce_dir := right;
-            bouncer := 16#8000#;
+            bouncer := 16#8000_0000#;
          else
             bouncer := bouncer * 2;
          end if;
       else
          if bouncer = 0 then
             bounce_dir := left;
-            bouncer := 16#0001#;
+            bouncer := 16#0000_0001#;
          else
             bouncer := bouncer / 2;
          end if;
       end if;
-      i2c.MCP23017_info(i2c.LED_LSW).set_data(bouncer, err);
+      i2c.set_addr_data(bouncer, res);
       delay d;
    end;
    --
@@ -84,14 +80,14 @@ package body Sim is
       else
          scanner := scanner * 2;
       end if;
-      i2c.MCP23017_info(i2c.LED_LSW).set_data(scanner, err);
+      i2c.set_addr_data(scanner, res);
       delay d;
    end;
    --
    procedure fibonacci(d : Duration) is
-      temp : constant BBS.embed.uint16 := fib_1 + fib_2;
+      temp : constant BBS.embed.uint32 := fib_1 + fib_2;
    begin
-      i2c.MCP23017_info(i2c.LED_LSW).set_data(temp, err);
+      i2c.set_addr_data(temp, res);
       fib_2 := fib_1;
       fib_1 := temp;
       if (fib_1 = 0) and (fib_2 = 0) then

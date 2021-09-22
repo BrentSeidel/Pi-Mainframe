@@ -88,8 +88,10 @@ module panel_tray()
     union()
     {
       bbs_tray(10, 3, false);
-      translate([half_proto_x, half_proto_y, 3]) rotate([0, 0, 90]) bbs_half_permaprotoboard_standoffs(5, screw_size, 12);
-      translate([half_proto_x, half_proto_y+90, 3]) rotate([0, 0, 90]) bbs_half_permaprotoboard_standoffs(5, screw_size, 12);
+      translate([half_proto_x, half_proto_y, 3]) rotate([0, 0, 90])
+        bbs_half_permaprotoboard_standoffs(3, screw_size, 12);
+      translate([half_proto_x, half_proto_y+90, 3]) rotate([0, 0, 90])
+        bbs_half_permaprotoboard_standoffs(3, screw_size, 12);
       translate([73, 8, 0]) cube([5, 35, 20]);
     }
     union()
@@ -97,8 +99,8 @@ module panel_tray()
       translate([half_proto_x, half_proto_y, -2]) rotate([0, 0, 90]) bbs_half_permaprotoboard_standoffs(5 + 6, screw_hole, 12);
       translate([half_proto_x, half_proto_y+90, -2]) rotate([0, 0, 90]) bbs_half_permaprotoboard_standoffs(5 + 6, screw_hole, 12);
       translate([80, 25, 12]) rotate([0, -90, 0]) rotate([0, 0, 90]) bbs_d_cutout(1, 10);
-      translate([70, 60, -1]) rotate([0, 0, -90]) bbs_d_cutout(1, 5);
-      translate([70, 95, -1]) rotate([0, 0, -90]) bbs_d_cutout(1, 5);
+      translate([70, 60, -1]) rotate([0, 0, 90]) bbs_d_cutout(1, 5);
+      translate([70, 95, -1]) rotate([0, 0, 90]) bbs_d_cutout(1, 5);
       translate([70, 130, -1]) rotate([0, 0, -90]) bbs_d_cutout(1, 5);
       translate([70, 165, -1]) rotate([0, 0, -90]) bbs_d_cutout(1, 5);
       translate([35, 9, -1]) minkowski()
