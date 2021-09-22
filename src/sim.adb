@@ -1,20 +1,21 @@
 with Ada.Text_IO;
-with i2c;
+--with i2c;
 package body Sim is
    --
    --  Run the LED patterns
    --
    task body run is
       package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
-      data      : BBS.embed.uint16 := 0;
-      last_data : BBS.embed.uint16 := 0;
+      data      : BBS.embed.uint32 := 0;
+      last_data : BBS.embed.uint32 := 0;
    begin
       accept Start;
-      if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SWITCH_LSW) then
+      if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
          Ada.Text_IO.Put_Line("Setting LED ports to output and displaying data");
          i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
          loop
-            data := i2c.MCP23017_info(i2c.SWITCH_LSW).get_data(err);
+            i2c.read_addr_data(data, res);
+--            data := i2c.MCP23017_info(i2c.SW_LSW).get_data(err);
             if last_data /= data then
                Ada.Text_IO.Put("Value change from ");
                Hex_IO.Put(Integer(last_data));
@@ -36,7 +37,8 @@ package body Sim is
             when 4 =>
                fibonacci(0.05);
             when others =>
-               i2c.MCP23017_info(i2c.LED_LSW).set_data(data, err);
+               i2c.set_addr_data(data, res);
+--               i2c.MCP23017_info(i2c.LED_LSW).set_data(data, err);
             end case;
          end loop;
       else
@@ -49,7 +51,8 @@ package body Sim is
    procedure count(d : Duration) is
    begin
       counter := counter + 1;
-      i2c.MCP23017_info(i2c.LED_LSW).set_data(counter, err);
+      i2c.set_addr_data(counter, res);
+--      i2c.MCP23017_info(i2c.LED_LSW).set_data(counter, err);
       delay d;
    end;
    --

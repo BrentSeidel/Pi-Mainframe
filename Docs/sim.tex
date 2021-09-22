@@ -23,12 +23,14 @@
 %
 % Macro definitions
 %
-\newcommand{\operation}[1]{\textbf{\texttt{#1}}}
-\newcommand{\package}[1]{\texttt{#1}}
-\newcommand{\function}[1]{\texttt{#1}}
-\newcommand{\constant}[1]{\emph{\texttt{#1}}}
-\newcommand{\keyword}[1]{\texttt{#1}}
-\newcommand{\datatype}[1]{\texttt{#1}}
+%\newcommand{\operation}[1]{\textbf{\texttt{#1}}}
+%\newcommand{\package}[1]{\texttt{#1}}
+%\newcommand{\function}[1]{\texttt{#1}}
+%\newcommand{\constant}[1]{\emph{\texttt{#1}}}
+%\newcommand{\keyword}[1]{\texttt{#1}}
+%\newcommand{\datatype}[1]{\texttt{#1}}
+\newcommand{\switch}[2]{``#1''/``#2''}
+\newcommand{\position}[1]{``#1''}
 %
 % Front Matter
 %
@@ -90,32 +92,40 @@ At this point, without an actual CPU simulation, this is mostly a way to organiz
 Note that if the word size is greater than 8 bits, some of the lower order address bits may be ignored.
 \begin{itemize}
   \item Toggle the desired address using the address/data switches.
-  \item Move the ``Addr''/``Data'' switch to the ``Addr'' position.
-  \item Move the ``Dep'' (deposit) switch to the ``Dep'' position.
+  \item Move the \switch{Addr}{Data} switch to the \position{Addr} position.
+  \item Move the ``Dep'' (deposit) switch to the \position{Dep} position.
   \item Once the LED for the ``Dep'' switch illuminates, move the switch to the unlabeled position.
 \end{itemize}
 
 \subsubsection{To Read Memory}
 \begin{itemize}
   \item Specify the starting address as described above.
-  \item Move the ``Addr''/``Data'' switch to the ``Data'' position.
-  \item Move the ``Exam'' switch to the ``Exam'' position.
+  \item Move the \switch{Addr}{Data} switch to the \position{Data} position.
+  \item Move the ``Exam'' switch to the \position{Exam} position.
   \item The contents of memory at the specified address will be displayed in the Address/Data LEDs.
-  \item The ``Addr''/``Data'' switch can be used to toggle between display of the address and the data.
+  \item The \switch{Addr}{Data}  switch can be used to toggle between display of the address and the data.
   \item Move the ``Exam'' switch to the unlabeled position.  This increments the internal address pointer so that by toggling this switch a block of memory can be modified.
 \end{itemize}
 
 \subsubsection{To Write Memory}
 \begin{itemize}
   \item Specify the starting address as described above.
-  \item Move the ``Addr''/``Data'' switch to the ``Data'' position.
+  \item Move the \switch{Addr}{Data}  switch to the \position{Data} position.
   \item Toggle the desired data using the address/data switches.
-  \item Move the ``Dep'' switch to the ``Dep'' position.
+  \item Move the ``Dep'' switch to the \position{Dep} position.
   \item The contents of memory at the specified address will be updated and displayed in the Address/Data LEDs.
-  \item The ``Addr''/``Data'' switch can be used to toggle between display of the address and the data.
+  \item The \switch{Addr}{Data} switch can be used to toggle between display of the address and the data.
   \item Move the ``Dep'' switch to the unlabeled position.  This increments the internal address pointer so that by toggling this switch a block of memory can be examined.
 \end{itemize}
 
+\subsubsection{To Start Execution at a Specific Address}
+\begin{itemize}
+  \item Move the \switch{Start}{Stop} switch to the \position{Stop} position.
+  \item Move the \switch{Addr}{Data} switch to the \position{Addr} position.
+  \item Toggle the address using the address/data switches.
+  \item Move the \switch{Start}{Stop} switch to the \position{Start} position.
+  \item If the \switch{Run}{Pause} switch is in the \position{Pause} position, move it to the \position{Run} position.
+\end{itemize}
 
 \section{Other Hardware}
 

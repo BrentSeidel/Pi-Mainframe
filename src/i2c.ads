@@ -9,16 +9,16 @@ package i2c is
    --  This documents the device addresses and is the only place they need to be
    --  declared.
    --
-   type MCP23017_use is (LED_LSW, SWITCH_LSW, LED_MSW, SWITCH_MSW, CTRL, SPARE_1,
-                         SPARE_2, SPARE_3);
-   for MCP23017_use use (LED_LSW    => BBS.embed.i2c.MCP23017.addr_0,
-                         SWITCH_LSW => BBS.embed.i2c.MCP23017.addr_1,
-                         LED_MSW    => BBS.embed.i2c.MCP23017.addr_2,
-                         SWITCH_MSW => BBS.embed.i2c.MCP23017.addr_3,
-                         CTRL       => BBS.embed.i2c.MCP23017.addr_4,
-                         SPARE_1    => BBS.embed.i2c.MCP23017.addr_5,
-                         SPARE_2    => BBS.embed.i2c.MCP23017.addr_6,
-                         SPARE_3    => BBS.embed.i2c.MCP23017.addr_7);
+   type MCP23017_use is (LED_LSW, SW_LSW, LED_MSW, SW_MSW, LED_CTRL, SW_CTRL,
+                         SPARE_1, SPARE_2);
+   for MCP23017_use use (LED_LSW  => BBS.embed.i2c.MCP23017.addr_0,
+                         SW_LSW   => BBS.embed.i2c.MCP23017.addr_1,
+                         LED_MSW  => BBS.embed.i2c.MCP23017.addr_2,
+                         SW_MSW   => BBS.embed.i2c.MCP23017.addr_3,
+                         LED_CTRL => BBS.embed.i2c.MCP23017.addr_4,
+                         SW_CTRL  => BBS.embed.i2c.MCP23017.addr_5,
+                         SPARE_1  => BBS.embed.i2c.MCP23017.addr_6,
+                         SPARE_2  => BBS.embed.i2c.MCP23017.addr_7);
    for MCP23017_use'Size use 7;
    --
    --  Control data for MCP23017 devices
@@ -26,9 +26,25 @@ package i2c is
    MCP23017_found  : array (MCP23017_use) of boolean;
    MCP23017_info : array (MCP23017_use) of aliased BBS.embed.i2c.MCP23017.MCP23017_record;
    --
+   --  Result type
+   --    RES_FULL - Full results
+   --    RES_LSW  - Only least significan 16 bits provided (msw not installed)
+   --    RES_MSW  - Only most significan 16 bits provided (lsw not installed)
+   --    RES_NONE - No data provided (h/w not installed)
+   --    RES_ERR  - I2C error occured
+   --
+   type result is (RES_FULL, RES_LSW, RES_MSW, RES_NONE, RES_ERR);
+   --
    --  I2C Routines.
    --
    procedure init_i2c;
+   --
+   --  Read switches and write LEDs
+   --
+   procedure set_addr_data(d : BBS.embed.uint32; res : out result);
+   procedure read_addr_data(d : out BBS.embed.uint32; res : out result);
+   procedure set_ctrl(d : BBS.embed.uint16; res : out result);
+   procedure read_ctrl(d : out BBS.embed.uint16; res : out result);
    --
 private
    --

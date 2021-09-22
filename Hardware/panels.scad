@@ -118,6 +118,45 @@ module panel_control()
 //    }
 }
 
+module panel_mode()
+{
+  spacing = (width-30)/8;
+  led_x = 30;
+  led_labels  = ["User", "Sup", "Exec", "Kern", "", "Inst", "Data", "Intr"];
+  union()
+  {
+    difference()
+    {
+      bbs_panel(10, 3);
+      union()
+      {
+        for(a = [1:8])
+        {
+          y = width/2 - (4.5-a)*spacing;
+          if(a < 8)
+          {
+            translate([led_x + 3, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
+            translate([led_x - 4, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
+          }
+          translate([led_x, y, -0.1]) bbs_led_oval(2.2);
+//          translate([led_x, y, -0.1]) bbs_led_cutout(5, 2.2);
+          translate([led_x - 15, y, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
+              text(led_labels[8 - a], halign="center", valign="baseline", size=6,
+                font="Liberation Sans::style=Bold");
+        }
+        translate([led_x + 15, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
+              text("Modes", halign="left", valign="center", size=6,
+                font="Liberation Sans::style=Bold");
+      }
+    }
+  }
+//    for(a = [1:8])
+//    {
+//      y = width/2 - (4.5-a)*spacing;
+//      translate([led_x, y, 0]) bbs_led_mount(5, 2);
+//    }
+}
+
 module panel_lcd7()
 {
   difference()
@@ -179,6 +218,7 @@ rotate([0, 0, 90])
 {
 //  translate([100, 0, 0]) panel_nameplate("RPi-3/1 Mainframe");
   translate([00, 0, 0]) panel_control();
+  translate([90, 0, 0]) panel_mode();
 //  translate([90, 0, 0]) panel_switch(8);
 //  translate([00, 0, 0]) panel_switch(0);
 //  translate([140, 0, 0]) panel_lcd7();
