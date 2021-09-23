@@ -26,4 +26,15 @@ have any impact on the simulator.<
   <input type="radio" name="sim_type" value="bounce" id="sim-fib" onclick="setSimType(4)">
   <label for="sim-fib">Flash LEDs in a pseudo-random pattern</label><br>
 </fieldset>
+<fieldset>
+  <legend>Front panel registers</legend>
+  <input type="text" id="lr_ad" size="10" readonly style="text-align:right">
+  <label for="lr_ad">Address/Data LED register</label><br>
+  <input type="text" id="lr_ctl" size="10" readonly style="text-align:right">
+  <label for="lr_ctl">Control/Mode LED register</label><br>
+  <input type="text" id="sr_ad" size="10" readonly style="text-align:right">
+  <label for="sr_ad">Address/Data switch register</label><br>
+  <input type="text" id="sr_ctl" size="10" readonly style="text-align:right">
+  <label for="sr_ctl">Control/Mode switch register</label><br>
+</fieldset>
 </body></html>

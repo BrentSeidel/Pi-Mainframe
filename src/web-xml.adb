@@ -1,3 +1,4 @@
+with BBS.embed;
 with BBS.http;
 with sim;
 --with Ada.Text_IO;
@@ -52,5 +53,22 @@ package body web.xml is
       end if;
       String'Write(s, "<xml><pattern>" & Natural'Image(sim.pattern) & "</pattern></xml>");
    end sim_type;
+   --
+   --  Get switch and LED register values.  Currently read-only
+   --
+   procedure sw_led_reg(s : GNAT.Sockets.Stream_Access;
+                        h : bbs.web_common.params.Map;
+                        p : bbs.web_common.params.Map) is
+      pragma Unreferenced(h);
+      pragma Unreferenced(p);
+   begin
+      bbs.http.ok(s, "application/xml");
+      String'Write(s, "<xml>");
+      String'Write(s, "<lr-ad>" & BBS.embed.uint32'Image(sim.lr_ad) & "</lr-ad>");
+      String'Write(s, "<lr-ctl>" & BBS.embed.uint32'Image(sim.lr_ctl) & "</lr-ctl>");
+      String'Write(s, "<sr-ad>" & BBS.embed.uint32'Image(sim.sr_ad) & "</sr-ad>");
+      String'Write(s, "<sr-ctl>" & BBS.embed.uint32'Image(sim.sr_ctl) & "</sr-ctl>");
+      String'Write(s, "</xml>");
+   end sw_led_reg;
    --
 end;

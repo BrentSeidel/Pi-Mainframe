@@ -26,6 +26,7 @@ package body web is
       --
       internal_map.Insert("auto_man", web.xml.auto_man'Access);
       internal_map.Insert("sim_type", web.xml.sim_type'Access);
+      internal_map.Insert("panel_reg", web.xml.sw_led_reg'Access);
    end;
    --
    procedure start_server is

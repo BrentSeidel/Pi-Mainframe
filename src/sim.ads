@@ -25,6 +25,16 @@ package Sim is
    --
    pattern : Natural := 0;
    --
+   --  Switch settings (switch registers)
+   --
+   sr_ad  : BBS.embed.uint32 := 0;  -- Address/Data switch register
+   sr_ctl : BBS.embed.uint32 := 0;  -- Control switch register
+   --
+   --  LED settings (LED registers)
+   --
+   lr_ad  : BBS.embed.uint32 := 0;  -- Address/Data LED register
+   lr_ctl : BBS.embed.uint32 := 0;  -- Control/Mode LED register
+   --
    --  Processor modes
    --
    type proc_mode is (PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);

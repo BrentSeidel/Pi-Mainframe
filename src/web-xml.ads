@@ -16,4 +16,10 @@ package web.xml is
    procedure sim_type(s : GNAT.Sockets.Stream_Access;
                       h : bbs.web_common.params.Map;
                       p : bbs.web_common.params.Map);
+   --
+   --  Get switch and LED register values.  Currently read-only
+   --
+   procedure sw_led_reg(s : GNAT.Sockets.Stream_Access;
+                        h : bbs.web_common.params.Map;
+                        p : bbs.web_common.params.Map);
 end;

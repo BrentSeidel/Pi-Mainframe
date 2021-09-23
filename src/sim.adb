@@ -12,8 +12,11 @@ package body Sim is
       if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
          Ada.Text_IO.Put_Line("Setting LED ports to output and displaying data");
          i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
+         Hex_IO.Default_Base := 16;
+         Hex_IO.Default_Width := 1;
          loop
             i2c.read_addr_data(data, res);
+            sr_ad := data;
             if last_data /= data then
                Ada.Text_IO.Put("Value change from ");
                Hex_IO.Put(Integer(last_data));
@@ -36,6 +39,7 @@ package body Sim is
                fibonacci(0.05);
             when others =>
                i2c.set_addr_data(data, res);
+               lr_ad := data;
             end case;
          end loop;
       else
@@ -49,6 +53,7 @@ package body Sim is
    begin
       counter := counter + 1;
       i2c.set_addr_data(counter, res);
+      lr_ad := counter;
       delay d;
    end;
    --
@@ -70,6 +75,7 @@ package body Sim is
          end if;
       end if;
       i2c.set_addr_data(bouncer, res);
+      lr_ad := bouncer;
       delay d;
    end;
    --
@@ -81,6 +87,7 @@ package body Sim is
          scanner := scanner * 2;
       end if;
       i2c.set_addr_data(scanner, res);
+      lr_ad := scanner;
       delay d;
    end;
    --
@@ -88,6 +95,7 @@ package body Sim is
       temp : constant BBS.embed.uint32 := fib_1 + fib_2;
    begin
       i2c.set_addr_data(temp, res);
+      lr_ad := temp;
       fib_2 := fib_1;
       fib_1 := temp;
       if (fib_1 = 0) and (fib_2 = 0) then

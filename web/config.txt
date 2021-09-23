@@ -30,6 +30,7 @@
 #
 /xml/auto-man auto_man internal
 /xml/sim-type sim_type internal
+/xml/panel-reg panel_reg internal
 #
 # Style sheet for pages.
 #
