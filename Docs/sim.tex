@@ -23,12 +23,6 @@
 %
 % Macro definitions
 %
-%\newcommand{\operation}[1]{\textbf{\texttt{#1}}}
-%\newcommand{\package}[1]{\texttt{#1}}
-%\newcommand{\function}[1]{\texttt{#1}}
-%\newcommand{\constant}[1]{\emph{\texttt{#1}}}
-%\newcommand{\keyword}[1]{\texttt{#1}}
-%\newcommand{\datatype}[1]{\texttt{#1}}
 \newcommand{\switch}[2]{``#1''/``#2''}
 \newcommand{\position}[1]{``#1''}
 %
@@ -55,7 +49,42 @@ This document is \copyright 2021 Brent Seidel.  All rights reserved.
 \mainmatter
 %----------------------------------------------------------
 \chapter{Introduction}
-A rather simplistic view is that this provides a way to get a Raspberry Pi to blink some LEDs and read some switches.  However, this hardware could be modified for a number of other applications that require lots of discrete I/O, such as burglar alarms or sprinkler controls
+A rather simplistic view is that this provides a way to get a Raspberry Pi to blink some LEDs and read some switches.  However, this hardware could be modified for a number of other applications that require lots of discrete I/O, such as burglar alarms or sprinkler controls.
+
+\section{Parts}
+\subsection{3D Printing}
+A fair bit of 3D printing is required, so having lots of filament is a good idea.  Labels on the panels are done by (on my printer with a 0.15mm layer height) printing 2 layers of the panel color, then 3 layers of a contrasting color for the text, and then the rest in the panel color.  The panels are printed with the text faced down.  You may wish to tinker with this for your printer.  The actual parts are:
+\begin{itemize}
+  \item Four or six racks depending on whether you want a 16 or 32 bit system.
+  \item One processor tray.
+  \item Two or three discrete I/O trays.
+  \item One control panel
+  \item One modes panel
+  \item Two or four address/data panels (starting a 9, 8, 16, and 24).
+\end{itemize}
+
+\subsection{Electronic Parts}
+Note that soldering will be required so a soldering station with appropriate tools and solder will be required in addition to the following.
+\begin{itemize}
+  \item One Raspberry Pi 3B computer (available from many places).
+  \item Four or six half-size perma-proto breadboards (p/n 1609 for qty 1 or p/n 571 for qty 3 from Adafruit)\footnote{Adafruit generally throws one of these in with your order if your order is over \$100}.
+  \item One quarter-size perma-proto breadboard (p/n 1608 from Adafruit).
+  \item At least four or up to eight MCP23017 I2C 16 bit input/output port expander chips (p/n 732 from Adafruit).
+  \item Recommended one LTC4311 I2C Extender/Active Terminator (p/n 4756 from Adafruit).
+  \item One set of Female/Male jumper wires (p/n 1954 from Adafruit).  These are used to connect from the Raspberry Pi to the rest of the circuitry since female connectors are needed on the Raspberry Pi end).
+  \item Hookup wire, preferably multi-colored (available from many places).
+  \item 36 pin 0.1'' female header (5 pack p/n 598 at Adafruit).  You may need a couple packs.
+  \item 23 to 39 Mini panel mount SPDT toggle switches (p/n 3221 from Adafruit).  Feel free to use other switches if you like, though you may need to adjust the hole sizes in the panels.
+  \item 11 or 16 female and male DB-9 connectors (eg p/n AE10972-ND (male) and p/n AE11063-ND (female) from Digi-Key (buy a pack of 25 for a price discount)).
+  \item Lots of 5mm oval LEDs (I used red, but you can use other colors) (eg p/n C5SMF-RJF-CT0W0BB1-ND from Digi-Key (buy a pack of 100 for a price discount, you can always use the excess in other projects)).
+  \item Lots of 120$\Omega$ resistors (eg p/n CF14JT120RCT-ND (lots of other options) from Digi-Key).  These are used for current limiting the LEDs from 3.3V drive.  If you're driving the LEDs with 5V, you'll need a bit more resistance.  Since the Raspberry Pi uses 3.3V, these will work for this project.
+  \item A couple meters of CAT-5 cable.  This is for the cables to connect the various assemblies (available from many places).
+\end{itemize}
+
+\subsection{Mechanical Hardware}
+I have a Phillips Panhead Electronic Hardware Kit from Digi-Key (p/n 1602-KIT-ND) that has an assortment of machine screws and nuts.  I used these because they were handy.
+
+You will need many cable ties.  I have a container of assorted cable ties from Costco.  These can be obtained from many other sources.
 
 %----------------------------------------------------------
 \chapter{Hardware}
@@ -69,7 +98,10 @@ Each of these boards in built on a 1/2 size perma-proto board from Adafruit.  It
 
 \section{3D Printed Parts}
 \subsection{Racks}
-Each rack is a bbs\_rack2(10, 6, 4).  Two of these can be bolted together side-by-side and fit in a 19 inch rack.  This is the approximate size of the classic computer equipment.  Multiple racks can be bolted together vertically as needed to provide panel space.  Each rack has slots for two vertically oriented trays.
+Each rack is a bbs\_rack2(10, 6, 4).  The size is basically constrained by what my 3D printer can do.  Each of these requires about 15 hours to print on my printer.  Two of these can be bolted together side-by-side and fit in a 19 inch rack.  This is the approximate size of the classic computer equipment.  Multiple racks can be bolted together vertically as needed to provide panel space.  Each rack has slots for two vertically oriented trays.
+
+\subsection{Processor Tray}
+ The processor tray has mounting holes for the Raspberry Pi processor boad. It also has a 1/4 size perma-proto board from Adafruit (this may get changed to a half sized board) to provide space for miscellaneous wiring.  Also on the tray is a LTC4311 I2C Extender/Active Terminator (p/n 4756 from Adafruit).  This may not strictly be necessary, but since the I2C bus will be running off to several other boards, I thought that it might be a good idea.  There is also a DB-9 connector that carries power and the I2C bus to the other trays.
 
 \subsection{Discrete I/O Tray}
 Each of these trays has one or two MCP23017 16 bit I/O expander chips with I2C interface.  These trays would typically be mounted in the slot next to the panel.  The tray has 4 DB-9 connections and can interface with up to  16 LEDs and 16 switches.  One additional DB-9 connection is provided to connect the the power and I2C bus from the processor.
@@ -86,6 +118,18 @@ At this point, without an actual CPU simulation, this is mostly a way to organiz
   \item Start processor execution at a specified address.
   \item Continue processor execution.
   \item Reset the processor.
+\end{itemize}
+
+The following switches are defined on the panel:
+\begin{itemize}
+  \item \switch{Run}{Pause} - The \position{Run} position allows program execution.  The \position{Pause} position temporarily suspends execution.  Moving the switch back to the \position{Run} position will continue where the program left off.
+  \item \switch{Start}{Stop} - Moving the switch to the \position{Start} position loads a starting address to begin program execution.  The \position{Stop} position halts a program and a new starting address will need to be provided.
+  \item \switch{Auto}{Man} - The \position{Auto} position allows for remote control of the simulator via a web interface.  The \position{Man} position disables remote control.
+  \item \switch{Addr}{Data} - Selects display and entry of memory addresses or data.
+  \item \position{Dep} deposits the switch value.  If the \switch{Addr}{Data} switch is in the \position{Addr} position, a memory address is loaded.  If the \switch{Addr}{Data} switch is in the \position{Data} position, the switch value is deposited in memory and the address incremented.
+  \item \position{Exam} is used to examine memory at the current address.  The address is incremented each time the switch is moved to the \position{Exam} position.
+  \item Spare - an empty position reserved for future expansion.
+  \item \switch{Power}{Off} - This will eventually be wired up to control power to the Raspberry Pi computer.
 \end{itemize}
 
 \subsubsection{To Specify an Address}
@@ -127,7 +171,10 @@ Note that if the word size is greater than 8 bits, some of the lower order addre
   \item If the \switch{Run}{Pause} switch is in the \position{Pause} position, move it to the \position{Run} position.
 \end{itemize}
 
-\section{Other Hardware}
+\subsection{Mode Panel}
+This is a display only panel to show the processor and memory access modes.  It has seven labeled positions in two groups separated by a spare.  The first group is the processor mode.  This indicates which of four possible modes (User, Supervisor, Executive, or Kernel) the processor is in.  The second group indicates the type of memory access.  There are three possibilities: Instruction (read-only), Data (read/write), and Interrupt (read-only).
+
+\section{Assembly}
 
 %----------------------------------------------------------
 \chapter{Software}
