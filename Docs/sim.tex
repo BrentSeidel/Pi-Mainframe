@@ -70,6 +70,7 @@ Note that soldering will be required so a soldering station with appropriate too
   \item Four or six half-size perma-proto breadboards (p/n 1609 for qty 1 or p/n 571 for qty 3 from Adafruit)\footnote{Adafruit generally throws one of these in with your order if your order is over \$100}.
   \item One quarter-size perma-proto breadboard (p/n 1608 from Adafruit).
   \item At least four or up to eight MCP23017 I2C 16 bit input/output port expander chips (p/n 732 from Adafruit).
+  \item One 28-pin DIP socket per MCP23017.  (eg p/n A120353-ND from Digi-Key)
   \item Recommended one LTC4311 I2C Extender/Active Terminator (p/n 4756 from Adafruit).
   \item One set of Female/Male jumper wires (p/n 1954 from Adafruit).  These are used to connect from the Raspberry Pi to the rest of the circuitry since female connectors are needed on the Raspberry Pi end).
   \item Hookup wire, preferably multi-colored (available from many places).
@@ -175,6 +176,38 @@ Note that if the word size is greater than 8 bits, some of the lower order addre
 This is a display only panel to show the processor and memory access modes.  It has seven labeled positions in two groups separated by a spare.  The first group is the processor mode.  This indicates which of four possible modes (User, Supervisor, Executive, or Kernel) the processor is in.  The second group indicates the type of memory access.  There are three possibilities: Instruction (read-only), Data (read/write), and Interrupt (read-only).
 
 \section{Assembly}
+
+\subsection{Discrete I/O Boards}
+\begin{itemize}
+  \item First, solder the resistors and socket (see Figure \ref{fig:GPIO1}).
+  \item Then add some fixed wires (see Figure \ref{fig:GPIO2}).
+\end{itemize}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/GPIO 1.jpg}
+  \caption{GPIO Board with Socket and Resistors}
+  \label{fig:GPIO1}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/GPIO 2.jpg}
+  \caption{GPIO Board with Socket, Resistors, and Fixed Wires}
+  \label{fig:GPIO2}
+\end{figure}
+
+\subsection{Panel I/O Tray}
+\begin{itemize}
+  \item Attach the connectors to the tray (see Figure \ref{fig:PanelIO1})..
+\end{itemize}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Panel IO Tray1.jpg}
+  \caption{Panel I/O Tray with Connectors}
+  \label{fig:PanelIO1}
+\end{figure}
 
 %----------------------------------------------------------
 \chapter{Software}
