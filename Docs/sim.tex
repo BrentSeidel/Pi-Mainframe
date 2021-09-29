@@ -45,6 +45,8 @@ This document is \copyright 2021 Brent Seidel.  All rights reserved.
 \paragraph{}Note that this is a draft version and not the final version for publication.
 \end{center}
 \tableofcontents
+\listoffigures
+%\listoftables
 
 \mainmatter
 %----------------------------------------------------------
@@ -179,8 +181,8 @@ This is a display only panel to show the processor and memory access modes.  It 
 
 \subsection{Discrete I/O Boards}
 \begin{itemize}
-  \item First, solder the resistors and socket (see Figure \ref{fig:GPIO1}).
-  \item Then add some fixed wires (see Figure \ref{fig:GPIO2}).
+  \item First, solder the resistors and socket.  See Figure \ref{fig:GPIO1}.
+  \item Then add some fixed wires.  See Figure \ref{fig:GPIO2}.
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -208,6 +210,79 @@ This is a display only panel to show the processor and memory access modes.  It 
   \caption{Panel I/O Tray with Connectors}
   \label{fig:PanelIO1}
 \end{figure}
+
+\subsection{I2C Bus Cable}
+The I2C bus cable is probably the most difficult bit of soldering as you will have to add two wires to each contact in a connector.  Multiple times.  Which pairs are used for which pins isn't particularly important, but I wire pins 2 \& 6, 2 \& 7, 4 \& 8, and 5 \& 9 as pairs.  Pin 3 is left unconnected.  It is obviously important to have the same wire go to the same pin on each connector on the bus.  Figure \ref{fig:Cable1} shows an example cable.  Figure \ref{fig:Cable2} is a close-up of one of the connectors.  It is a little easier to decide ahead of time how many connectors you want on the bus.  Soldering a cable segment to an existing connector can be done, but is more difficult.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Bus Cable.jpg}
+  \caption{The I2C Bus Cable}
+  \label{fig:Cable1}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Connector.jpg}
+  \caption{An I2C Bus Cable Connector}
+  \label{fig:Cable2}
+\end{figure}
+
+\subsection{Panel LEDs}
+The wiring for the panel LEDs is similar for all panels.  The Modes Panel is shown as an example.  The LEDs on the other panels would be wired the same way.  Note the cable ties used to attach the wiring to the panel.  This also helps to keep the LEDs in place so that they don't push out.
+
+\begin{itemize}
+  \item Since CAT-5 cables are only 8 conductor, a separate ground/return wire needs to be added.  As a note of caution, I find that the orange and brown pairs are difficult to distinguish.  Be careful, otherwise you may wind up having to resolder the connector.  See Figure \ref{fig:LED5}.
+  \item First using a cable tie, attach the cable to the panel.  This helps to keep the cable from moving around while the LEDs are soldered.  There is also a bare copper wire used as a ground/return wire for the LEDs.  See Figure \ref{fig:LED1}.
+  \item Solder the first LED to one side of the cable.  This one is the hardest as there is only a short length of wire to work with.  See Figure \ref{fig:LED2}.
+  \item Solder the next LED and add a cable tie between them.  See Figure \ref{fig:LED3}.
+  \item Solder the remaining LEDs on that side and add cable ties between them.  See Figure \ref{fig:LED4}.
+  \item Find a place to solder the ground/return wire from the connector to the bare LED ground/return wire.  See Figure \ref{fig:LED6}.
+  \item Complete the other side of the panel.  See Figure \ref{fig:LED6}.
+\end{itemize}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LEDs5.jpg}
+  \caption{The Connector with Ground Wire}
+  \label{fig:LED5}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LEDs1.jpg}
+  \caption{Attach the Cable to the Panel}
+  \label{fig:LED1}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LEDs2.jpg}
+  \caption{Solder the First LED}
+  \label{fig:LED2}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LEDs3.jpg}
+  \caption{Solder the Second LED and Add a Cable Tie}
+  \label{fig:LED3}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LEDs4.jpg}
+  \caption{Solder the Remaining LEDs on That Side and Add Cable Ties}
+  \label{fig:LED4}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LEDs6.jpg}
+  \caption{The Completed Panel}
+  \label{fig:LED6}
+\end{figure}
+
 
 %----------------------------------------------------------
 \chapter{Software}
