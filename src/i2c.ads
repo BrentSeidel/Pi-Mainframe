@@ -54,4 +54,9 @@ private
    --
    i2c_rec : aliased BBS.embed.i2c.linux.linux_i2c_interface_record;
    i2c_ptr : BBS.embed.i2c.linux.linux_i2c_interface := i2c_rec'access;
+   --
+   --  Last LED control value.  This is used to avoid sending an I2C bus message
+   --  to set the LEDs to the value they're already set to.
+   --
+   last_ctrl_led : BBS.embed.uint16 := 0;
 end;

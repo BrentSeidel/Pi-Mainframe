@@ -20,3 +20,4 @@ test
 *.log
 *.synctex.gz
 *.toc
+*.lof

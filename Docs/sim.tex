@@ -183,6 +183,8 @@ This is a display only panel to show the processor and memory access modes.  It 
 \begin{itemize}
   \item First, solder the resistors and socket.  See Figure \ref{fig:GPIO1}.
   \item Then add some fixed wires.  See Figure \ref{fig:GPIO2}.
+  \item Solder in the female header strips.  Some of these can be omitted and the wires in the next step soldered in directly, but having these will make reconfiguration easier.
+  \item Add local wires to the header strips.
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -199,9 +201,13 @@ This is a display only panel to show the processor and memory access modes.  It 
   \label{fig:GPIO2}
 \end{figure}
 
+\clearpage
 \subsection{Panel I/O Tray}
 \begin{itemize}
-  \item Attach the connectors to the tray (see Figure \ref{fig:PanelIO1})..
+  \item Attach the connectors to the tray (see Figure \ref{fig:PanelIO1}).
+  \item Attach the two Discrete I/O Boards.
+  \item Add interconnect wires between the boards.
+  \item Add wiring to the connectors.
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -211,6 +217,7 @@ This is a display only panel to show the processor and memory access modes.  It 
   \label{fig:PanelIO1}
 \end{figure}
 
+\clearpage
 \subsection{I2C Bus Cable}
 The I2C bus cable is probably the most difficult bit of soldering as you will have to add two wires to each contact in a connector.  Multiple times.  Which pairs are used for which pins isn't particularly important, but I wire pins 2 \& 6, 2 \& 7, 4 \& 8, and 5 \& 9 as pairs.  Pin 3 is left unconnected.  It is obviously important to have the same wire go to the same pin on each connector on the bus.  Figure \ref{fig:Cable1} shows an example cable.  Figure \ref{fig:Cable2} is a close-up of one of the connectors.  It is a little easier to decide ahead of time how many connectors you want on the bus.  Soldering a cable segment to an existing connector can be done, but is more difficult.
 
@@ -228,6 +235,7 @@ The I2C bus cable is probably the most difficult bit of soldering as you will ha
   \label{fig:Cable2}
 \end{figure}
 
+\clearpage
 \subsection{Panel LEDs}
 The wiring for the panel LEDs is similar for all panels.  The Modes Panel is shown as an example.  The LEDs on the other panels would be wired the same way.  Note the cable ties used to attach the wiring to the panel.  This also helps to keep the LEDs in place so that they don't push out.
 
@@ -244,7 +252,7 @@ The wiring for the panel LEDs is similar for all panels.  The Modes Panel is sho
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=0.9\textwidth]{../Pict/LEDs5.jpg}
-  \caption{The Connector with Ground Wire}
+  \caption{LED Panel Connector with Ground Wire}
   \label{fig:LED5}
 \end{figure}
 
@@ -283,7 +291,7 @@ The wiring for the panel LEDs is similar for all panels.  The Modes Panel is sho
   \label{fig:LED6}
 \end{figure}
 
-
+\clearpage
 %----------------------------------------------------------
 \chapter{Software}
 \section{Overview}

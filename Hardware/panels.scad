@@ -4,11 +4,12 @@
 //  want, then you can render them for printing.  My printer is not big enough to print
 //  them all in one batch.
 //
-use <../../Things/bbs_panel.scad>
-use <../../Things/bbs_leds.scad>
-use <../../Things/bbs_switches.scad>
+use <../../Things/bbs_connectors.scad>
 use <../../Things/bbs_lcd_20x4.scad>
 use <../../Things/bbs_lcd7.scad>
+use <../../Things/bbs_leds.scad>
+use <../../Things/bbs_panel.scad>
+use <../../Things/bbs_switches.scad>
 
 width = 220;
 //
@@ -78,7 +79,7 @@ module panel_control()
   spacing = (width-30)/8;
   led_x = 55;
   switch_x = 25;
-  on_labels  = ["Run", "Start", "Auto", "Addr", "Dep", "Exam", "", "Power"];
+  on_labels  = ["Run", "Start", "Auto", "Addr", "Dep", "Exam", "Rdy", "Power"];
   off_labels = ["Pause", "Stop", "Man", "Data", "", "", "", "Off"];
   union()
   {
@@ -90,7 +91,10 @@ module panel_control()
         for(a = [1:8])
         {
           y = width/2 - (4.5-a)*spacing;
-          translate([switch_x, y, -0.1]) bbs_spdt_switch_cutout(2.2);
+          if(a != 2)
+          {
+            translate([switch_x, y, -0.1]) bbs_spdt_switch_cutout(2.2);
+          }
           if(a < 8)
           {
             translate([led_x + 3, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
@@ -157,6 +161,16 @@ module panel_mode()
 //    }
 }
 
+module panel_power()
+{
+  difference()
+  {
+    bbs_panel(10, 2);
+    translate([15, 40, -0.1]) rotate([0, 0, 90]) bbs_usb_b_cutout(4);
+    translate([15, 80, -0.1]) rotate([0, 0, 90]) bbs_micro_usb_cutout(4);
+  }
+}
+
 module panel_lcd7()
 {
   difference()
@@ -210,19 +224,24 @@ module test()
 {
   difference()
   {
-    translate([0, 0, 1]) cube([15, 10, 2], center=true);
-    bbs_led_oval(4);
+    translate([0, 0, 1]) cube([35, 20, 2], center=true);
+    union()
+    {
+      translate([0, 0, -0.1]) bbs_usb_b_cutout(4);
+      translate([0, 15, -0.1]) bbs_micro_usb_cutout(4);
+    }
   }
 }
 rotate([0, 0, 90])
 {
 //  translate([100, 0, 0]) panel_nameplate("RPi-3/1 Mainframe");
   translate([00, 0, 0]) panel_control();
-  translate([90, 0, 0]) panel_mode();
+//  translate([90, 0, 0]) panel_mode();
 //  translate([90, 0, 0]) panel_switch(8);
 //  translate([00, 0, 0]) panel_switch(0);
 //  translate([140, 0, 0]) panel_lcd7();
 //  translate([0, 0, 0]) panel_lcd20x4();
+//  translate([00, 0, 0]) panel_power();
 //    bbs_pot2_knob();
 //  translate([40, 150, -0.1]) rotate([0, 0, 270]) color("red") bbs_pot2();
 //  translate([40, 185, -0.1]) rotate([0, 0, 270]) color("red") bbs_pot2();

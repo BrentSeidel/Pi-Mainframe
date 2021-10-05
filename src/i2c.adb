@@ -2,6 +2,7 @@ with Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 with BBS.embed;
 use type BBS.embed.addr7;
+use type BBS.embed.uint16;
 use type BBS.embed.uint32;
 with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
@@ -53,36 +54,6 @@ package body i2c is
    --
    --  Read switches and write LEDs
    --
-   procedure set_addr_data(d : BBS.embed.uint32; res : out result) is
-      err : BBS.embed.i2c.err_code;
-      lsw : constant BBS.embed.uint16 := BBS.embed.uint16(d and 16#FFFF#);
-      msw : constant BBS.embed.uint16 := BBS.embed.uint16((d/16#10000#) and 16#FFFF#);
-   begin
-      if MCP23017_found(LED_LSW) then
-         MCP23017_info(LED_LSW).set_data(lsw, err);
-         if err /= BBS.embed.i2c.none then
-            res := RES_ERR;
-            return;
-         end if;
-      end if;
-      if MCP23017_found(LED_MSW) then
-         MCP23017_info(LED_MSW).set_data(msw, err);
-         if err /= BBS.embed.i2c.none then
-            res := RES_ERR;
-            return;
-         end if;
-      end if;
-      if MCP23017_found(LED_LSW) and MCP23017_found(LED_MSW) then
-         res := RES_FULL;
-      elsif MCP23017_found(LED_LSW) then
-         res := RES_LSW;
-      elsif MCP23017_found(LED_MSW) then
-         res := RES_MSW;
-      else
-         res := RES_NONE;
-      end if;
-   end;
-   --
    procedure read_addr_data(d : out BBS.embed.uint32; res : out result) is
       err : BBS.embed.i2c.err_code;
       lsw : BBS.embed.uint16 := 0;
@@ -115,15 +86,74 @@ package body i2c is
       end if;
    end;
    --
-   procedure set_ctrl(d : BBS.embed.uint16; res : out result) is
+   procedure set_addr_data(d : BBS.embed.uint32; res : out result) is
+      err : BBS.embed.i2c.err_code;
+      lsw : constant BBS.embed.uint16 := BBS.embed.uint16(d and 16#FFFF#);
+      msw : constant BBS.embed.uint16 := BBS.embed.uint16((d/16#10000#) and 16#FFFF#);
    begin
-      null;
+      if MCP23017_found(LED_LSW) then
+         MCP23017_info(LED_LSW).set_data(lsw, err);
+         if err /= BBS.embed.i2c.none then
+            res := RES_ERR;
+            return;
+         end if;
+      end if;
+      if MCP23017_found(LED_MSW) then
+         MCP23017_info(LED_MSW).set_data(msw, err);
+         if err /= BBS.embed.i2c.none then
+            res := RES_ERR;
+            return;
+         end if;
+      end if;
+      if MCP23017_found(LED_LSW) and MCP23017_found(LED_MSW) then
+         res := RES_FULL;
+      elsif MCP23017_found(LED_LSW) then
+         res := RES_LSW;
+      elsif MCP23017_found(LED_MSW) then
+         res := RES_MSW;
+      else
+         res := RES_NONE;
+      end if;
    end;
+   --
+   --  Read control switches and write control/mode LEDs
    --
    procedure read_ctrl(d : out BBS.embed.uint16; res : out result) is
+      err : BBS.embed.i2c.err_code;
+      temp : BBS.embed.uint16;
    begin
-      null;
+      d := 0;
+      if MCP23017_found(SW_CTRL) then
+         temp := MCP23017_info(SW_CTRL).get_data(err);
+         if err /= BBS.embed.i2c.none then
+            res := RES_ERR;
+         else
+            d := temp;
+            res := RES_FULL;
+         end if;
+      else
+         res := RES_NONE;
+      end if;
    end;
    --
+   procedure set_ctrl(d : BBS.embed.uint16; res : out result) is
+      err : BBS.embed.i2c.err_code;
+   begin
+      if d = last_ctrl_led then
+         res := RES_FULL;
+         return;
+      end if;
+      last_ctrl_led := d;
+      if MCP23017_found(LED_CTRL) then
+         MCP23017_info(LED_CTRL).set_data(d, err);
+         if err /= BBS.embed.i2c.none then
+            res := RES_ERR;
+         else
+            res := RES_FULL;
+         end if;
+      else
+         res := RES_NONE;
+      end if;
+   end;
    --
 end;
