@@ -39,6 +39,7 @@ package body Sim is
                fibonacci(0.05);
             when others =>
                i2c.set_addr_data(data, res);
+               i2c.set_ctrl(BBS.embed.uint16(data and 16#FFFF#), res);
                lr_ad := data;
             end case;
          end loop;

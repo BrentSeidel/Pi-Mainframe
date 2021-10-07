@@ -180,6 +180,7 @@ This is a display only panel to show the processor and memory access modes.  It 
 \section{Assembly}
 
 \subsection{Discrete I/O Boards}
+The discrete I/O boards offer 16 bits of GPIO.  Each can be configured as an input or an output.  There is not enough space on the breadboard for 16 current limiting resistors for LEDs.  So, the design has 8 resistors on each board.  Two boards are used on a panel I/O tray.  One board drives the LEDs and one reads the switches.  The LED board uses the 8 resistors on itself as well at the 8 resistors on the switch board.
 \begin{itemize}
   \item First, solder the resistors and socket.  See Figure \ref{fig:GPIO1}.
   \item Then add some fixed wires.  See Figure \ref{fig:GPIO2}.
@@ -210,25 +211,40 @@ This is a display only panel to show the processor and memory access modes.  It 
 
 \clearpage
 \subsection{Panel I/O Tray}
+There are two discrete I/O boards on this tray.  Together they can drive up to 16 LEDs and read 16 switches.  The left board drives the LEDs and the right board reads the switches.  The connectors from left to right are: MSB LEDs, MSB switches, LSD switches, and LSB LEDs.
 \begin{itemize}
   \item Attach the connectors to the tray.  See Figure \ref{fig:PanelIO1}.
   \item Attach the two Discrete I/O Boards.  See Figure \ref{fig:PanelIO2}.
-  \item Add interconnect wires between the boards.
+  \item Add wiring for power, I2C, and board configuration (Figure \ref{fig:PanelIO3} shows the address and reset jumpers installed.  From the address jumpers, these are the control LED and control switch boards) and install the MCP23017s.  See Figure \ref{fig:PanelIO4}.  If the processor and bus cable are ready, this can be hooked up to see that the processor detects the MCP23017s.
   \item Add wiring to the connectors.
 \end{itemize}
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.9\textwidth]{../Pict/Panel IO Tray1.jpg}
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray1.jpg}
   \caption{Panel I/O Tray with Connectors}
   \label{fig:PanelIO1}
 \end{figure}
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.9\textwidth]{../Pict/Panel IO Tray2.jpg}
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray2.jpg}
   \caption{Panel I/O Tray with GPIO Boards}
   \label{fig:PanelIO2}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray3.jpg}
+  \caption{Panel I/O Tray with GPIO Boards with Address and Reset Jumpers Installed.  These are Control LED and Control Switch Boards}
+  \label{fig:PanelIO3}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray4.jpg}
+  \caption{Panel I/O Tray with GPIO Boards with Power, I2C, and MPC23017s Installed}
+  \label{fig:PanelIO4}
 \end{figure}
 
 \clearpage
