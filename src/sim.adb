@@ -9,11 +9,26 @@ package body Sim is
       last_data : BBS.embed.uint32 := 0;
    begin
       accept Start;
-      if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
-         Ada.Text_IO.Put_Line("Setting LED ports to output and displaying data");
+      --
+      --  Configure MCP23017 devices
+      --
+      Ada.Text_IO.Put_Line("Setting LED ports to output and displaying data");
+      i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
+      Hex_IO.Default_Base := 16;
+      Hex_IO.Default_Width := 1;
+      if i2c.MCP23017_found(i2c.LED_LSW) then
          i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
-         Hex_IO.Default_Base := 16;
-         Hex_IO.Default_Width := 1;
+         Ada.Text_IO.Put_Line("LED least significant word condigured");
+      end if;
+      if i2c.MCP23017_found(i2c.LED_MSW) then
+         i2c.MCP23017_info(i2c.LED_MSW).set_dir(16#0000#, err);
+         Ada.Text_IO.Put_Line("LED most significant word condigured");
+      end if;
+      if i2c.MCP23017_found(i2c.LED_CTRL) then
+         i2c.MCP23017_info(i2c.LED_CTRL).set_dir(16#0000#, err);
+         Ada.Text_IO.Put_Line("LED mode and control condigured");
+      end if;
+      if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
          loop
             i2c.read_addr_data(data, res);
             sr_ad := data;
@@ -44,7 +59,7 @@ package body Sim is
             end case;
          end loop;
       else
-         Ada.Text_IO.Put_Line("Required hardware not present for simulator.");
+         Ada.Text_IO.Put_Line("Minimal required hardware not present for simulator.");
       end if;
    end run;
    --
