@@ -56,6 +56,7 @@ package body Sim is
                i2c.set_addr_data(data, res);
                i2c.set_ctrl(BBS.embed.uint16(data and 16#FFFF#), res);
                lr_ad := data;
+               lr_ctl := BBS.embed.uint16(data and 16#FFFF#);
             end case;
          end loop;
       else
@@ -68,7 +69,7 @@ package body Sim is
    procedure count(d : Duration) is
    begin
       ad_counter := ad_counter + 1;
-      ctl_counter := ctl_counter + 1;
+      ctl_counter := ctl_counter + 2;
       i2c.set_addr_data(ad_counter, res);
       i2c.set_ctrl(ctl_counter, res);
       lr_ad := ad_counter;

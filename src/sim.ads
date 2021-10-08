@@ -63,6 +63,28 @@ package Sim is
                      CTRL_EXAM  => 16#04#);
    for controls'Size use 8;
    --
+   --  Constants for LEDs
+   --
+   LED_MODE_USER  : constant BBS.embed.uint16 := 16#8000#;
+   LED_MODE_SUP   : constant BBS.embed.uint16 := 16#4000#;
+   LED_MODE_EXEC  : constant BBS.embed.uint16 := 16#2000#;
+   LED_MODE_KERN  : constant BBS.embed.uint16 := 16#1000#;
+   LED_MODE_BLNK  : constant BBS.embed.uint16 := 16#0800#;
+   LED_MODE_INST  : constant BBS.embed.uint16 := 16#0400#;
+   LED_MODE_DATA  : constant BBS.embed.uint16 := 16#0200#;
+   LED_MODE_INTR  : constant BBS.embed.uint16 := 16#0100#;
+   LED_CTRL_RUN   : constant BBS.embed.uint16 := 16#0080#;
+   LED_CTRL_START : constant BBS.embed.uint16 := 16#0040#;
+   LED_CTRL_AUTO  : constant BBS.embed.uint16 := 16#0020#;
+   LED_CTRL_ADDR  : constant BBS.embed.uint16 := 16#0010#;
+   LED_CTRL_DEP   : constant BBS.embed.uint16 := 16#0008#;
+   LED_CTRL_EXAM  : constant BBS.embed.uint16 := 16#0004#;
+   LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
+   LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
+   --
+   --  Note that the power LED is actually connected to the power rail and not
+   --  under program control.
+   --
    --  Run the LED patterns.  This is a task so that it can run in parallel with
    --  the web server.
    --
