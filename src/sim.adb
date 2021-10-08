@@ -67,56 +67,92 @@ package body Sim is
    --
    procedure count(d : Duration) is
    begin
-      counter := counter + 1;
-      i2c.set_addr_data(counter, res);
-      lr_ad := counter;
+      ad_counter := ad_counter + 1;
+      ctl_counter := ctl_counter + 1;
+      i2c.set_addr_data(ad_counter, res);
+      i2c.set_ctrl(ctl_counter, res);
+      lr_ad := ad_counter;
+      lr_ctl := ctl_counter;
       delay d;
    end;
    --
    procedure bounce(d : Duration) is
    begin
-      if bounce_dir = left then
-         if bouncer = 0 then
-            bounce_dir := right;
-            bouncer := 16#8000_0000#;
+      if ad_bounce_dir = left then
+         if ad_bouncer = 0 then
+            ad_bounce_dir := right;
+            ad_bouncer := 16#8000_0000#;
          else
-            bouncer := bouncer * 2;
+            ad_bouncer := ad_bouncer * 2;
          end if;
       else
-         if bouncer = 0 then
-            bounce_dir := left;
-            bouncer := 16#0000_0001#;
+         if ad_bouncer = 0 then
+            ad_bounce_dir := left;
+            ad_bouncer := 16#0000_0001#;
          else
-            bouncer := bouncer / 2;
+            ad_bouncer := ad_bouncer / 2;
          end if;
       end if;
-      i2c.set_addr_data(bouncer, res);
-      lr_ad := bouncer;
+      if ctl_bounce_dir = left then
+         if ctl_bouncer = 0 then
+            ctl_bounce_dir := right;
+            ctl_bouncer := 16#8000#;
+         else
+            ctl_bouncer := ctl_bouncer * 2;
+         end if;
+      else
+         if ctl_bouncer = 0 then
+            ctl_bounce_dir := left;
+            ctl_bouncer := 16#0001#;
+         else
+            ctl_bouncer := ctl_bouncer / 2;
+         end if;
+      end if;
+      i2c.set_addr_data(ad_bouncer, res);
+      lr_ad := ad_bouncer;
+      i2c.set_ctrl(ctl_bouncer, res);
+      lr_ctl := ctl_bouncer;
       delay d;
    end;
    --
    procedure scan(d : Duration) is
    begin
-      if scanner = 0 then
-         scanner := 1;
+      if ad_scanner = 0 then
+         ad_scanner := 1;
       else
-         scanner := scanner * 2;
+         ad_scanner := ad_scanner * 2;
       end if;
-      i2c.set_addr_data(scanner, res);
-      lr_ad := scanner;
+      if ctl_scanner = 0 then
+         ctl_scanner := 1;
+      else
+         ctl_scanner := ctl_scanner * 2;
+      end if;
+      i2c.set_addr_data(ad_scanner, res);
+      lr_ad := ad_scanner;
+      i2c.set_ctrl(ctl_scanner, res);
+      lr_ctl := ctl_scanner;
       delay d;
    end;
    --
    procedure fibonacci(d : Duration) is
-      temp : constant BBS.embed.uint32 := fib_1 + fib_2;
+      ad_temp : constant BBS.embed.uint32 := ad_fib_1 + ad_fib_2;
+      ctl_temp : constant BBS.embed.uint16 := ctl_fib_1 + ctl_fib_2;
    begin
-      i2c.set_addr_data(temp, res);
-      lr_ad := temp;
-      fib_2 := fib_1;
-      fib_1 := temp;
-      if (fib_1 = 0) and (fib_2 = 0) then
-         fib_1 := 1;
-         fib_2 := 1;
+      i2c.set_addr_data(ad_temp, res);
+      i2c.set_ctrl(ctl_temp, res);
+      lr_ad := ad_temp;
+      ad_fib_2 := ad_fib_1;
+      ad_fib_1 := ad_temp;
+      lr_ctl := ctl_temp;
+      ctl_fib_2 := ctl_fib_1;
+      ctl_fib_1 := ctl_temp;
+      if (ad_fib_1 = 0) and (ad_fib_2 = 0) then
+         ad_fib_1 := 1;
+         ad_fib_2 := 1;
+      end if;
+      if (ctl_fib_1 = 0) and (ctl_fib_2 = 0) then
+         ctl_fib_1 := 1;
+         ctl_fib_2 := 1;
       end if;
       delay d;
    end;

@@ -1,5 +1,5 @@
 with BBS.embed;
---use type BBS.embed.uint16;
+use type BBS.embed.uint16;
 use type BBS.embed.uint32;
 with BBS.embed.i2c;
 with i2c;
@@ -28,12 +28,12 @@ package Sim is
    --  Switch settings (switch registers)
    --
    sr_ad  : BBS.embed.uint32 := 0;  -- Address/Data switch register
-   sr_ctl : BBS.embed.uint32 := 0;  -- Control switch register
+   sr_ctl : BBS.embed.uint16 := 0;  -- Control switch register
    --
    --  LED settings (LED registers)
    --
    lr_ad  : BBS.embed.uint32 := 0;  -- Address/Data LED register
-   lr_ctl : BBS.embed.uint32 := 0;  -- Control/Mode LED register
+   lr_ctl : BBS.embed.uint16 := 0;  -- Control/Mode LED register
    --
    --  Processor modes
    --
@@ -73,16 +73,22 @@ private
    --
    --  Data for the various patterns.
    --
-   counter : BBS.embed.uint32 := 0;
+   ad_counter : BBS.embed.uint32 := 0;
+   ctl_counter : BBS.embed.uint16 := 0;
 
    type bounce_type is (left, right);
-   bouncer : BBS.embed.uint32 := 0;
-   bounce_dir : bounce_type := left;
+   ad_bouncer : BBS.embed.uint32 := 0;
+   ad_bounce_dir : bounce_type := left;
+   ctl_bouncer : BBS.embed.uint16 := 0;
+   ctl_bounce_dir : bounce_type := left;
 
-   scanner : BBS.embed.uint32 := 0;
+   ad_scanner : BBS.embed.uint32 := 0;
+   ctl_scanner : BBS.embed.uint16 := 0;
 
-   fib_1 : BBS.embed.uint32 := 1;
-   fib_2 : BBS.embed.uint32 := 1;
+   ad_fib_1 : BBS.embed.uint32 := 1;
+   ad_fib_2 : BBS.embed.uint32 := 1;
+   ctl_fib_1 : BBS.embed.uint16 := 1;
+   ctl_fib_2 : BBS.embed.uint16 := 1;
 
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;

@@ -65,9 +65,9 @@ package body web.xml is
       bbs.http.ok(s, "application/xml");
       String'Write(s, "<xml>");
       String'Write(s, "<lr-ad>" & BBS.embed.uint32'Image(sim.lr_ad) & "</lr-ad>");
-      String'Write(s, "<lr-ctl>" & BBS.embed.uint32'Image(sim.lr_ctl) & "</lr-ctl>");
+      String'Write(s, "<lr-ctl>" & BBS.embed.uint16'Image(sim.lr_ctl) & "</lr-ctl>");
       String'Write(s, "<sr-ad>" & BBS.embed.uint32'Image(sim.sr_ad) & "</sr-ad>");
-      String'Write(s, "<sr-ctl>" & BBS.embed.uint32'Image(sim.sr_ctl) & "</sr-ctl>");
+      String'Write(s, "<sr-ctl>" & BBS.embed.uint16'Image(sim.sr_ctl) & "</sr-ctl>");
       String'Write(s, "</xml>");
    end sw_led_reg;
    --
