@@ -13,6 +13,7 @@
 \usepackage{fancybox}
 
 \usepackage{url}
+\usepackage{gensymb}
 \usepackage{multicol}
 %
 % Rules to allow import of graphics files in EPS format
@@ -212,11 +213,13 @@ The discrete I/O boards offer 16 bits of GPIO.  Each can be configured as an inp
 \clearpage
 \subsection{Panel I/O Tray}
 There are two discrete I/O boards on this tray.  Together they can drive up to 16 LEDs and read 16 switches.  The left board drives the LEDs and the right board reads the switches.  The connectors from left to right are: MSB LEDs, MSB switches, LSD switches, and LSB LEDs.
+
+It turns out that 8 of the 16 GPIO pins on the MCP23017 are numbered ascending down one side of the chip and the other 8 are numbered descending down the other side.  To account for this, you can either have the jumpers cross over for two of the panel connectors (I did this in the first version), or simply rotate two of the connectors by 180\degree{}, thus putting the twist into the cable.
 \begin{itemize}
   \item Attach the connectors to the tray.  See Figure \ref{fig:PanelIO1}.
   \item Attach the two Discrete I/O Boards.  See Figure \ref{fig:PanelIO2}.
   \item Add wiring for power, I2C, and board configuration (Figure \ref{fig:PanelIO3} shows the address and reset jumpers installed.  From the address jumpers, these are the control LED and control switch boards) and install the MCP23017s.  See Figure \ref{fig:PanelIO4}.  If the processor and bus cable are ready, this can be hooked up to see that the processor detects the MCP23017s.
-  \item Add wiring to the connectors.
+  \item Add wiring to the connectors.  See Figures \ref{fig:PanelIO5}, \ref{fig:PanelIO6}, and \ref{fig:PanelIO7}.  Also refer to subsection \ref{subsec:PanelLED} to make sure that the connector pinouts match those of the panel being connected.
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -247,6 +250,27 @@ There are two discrete I/O boards on this tray.  Together they can drive up to 1
   \label{fig:PanelIO4}
 \end{figure}
 
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray5.jpg}
+  \caption{Panel I/O Tray with LSB LED and Switch Connectors Wired}
+  \label{fig:PanelIO5}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray6.jpg}
+  \caption{Panel I/O Tray with MSB LED and Switch Connectors Wired}
+  \label{fig:PanelIO6}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/PanelIOTray7.jpg}
+  \caption{Back Side of Panel I/O Tray Showing Connector Wiring}
+  \label{fig:PanelIO7}
+\end{figure}
+
 \clearpage
 \subsection{I2C Bus Cable}
 The I2C bus cable is probably the most difficult bit of soldering as you will have to add two wires to each contact in a connector.  Multiple times.  Which pairs are used for which pins isn't particularly important, but I wire pins 2 \& 6, 2 \& 7, 4 \& 8, and 5 \& 9 as pairs.  Pin 3 is left unconnected.  It is obviously important to have the same wire go to the same pin on each connector on the bus.  Figure \ref{fig:Cable1} shows an example cable.  Figure \ref{fig:Cable2} is a close-up of one of the connectors.  It is a little easier to decide ahead of time how many connectors you want on the bus.  Soldering a cable segment to an existing connector can be done, but is more difficult.
@@ -267,7 +291,10 @@ The I2C bus cable is probably the most difficult bit of soldering as you will ha
 
 \clearpage
 \subsection{Panel LEDs}
+\label{subsec:PanelLED}
 The wiring for the panel LEDs is similar for all panels.  The Modes Panel is shown as an example.  The LEDs on the other panels would be wired the same way.  Note the cable ties used to attach the wiring to the panel.  This also helps to keep the LEDs in place so that they don't push out.
+
+You can choose whatever pinout you want for the connectors, however it helps if there is some reason and consistency behind it.  What I have done is to look at the connector from the back with the wide side up and assign the pins in the same order as the LEDs or switches, with the very middle pin assigned to ground (as shown in Figure \ref{fig:LED5}.  That is, the left-most pin corresponds to the left-most LED or switch, and so on.
 
 \begin{itemize}
   \item Since CAT-5 cables are only 8 conductor, a separate ground/return wire needs to be added.  As a note of caution, I find that the orange and brown pairs are difficult to distinguish.  Be careful, otherwise you may wind up having to resolder the connector.  See Figure \ref{fig:LED5}.
