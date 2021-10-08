@@ -101,9 +101,9 @@ package body Sim is
             ctl_bouncer := ctl_bouncer * 2;
          end if;
       else
-         if ctl_bouncer = 0 then
+         if ctl_bouncer = 1 then
             ctl_bounce_dir := left;
-            ctl_bouncer := 16#0001#;
+            ctl_bouncer := 16#0002#;
          else
             ctl_bouncer := ctl_bouncer / 2;
          end if;
@@ -123,7 +123,7 @@ package body Sim is
          ad_scanner := ad_scanner * 2;
       end if;
       if ctl_scanner = 0 then
-         ctl_scanner := 1;
+         ctl_scanner := 2;
       else
          ctl_scanner := ctl_scanner * 2;
       end if;
@@ -152,7 +152,7 @@ package body Sim is
       end if;
       if (ctl_fib_1 = 0) and (ctl_fib_2 = 0) then
          ctl_fib_1 := 1;
-         ctl_fib_2 := 1;
+         ctl_fib_2 := 2;
       end if;
       delay d;
    end;

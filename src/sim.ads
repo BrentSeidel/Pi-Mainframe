@@ -88,7 +88,7 @@ private
    ad_fib_1 : BBS.embed.uint32 := 1;
    ad_fib_2 : BBS.embed.uint32 := 1;
    ctl_fib_1 : BBS.embed.uint16 := 1;
-   ctl_fib_2 : BBS.embed.uint16 := 1;
+   ctl_fib_2 : BBS.embed.uint16 := 2;
 
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
