@@ -1,12 +1,15 @@
 with Ada.Text_IO;
+with Ada.Unchecked_Conversion;
 package body Sim is
    --
    --  Run the LED patterns
    --
    task body run is
       package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
-      data      : BBS.embed.uint32 := 0;
-      last_data : BBS.embed.uint32 := 0;
+      ad_data       : BBS.embed.uint32 := 0;
+      last_ad_data  : BBS.embed.uint32 := 0;
+      ctl_data      : BBS.embed.uint16 := 0;
+      last_ctl_data : BBS.embed.uint16 := 0;
    begin
       accept Start;
       --
@@ -18,30 +21,40 @@ package body Sim is
       Hex_IO.Default_Width := 1;
       if i2c.MCP23017_found(i2c.LED_LSW) then
          i2c.MCP23017_info(i2c.LED_LSW).set_dir(16#0000#, err);
-         Ada.Text_IO.Put_Line("LED least significant word condigured");
+         Ada.Text_IO.Put_Line("LED least significant word configured");
       end if;
       if i2c.MCP23017_found(i2c.LED_MSW) then
          i2c.MCP23017_info(i2c.LED_MSW).set_dir(16#0000#, err);
-         Ada.Text_IO.Put_Line("LED most significant word condigured");
+         Ada.Text_IO.Put_Line("LED most significant word configured");
       end if;
       if i2c.MCP23017_found(i2c.LED_CTRL) then
          i2c.MCP23017_info(i2c.LED_CTRL).set_dir(16#0000#, err);
-         Ada.Text_IO.Put_Line("LED mode and control condigured");
+         Ada.Text_IO.Put_Line("LED mode and control configured");
       end if;
       if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
          loop
-            i2c.read_addr_data(data, res);
-            sr_ad := data;
-            if last_data /= data then
+            i2c.read_addr_data(ad_data, res);
+            sr_ad := ad_data;
+            i2c.read_ctrl(ctl_data, res);
+            process_ctrl(ctl_data);
+            if ctl_starting then
+               init_test;
+               ctl_starting := False;
+            end if;
+            sr_ctl := ctl_data;
+            if last_ad_data /= ad_data then
                Ada.Text_IO.Put("Value change from ");
-               Hex_IO.Put(Integer(last_data));
+               Hex_IO.Put(Integer(last_ad_data));
                Ada.Text_IO.Put(" to ");
-               Hex_IO.Put(Integer(data));
+               Hex_IO.Put(Integer(ad_data));
                Ada.Text_IO.New_Line;
-               last_data := data;
+               last_ad_data := ad_data;
+            end if;
+            if last_ctl_data /= ctl_data then
+               last_ctl_data := ctl_data;
             end if;
             if not auto_man then
-               pattern := Natural(data);
+               pattern := Natural(ad_data);
             end if;
             case pattern is
             when 1 =>
@@ -53,10 +66,10 @@ package body Sim is
             when 4 =>
                fibonacci(0.05);
             when others =>
-               i2c.set_addr_data(data, res);
-               i2c.set_ctrl(BBS.embed.uint16(data and 16#FFFF#), res);
-               lr_ad := data;
-               lr_ctl := BBS.embed.uint16(data and 16#FFFF#);
+               i2c.set_addr_data(ad_data, res);
+               i2c.set_ctrl(ctl_data, res);
+               lr_ad := ad_data;
+               lr_ctl := ctl_data;
             end case;
          end loop;
       else
@@ -156,6 +169,60 @@ package body Sim is
          ctl_fib_2 := 2;
       end if;
       delay d;
+   end;
+   --
+   --  Process the control switches and set flags as appropriate
+   --
+   procedure process_ctrl(d : BBS.embed.uint16) is
+      function CTL_SW is new Ada.Unchecked_Conversion(Source => controls,
+                                                      Target => BBS.embed.uint8);
+      t : constant BBS.embed.uint8 := BBS.embed.uint8(d and 16#FF#);
+   begin
+      ctl_run := (t and CTL_SW(CTRL_RUN)) /= 0;
+      if not ctl_start then
+         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
+         if ctl_start then
+            ctl_starting := True;
+         end if;
+      else
+         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
+      end if;
+      ctl_auto := (t and CTL_SW(CTRL_AUTO)) /= 0;
+      ctl_addr := (t and CTL_SW(CTRL_ADDR)) /= 0;
+      if not ctl_dep then
+         ctl_dep := (t and CTL_SW(CRTL_DEP)) /= 0;
+         if ctl_dep then
+            ctl_deposit := True;
+         end if;
+      else
+         ctl_dep := (t and CTL_SW(CRTL_DEP)) /= 0;
+      end if;
+      if not ctl_exam then
+         ctl_exam := (t and CTL_SW(CTRL_EXAM)) /= 0;
+         if ctl_exam then
+            ctl_examine := True;
+         end if;
+      else
+         ctl_exam := (t and CTL_SW(CTRL_EXAM)) /= 0;
+      end if;
+   end;
+   --
+   --  Initialize the various test patterns to their initial state
+   --
+   procedure init_test is
+   begin
+      ad_counter     := 0;
+      ctl_counter    := 0;
+      ad_bouncer     := 0;
+      ad_bounce_dir  := left;
+      ctl_bouncer    := 0;
+      ctl_bounce_dir := left;
+      ad_scanner     := 0;
+      ctl_scanner    := 0;
+      ad_fib_1       := 1;
+      ad_fib_2       := 1;
+      ctl_fib_1      := 1;
+      ctl_fib_2      := 2;
    end;
    --
 end;

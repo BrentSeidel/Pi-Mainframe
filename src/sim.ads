@@ -1,4 +1,5 @@
 with BBS.embed;
+use type BBS.embed.uint8;
 use type BBS.embed.uint16;
 use type BBS.embed.uint32;
 with BBS.embed.i2c;
@@ -82,6 +83,18 @@ package Sim is
    LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
    LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
    --
+   --  Flags for control switches
+   --
+   ctl_run      : Boolean := False;
+   ctl_start    : Boolean := False;
+   ctl_starting : Boolean := False;  --  When ctl_start changes to True
+   ctl_auto     : Boolean := False;
+   ctl_addr     : Boolean := False;
+   ctl_dep      : Boolean := False;
+   ctl_deposit  : Boolean := False;  --  when ctl_dep changes to True
+   ctl_exam     : Boolean := False;
+   ctl_examine  : Boolean := False;  --  when ctl_exam changes to True
+   --
    --  Note that the power LED is actually connected to the power rail and not
    --  under program control.
    --
@@ -121,4 +134,12 @@ private
    procedure bounce(d : Duration);
    procedure scan(d : Duration);
    procedure fibonacci(d : Duration);
+   --
+   --  Process the control switches and set flags as appropriate
+   --
+   procedure process_ctrl(d : BBS.embed.uint16);
+   --
+   --  Initialize the various test patterns to their initial state
+   --
+   procedure init_test;
 end;
