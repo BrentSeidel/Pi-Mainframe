@@ -12,7 +12,8 @@ package Sim is
    --
    --  Public data for the simulation
    --
-   --  Is selection automatic (True) or manual (False)
+   --  Is selection automatic (True) or manual (False).  This is set by the web
+   --  interface and can be changed when ctl_auto is True.
    --
    auto_man : Boolean := False;
    --
@@ -134,6 +135,7 @@ private
    procedure bounce(d : Duration);
    procedure scan(d : Duration);
    procedure fibonacci(d : Duration);
+   procedure copy_sw(d : Duration);
    --
    --  Process the control switches and set flags as appropriate
    --

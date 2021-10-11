@@ -304,6 +304,7 @@ You can choose whatever pinout you want for the connectors, however it helps if 
   \item Solder the remaining LEDs on that side and add cable ties between them.  See Figure \ref{fig:LED4}.
   \item Find a place to solder the ground/return wire from the connector to the bare LED ground/return wire.  See Figure \ref{fig:LED6}.
   \item Complete the other side of the panel.  See Figure \ref{fig:LED6}.
+  \item At some point, you may wish to trim the leads on the LEDs.
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -349,6 +350,34 @@ You can choose whatever pinout you want for the connectors, however it helps if 
 \end{figure}
 
 \clearpage
+\subsection{Panel Switches}
+My implementation uses SPST switches where the center connector is common.  When the switch is in the up position, the center and lower connector are connected.  When the switch is in the down position, the center and upper connector are connected.  The MCP23017s have an optional pullup for each input, thus the switches can be used in an open-ground configuration.  The top connectors are tied together and connected to ground.  The center connectors are connected to the individual input pins.
+\begin{itemize}
+  \item Install the switches as shown in Figure \ref{fig:Switch1}.  This example shows a control panel that only has six switches.
+  \item Install the wiring for the switches as shown in Figure \ref{fig:Switch2}.  Since the control panel has only six switches, one of the cable pairs is unused.
+  \item Finally, install the LEDs in the panel as described in Section \ref{subsec:PanelLED} and shown in Figure \ref{fig:Switch3}.
+\end{itemize}
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Switch1.jpg}
+  \caption{Control Panel Switches Showing Switches Installed}
+  \label{fig:Switch1}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Switch2.jpg}
+  \caption{Control Panel Switches Showing Wiring}
+  \label{fig:Switch2}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Switch3.jpg}
+  \caption{Control Panel with Switches and LEDs Installed and Wired}
+  \label{fig:Switch3}
+\end{figure}
+
 %----------------------------------------------------------
 \chapter{Software}
 \section{Overview}

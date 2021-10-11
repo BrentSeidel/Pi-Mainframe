@@ -26,5 +26,5 @@ module flange(frames, off)
   }
 }
 
-rotate([0, 0, 90]) bbs_rack2(10, 6, 4);
-//flange(6, 10);
+//rotate([0, 0, 90]) bbs_rack2(10, 6, 4);
+flange(10, 10);

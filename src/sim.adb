@@ -1,3 +1,4 @@
+with Ada.Exceptions;
 with Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 package body Sim is
@@ -6,10 +7,10 @@ package body Sim is
    --
    task body run is
       package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
-      ad_data       : BBS.embed.uint32 := 0;
-      last_ad_data  : BBS.embed.uint32 := 0;
-      ctl_data      : BBS.embed.uint16 := 0;
-      last_ctl_data : BBS.embed.uint16 := 0;
+--      ad_data       : BBS.embed.uint32 := 0;
+--      last_ad_data  : BBS.embed.uint32 := 0;
+--      ctl_data      : BBS.embed.uint16 := 0;
+--      last_ctl_data : BBS.embed.uint16 := 0;
    begin
       accept Start;
       --
@@ -33,48 +34,67 @@ package body Sim is
       end if;
       if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
          loop
-            i2c.read_addr_data(ad_data, res);
-            sr_ad := ad_data;
-            i2c.read_ctrl(ctl_data, res);
-            process_ctrl(ctl_data);
+            i2c.read_addr_data(sr_ad, res);
+--            sr_ad := ad_data;
+            i2c.read_ctrl(sr_ctl, res);
+            process_ctrl(sr_ctl);
             if ctl_starting then
                init_test;
                ctl_starting := False;
             end if;
-            sr_ctl := ctl_data;
-            if last_ad_data /= ad_data then
-               Ada.Text_IO.Put("Value change from ");
-               Hex_IO.Put(Integer(last_ad_data));
-               Ada.Text_IO.Put(" to ");
-               Hex_IO.Put(Integer(ad_data));
-               Ada.Text_IO.New_Line;
-               last_ad_data := ad_data;
-            end if;
-            if last_ctl_data /= ctl_data then
-               last_ctl_data := ctl_data;
-            end if;
+--            sr_ctl := ctl_data;
+--            if last_ad_data /= ad_data then
+--               Ada.Text_IO.Put("Value change from ");
+--               Hex_IO.Put(Integer(last_ad_data));
+--               Ada.Text_IO.Put(" to ");
+--               Hex_IO.Put(Integer(ad_data));
+--               Ada.Text_IO.New_Line;
+--               last_ad_data := ad_data;
+--            end if;
+--            if last_ctl_data /= ctl_data then
+--               last_ctl_data := ctl_data;
+--            end if;
             if not auto_man then
-               pattern := Natural(ad_data);
+               pattern := Natural(sr_ad);
             end if;
-            case pattern is
-            when 1 =>
-               count(0.1);
-            when 2 =>
-               scan(0.05);
-            when 3 =>
-               bounce(0.05);
-            when 4 =>
-               fibonacci(0.05);
-            when others =>
-               i2c.set_addr_data(ad_data, res);
-               i2c.set_ctrl(ctl_data, res);
-               lr_ad := ad_data;
-               lr_ctl := ctl_data;
-            end case;
+            if ctl_run and ctl_start then
+               case pattern is
+               when 1 =>
+                  count(0.1);
+               when 2 =>
+                  scan(0.05);
+               when 3 =>
+                  bounce(0.05);
+               when 4 =>
+                  fibonacci(0.05);
+               when others =>
+                  copy_sw(0.01);
+--               i2c.set_addr_data(ad_data, res);
+--               i2c.set_ctrl(ctl_data, res);
+--               lr_ad := ad_data;
+--               lr_ctl := ctl_data;
+               end case;
+            else
+               if ctl_deposit then
+                  pattern := Natural(sr_ad);
+                  ctl_deposit := False;
+               end if;
+               copy_sw(0.01);
+            end if;
          end loop;
       else
          Ada.Text_IO.Put_Line("Minimal required hardware not present for simulator.");
       end if;
+   exception
+      when error : others =>
+         --
+         --  Whatever else happens, turn the LEDs off.
+         --
+         i2c.set_addr_data(0, res);
+         i2c.set_ctrl(0, res);
+         Ada.Text_IO.Put_Line("Unexpected exeption in simulator: " &
+                                Ada.Exceptions.Exception_Information(error));
+         raise;
    end run;
    --
    --  Code for the various patterns.
@@ -168,6 +188,15 @@ package body Sim is
          ctl_fib_1 := 1;
          ctl_fib_2 := 2;
       end if;
+      delay d;
+   end;
+   --
+   procedure copy_sw(d : Duration) is
+   begin
+      i2c.set_addr_data(sr_ad, res);
+      i2c.set_ctrl(sr_ctl, res);
+      lr_ad := sr_ad;
+      lr_ctl := sr_ctl;
       delay d;
    end;
    --
