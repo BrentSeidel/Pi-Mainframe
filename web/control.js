@@ -63,6 +63,7 @@ function displayAutoMan(xml)
 {
   var xmlDoc = xml.responseXML;
   var auto_man = xmlDoc.getElementsByTagName("auto-man")[0].childNodes[0].nodeValue;
+  var auto_enable = xmlDoc.getElementsByTagName("auto-enable")[0].childNodes[0].nodeValue;
 
 //  console.log("auto-man value is " + auto_man);
   if (auto_man == "TRUE")
@@ -72,6 +73,14 @@ function displayAutoMan(xml)
   else
   {
     document.getElementById("auto_man").checked = false;
+  }
+  if (auto_enable == "TRUE")
+  {
+    document.getElementById("auto_man").disabled = false;
+  }
+  else
+  {
+    document.getElementById("auto_man").disabled = true;
   }
 }
 //======================================

@@ -22,11 +22,14 @@ package body web.xml is
             when others =>
                value := Sim.auto_man;
          end;
-         Sim.auto_man := value;
+         if sim.ctl_auto then
+            Sim.auto_man := value;
+         end if;
 --      else
 --         Ada.Text_IO.Put_Line("Just returning value of auto_man");
       end if;
-      String'Write(s, "<xml><auto-man>" & Boolean'Image(sim.auto_man) & "</auto-man></xml>");
+      String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.ctl_auto) &
+                   "</auto-enable><auto-man>" & Boolean'Image(sim.auto_man) & "</auto-man></xml>");
    end auto_man;
    --
    --  Get and optionally set the type of the simulation
