@@ -1,3 +1,4 @@
+with Ada.Exceptions;
 with Ada.Text_IO;
 with BBS.embed;
 with BBS.embed.i2c;
@@ -12,6 +13,7 @@ procedure Test is
    package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
    data : BBS.embed.uint16;
    err  : BBS.embed.i2c.err_code;
+   res  : i2c.result;
 begin
    i2c.init_i2c;
    Hex_IO.Default_Width := 4;
@@ -33,4 +35,14 @@ begin
    end loop;
    Sim.run.Start;
    web.start_server;
+exception
+   when error : others =>
+      --
+      --  Whatever else happens, turn the LEDs off.
+      --
+      i2c.set_addr_data(0, res);
+      i2c.set_ctrl(0, res);
+      Ada.Text_IO.Put_Line("Unexpected exeption in simulator: " &
+                             Ada.Exceptions.Exception_Information(error));
+      raise;
 end Test;

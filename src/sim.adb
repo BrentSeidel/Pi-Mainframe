@@ -1,4 +1,3 @@
-with Ada.Exceptions;
 with Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 package body Sim is
@@ -29,13 +28,15 @@ package body Sim is
          Ada.Text_IO.Put_Line("LED mode and control configured");
       end if;
       if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
+         --
+         --  Processing loop
+         --
          loop
             i2c.read_addr_data(sr_ad, res);
             i2c.read_ctrl(sr_ctl, res);
             process_ctrl(sr_ctl);
             if ctl_starting then
                init_test;
-               ctl_starting := False;
             end if;
             if ctl_run and ctl_start then
                case pattern is
@@ -53,24 +54,19 @@ package body Sim is
             else
                if ctl_deposit then
                   pattern := Natural(sr_ad);
-                  ctl_deposit := False;
                end if;
                copy_sw(0.01);
             end if;
+            --
+            --  Reset change flags
+            --
+            ctl_deposit := False;
+            ctl_examine := False;
+            ctl_starting := False;
          end loop;
       else
          Ada.Text_IO.Put_Line("Minimal required hardware not present for simulator.");
       end if;
-   exception
-      when error : others =>
-         --
-         --  Whatever else happens, turn the LEDs off.
-         --
-         i2c.set_addr_data(0, res);
-         i2c.set_ctrl(0, res);
-         Ada.Text_IO.Put_Line("Unexpected exeption in simulator: " &
-                                Ada.Exceptions.Exception_Information(error));
-         raise;
    end run;
    --
    --  Code for the various patterns.
