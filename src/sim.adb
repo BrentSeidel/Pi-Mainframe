@@ -7,10 +7,6 @@ package body Sim is
    --
    task body run is
       package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
---      ad_data       : BBS.embed.uint32 := 0;
---      last_ad_data  : BBS.embed.uint32 := 0;
---      ctl_data      : BBS.embed.uint16 := 0;
---      last_ctl_data : BBS.embed.uint16 := 0;
    begin
       accept Start;
       --
@@ -35,27 +31,11 @@ package body Sim is
       if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
          loop
             i2c.read_addr_data(sr_ad, res);
---            sr_ad := ad_data;
             i2c.read_ctrl(sr_ctl, res);
             process_ctrl(sr_ctl);
             if ctl_starting then
                init_test;
                ctl_starting := False;
-            end if;
---            sr_ctl := ctl_data;
---            if last_ad_data /= ad_data then
---               Ada.Text_IO.Put("Value change from ");
---               Hex_IO.Put(Integer(last_ad_data));
---               Ada.Text_IO.Put(" to ");
---               Hex_IO.Put(Integer(ad_data));
---               Ada.Text_IO.New_Line;
---               last_ad_data := ad_data;
---            end if;
---            if last_ctl_data /= ctl_data then
---               last_ctl_data := ctl_data;
---            end if;
-            if not auto_man then
-               pattern := Natural(sr_ad);
             end if;
             if ctl_run and ctl_start then
                case pattern is
@@ -69,10 +49,6 @@ package body Sim is
                   fibonacci(0.05);
                when others =>
                   copy_sw(0.01);
---               i2c.set_addr_data(ad_data, res);
---               i2c.set_ctrl(ctl_data, res);
---               lr_ad := ad_data;
---               lr_ctl := ctl_data;
                end case;
             else
                if ctl_deposit then
