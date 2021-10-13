@@ -22,4 +22,10 @@ package web.xml is
    procedure sw_led_reg(s : GNAT.Sockets.Stream_Access;
                         h : bbs.web_common.params.Map;
                         p : bbs.web_common.params.Map);
+   --
+   --  Set exit flags
+   --
+   procedure set_exits(s : GNAT.Sockets.Stream_Access;
+                       h : bbs.web_common.params.Map;
+                       p : bbs.web_common.params.Map);
 end;

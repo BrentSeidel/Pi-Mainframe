@@ -56,7 +56,6 @@ package body Sim is
                pattern := Natural(sr_ad);
             end if;
             copy_sw_ad;
---            copy_sw(0.01);
          end if;
          --
          --  Reset change flags

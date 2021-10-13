@@ -1,5 +1,6 @@
 with BBS.embed;
 with BBS.http;
+with BBS.internal;
 with sim;
 --with Ada.Text_IO;
 package body web.xml is
@@ -73,5 +74,16 @@ package body web.xml is
       String'Write(s, "<sr-ctl>" & BBS.embed.uint16'Image(sim.sr_ctl) & "</sr-ctl>");
       String'Write(s, "</xml>");
    end sw_led_reg;
+   --
+   --  Set exit flags.  Sets the simulator exit flag and then request that the
+   --  web server exit.
+   --
+   procedure set_exits(s : GNAT.Sockets.Stream_Access;
+                       h : bbs.web_common.params.Map;
+                       p : bbs.web_common.params.Map)is
+   begin
+      sim.exit_sim := True;
+      BBS.internal.html_set_exit(s, h, p);
+   end set_exits;
    --
 end;

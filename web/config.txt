@@ -10,6 +10,7 @@
 # Internal pages
 #
 /Config show_config internal
+/Exit exit internal
 #
 # Plain text
 #

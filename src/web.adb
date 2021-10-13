@@ -1,7 +1,7 @@
 with Ada.Text_IO;
 with Ada.Exceptions;
 --with bbs.svg;
-with bbs.internal;
+--with bbs.internal;
 with bbs.http;
 with bbs.web_server;
 --with bbs.web_common;
@@ -22,7 +22,7 @@ package body web is
       --  to generate responses.
       --
       internal_map.Insert("show_config", web.internal.show_config'Access);
-      internal_map.Insert("exit", BBS.internal.html_set_exit'Access);
+      internal_map.Insert("exit", web.xml.set_exits'Access);
       --
       internal_map.Insert("auto_man", web.xml.auto_man'Access);
       internal_map.Insert("sim_type", web.xml.sim_type'Access);
