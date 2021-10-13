@@ -27,19 +27,18 @@ package body Sim is
          i2c.MCP23017_info(i2c.LED_CTRL).set_dir(16#0000#, err);
          Ada.Text_IO.Put_Line("LED mode and control configured");
       end if;
-      if i2c.MCP23017_found(i2c.LED_LSW) and i2c.MCP23017_found(i2c.SW_LSW) then
-         --
-         --  Processing loop
-         --
-         loop
-            i2c.read_addr_data(sr_ad, res);
-            i2c.read_ctrl(sr_ctl, res);
-            process_ctrl(sr_ctl);
-            if ctl_starting then
-               init_test;
-            end if;
-            if ctl_run and ctl_start then
-               case pattern is
+      --
+      --  Processing loop
+      --
+      loop
+         i2c.read_addr_data(sr_ad, res);
+         i2c.read_ctrl(sr_ctl, res);
+         process_ctrl(sr_ctl);
+         if ctl_starting then
+            init_test;
+         end if;
+         if ctl_run and ctl_start then
+            case pattern is
                when 1 =>
                   count(0.1);
                when 2 =>
@@ -50,23 +49,25 @@ package body Sim is
                   fibonacci(0.05);
                when others =>
                   copy_sw(0.01);
-               end case;
-            else
-               if ctl_deposit then
-                  pattern := Natural(sr_ad);
-               end if;
-               copy_sw(0.01);
+            end case;
+         else
+            process_mode_ctrl(PROC_USER, ADDR_DATA, sr_ctl);
+            if ctl_deposit then
+               pattern := Natural(sr_ad);
             end if;
-            --
-            --  Reset change flags
-            --
-            ctl_deposit := False;
-            ctl_examine := False;
-            ctl_starting := False;
-         end loop;
-      else
-         Ada.Text_IO.Put_Line("Minimal required hardware not present for simulator.");
-      end if;
+            copy_sw_ad;
+--            copy_sw(0.01);
+         end if;
+         --
+         --  Reset change flags
+         --
+         ctl_deposit := False;
+         ctl_examine := False;
+         ctl_starting := False;
+         exit when exit_sim;
+      end loop;
+      i2c.set_addr_data(0, res);
+      i2c.set_ctrl(0, res);
    end run;
    --
    --  Code for the various patterns.
@@ -163,12 +164,22 @@ package body Sim is
       delay d;
    end;
    --
-   procedure copy_sw(d : Duration) is
+   procedure copy_sw_ad is
    begin
       i2c.set_addr_data(sr_ad, res);
-      i2c.set_ctrl(sr_ctl, res);
       lr_ad := sr_ad;
+   end;
+   --
+   procedure copy_sw_ctl is
+   begin
+      i2c.set_ctrl(sr_ctl, res);
       lr_ctl := sr_ctl;
+   end;
+   --
+   procedure copy_sw(d : Duration) is
+   begin
+      copy_sw_ad;
+      copy_sw_ctl;
       delay d;
    end;
    --
@@ -224,6 +235,19 @@ package body Sim is
       ad_fib_2       := 1;
       ctl_fib_1      := 1;
       ctl_fib_2      := 2;
+   end;
+   --
+   --  Process the mode and control LEDs
+   --
+   procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16) is
+      function p_mode is new Ada.Unchecked_Conversion(Source => proc_mode,
+                                                      Target => BBS.embed.uint8);
+      function p_type is new Ada.Unchecked_Conversion(Source => addr_type,
+                                                      Target => BBS.embed.uint8);
+      data : BBS.embed.uint16 := c and 16#00FC# + LED_CTRL_READY;
+   begin
+      data := data + BBS.embed.uint16(p_mode(m) + p_type(a))*16#0100#;
+      i2c.set_ctrl(data, res);
    end;
    --
 end;

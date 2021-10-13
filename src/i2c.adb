@@ -91,19 +91,25 @@ package body i2c is
       lsw : constant BBS.embed.uint16 := BBS.embed.uint16(d and 16#FFFF#);
       msw : constant BBS.embed.uint16 := BBS.embed.uint16((d/16#10000#) and 16#FFFF#);
    begin
-      if MCP23017_found(LED_LSW) then
-         MCP23017_info(LED_LSW).set_data(lsw, err);
-         if err /= BBS.embed.i2c.none then
-            res := RES_ERR;
-            return;
+      if last_lsw_led /= lsw then
+         if MCP23017_found(LED_LSW) then
+            MCP23017_info(LED_LSW).set_data(lsw, err);
+            if err /= BBS.embed.i2c.none then
+               res := RES_ERR;
+               return;
+            end if;
          end if;
+         last_lsw_led := lsw;
       end if;
-      if MCP23017_found(LED_MSW) then
-         MCP23017_info(LED_MSW).set_data(msw, err);
-         if err /= BBS.embed.i2c.none then
-            res := RES_ERR;
-            return;
+      if last_msw_led /= msw then
+         if MCP23017_found(LED_MSW) then
+            MCP23017_info(LED_MSW).set_data(msw, err);
+            if err /= BBS.embed.i2c.none then
+               res := RES_ERR;
+               return;
+            end if;
          end if;
+         last_msw_led := msw;
       end if;
       if MCP23017_found(LED_LSW) and MCP23017_found(LED_MSW) then
          res := RES_FULL;
@@ -139,20 +145,20 @@ package body i2c is
    procedure set_ctrl(d : BBS.embed.uint16; res : out result) is
       err : BBS.embed.i2c.err_code;
    begin
-      if d = last_ctrl_led then
-         res := RES_FULL;
-         return;
-      end if;
-      last_ctrl_led := d;
-      if MCP23017_found(LED_CTRL) then
-         MCP23017_info(LED_CTRL).set_data(d, err);
-         if err /= BBS.embed.i2c.none then
-            res := RES_ERR;
+      if last_ctrl_led /= d then
+         if MCP23017_found(LED_CTRL) then
+            MCP23017_info(LED_CTRL).set_data(d, err);
+            if err /= BBS.embed.i2c.none then
+               res := RES_ERR;
+            else
+               res := RES_FULL;
+            end if;
          else
-            res := RES_FULL;
+            res := RES_NONE;
          end if;
+         last_ctrl_led := d;
       else
-         res := RES_NONE;
+         res := RES_FULL;
       end if;
    end;
    --

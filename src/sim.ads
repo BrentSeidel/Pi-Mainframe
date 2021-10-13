@@ -37,6 +37,10 @@ package Sim is
    lr_ad  : BBS.embed.uint32 := 0;  -- Address/Data LED register
    lr_ctl : BBS.embed.uint16 := 0;  -- Control/Mode LED register
    --
+   --  Flag to exit simulator loop
+   --
+   exit_sim : Boolean := False;
+   --
    --  Processor modes
    --
    type proc_mode is (PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
@@ -65,25 +69,6 @@ package Sim is
                      CTRL_EXAM  => 16#04#);
    for controls'Size use 8;
    --
-   --  Constants for LEDs
-   --
-   LED_MODE_USER  : constant BBS.embed.uint16 := 16#8000#;
-   LED_MODE_SUP   : constant BBS.embed.uint16 := 16#4000#;
-   LED_MODE_EXEC  : constant BBS.embed.uint16 := 16#2000#;
-   LED_MODE_KERN  : constant BBS.embed.uint16 := 16#1000#;
-   LED_MODE_BLNK  : constant BBS.embed.uint16 := 16#0800#;
-   LED_MODE_INST  : constant BBS.embed.uint16 := 16#0400#;
-   LED_MODE_DATA  : constant BBS.embed.uint16 := 16#0200#;
-   LED_MODE_INTR  : constant BBS.embed.uint16 := 16#0100#;
-   LED_CTRL_RUN   : constant BBS.embed.uint16 := 16#0080#;
-   LED_CTRL_START : constant BBS.embed.uint16 := 16#0040#;
-   LED_CTRL_AUTO  : constant BBS.embed.uint16 := 16#0020#;
-   LED_CTRL_ADDR  : constant BBS.embed.uint16 := 16#0010#;
-   LED_CTRL_DEP   : constant BBS.embed.uint16 := 16#0008#;
-   LED_CTRL_EXAM  : constant BBS.embed.uint16 := 16#0004#;
-   LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
-   LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
-   --
    --  Flags for control switches
    --
    ctl_run      : Boolean := False;
@@ -106,6 +91,25 @@ package Sim is
       entry Start;
    end run;
 private
+   --
+   --  Constants for LEDs
+   --
+   LED_MODE_USER  : constant BBS.embed.uint16 := 16#8000#;
+   LED_MODE_SUP   : constant BBS.embed.uint16 := 16#4000#;
+   LED_MODE_EXEC  : constant BBS.embed.uint16 := 16#2000#;
+   LED_MODE_KERN  : constant BBS.embed.uint16 := 16#1000#;
+   LED_MODE_BLNK  : constant BBS.embed.uint16 := 16#0800#;
+   LED_MODE_INST  : constant BBS.embed.uint16 := 16#0400#;
+   LED_MODE_DATA  : constant BBS.embed.uint16 := 16#0200#;
+   LED_MODE_INTR  : constant BBS.embed.uint16 := 16#0100#;
+   LED_CTRL_RUN   : constant BBS.embed.uint16 := 16#0080#;
+   LED_CTRL_START : constant BBS.embed.uint16 := 16#0040#;
+   LED_CTRL_AUTO  : constant BBS.embed.uint16 := 16#0020#;
+   LED_CTRL_ADDR  : constant BBS.embed.uint16 := 16#0010#;
+   LED_CTRL_DEP   : constant BBS.embed.uint16 := 16#0008#;
+   LED_CTRL_EXAM  : constant BBS.embed.uint16 := 16#0004#;
+   LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
+   LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
    --
    --  Data for the various patterns.
    --
@@ -136,6 +140,8 @@ private
    procedure scan(d : Duration);
    procedure fibonacci(d : Duration);
    procedure copy_sw(d : Duration);
+   procedure copy_sw_ad;
+   procedure copy_sw_ctl;
    --
    --  Process the control switches and set flags as appropriate
    --
@@ -144,4 +150,8 @@ private
    --  Initialize the various test patterns to their initial state
    --
    procedure init_test;
+   --
+   --  Process the mode and control LEDs
+   --
+   procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16);
 end;
