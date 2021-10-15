@@ -17,6 +17,16 @@ This depends on the following repositories:
 * https://github.com/BrentSeidel/Ada-Web-Server.git
 * https://github.com/BrentSeidel/Things.git
 
+If you are actually interested in simulating old computers, you can
+download and build simh from github at https://github.com/simh/simh.git
+I was able to get the PDP-11 sim to build (I haven't tried others) and
+run on a Raspberry Pi.  As far as I know, it has no support for blinking
+lights.
+
+You could, of course run simh in parallel with this project giving a
+CPU simulation as well as lights and switches.  Unfortunately, they would
+be completely independant.  Someday, perhaps this will change.
+
 ## Assembly
 This project will require quite a bit of 3D printing and soldering.  The
 included documentation includes a parts list.  Read the documentation

@@ -53,7 +53,7 @@ package body Sim is
          else
             process_mode_ctrl(PROC_USER, ADDR_DATA, sr_ctl);
             if ctl_deposit then
-               pattern := Natural(sr_ad);
+               pattern := sr_ad;
             end if;
             copy_sw_ad;
          end if;
@@ -181,6 +181,25 @@ package body Sim is
       copy_sw_ctl;
       delay d;
    end;
+   --  --------------------------------------------------------------------
+   --
+   --  Initialize the various test patterns to their initial state
+   --
+   procedure init_test is
+   begin
+      ad_counter     := 0;
+      ctl_counter    := 0;
+      ad_bouncer     := 0;
+      ad_bounce_dir  := left;
+      ctl_bouncer    := 0;
+      ctl_bounce_dir := left;
+      ad_scanner     := 0;
+      ctl_scanner    := 0;
+      ad_fib_1       := 1;
+      ad_fib_2       := 1;
+      ctl_fib_1      := 1;
+      ctl_fib_2      := 2;
+   end;
    --
    --  Process the control switches and set flags as appropriate
    --
@@ -218,24 +237,6 @@ package body Sim is
       end if;
    end;
    --
-   --  Initialize the various test patterns to their initial state
-   --
-   procedure init_test is
-   begin
-      ad_counter     := 0;
-      ctl_counter    := 0;
-      ad_bouncer     := 0;
-      ad_bounce_dir  := left;
-      ctl_bouncer    := 0;
-      ctl_bounce_dir := left;
-      ad_scanner     := 0;
-      ctl_scanner    := 0;
-      ad_fib_1       := 1;
-      ad_fib_2       := 1;
-      ctl_fib_1      := 1;
-      ctl_fib_2      := 2;
-   end;
-   --
    --  Process the mode and control LEDs
    --
    procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16) is
@@ -247,6 +248,18 @@ package body Sim is
    begin
       data := data + BBS.embed.uint16(p_mode(m) + p_type(a))*16#0100#;
       i2c.set_ctrl(data, res);
+   end;
+   --
+   --  Get and set the selected test pattern
+   --
+   procedure set_pattern(p : Natural) is
+   begin
+      pattern := BBS.embed.uint32(p);
+   end;
+   --
+   function get_pattern return Natural is
+   begin
+      return Natural(pattern);
    end;
    --
 end;

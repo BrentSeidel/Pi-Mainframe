@@ -39,7 +39,7 @@ package body web.xml is
                       h : bbs.web_common.params.Map;
                       p : bbs.web_common.params.Map) is
       pragma Unreferenced(h);
-      value : Natural := Sim.pattern;
+      value : Natural := Sim.get_pattern;
    begin
       bbs.http.ok(s, "application/xml");
       if (bbs.web_common.params.Contains(p, "sim-type")) then
@@ -49,13 +49,13 @@ package body web.xml is
             value := Natural'Value(bbs.web_common.params.Element(p, "sim-type"));
          exception
             when others =>
-               value := Sim.pattern;
+               value := Sim.get_pattern;
          end;
-         Sim.pattern := value;
+         Sim.set_pattern(value);
 --      else
 --         Ada.Text_IO.Put_Line("Just returning value of pattern");
       end if;
-      String'Write(s, "<xml><pattern>" & Natural'Image(sim.pattern) & "</pattern></xml>");
+      String'Write(s, "<xml><pattern>" & Natural'Image(sim.get_pattern) & "</pattern></xml>");
    end sim_type;
    --
    --  Get switch and LED register values.  Currently read-only

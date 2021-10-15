@@ -21,3 +21,4 @@ test
 *.synctex.gz
 *.toc
 *.lof
+*.lot

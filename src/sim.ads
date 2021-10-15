@@ -13,19 +13,9 @@ package Sim is
    --  Public data for the simulation
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
-   --  interface and can be changed when ctl_auto is True.
+   --  interface and can only be changed when ctl_auto is True.
    --
    auto_man : Boolean := False;
-   --
-   --  Which pattern to select:
-   --    0 - Copy switches
-   --    1 - count
-   --    2 - bounce
-   --    3 - scan
-   --    4 - fibbonacci
-   --    others - Copy switches
-   --
-   pattern : Natural := 0;
    --
    --  Switch settings (switch registers)
    --
@@ -90,6 +80,13 @@ package Sim is
    task run is
       entry Start;
    end run;
+   --
+   --  Simulator external interfaces
+   --
+   --  Get and set the selected test pattern
+   --
+   procedure set_pattern(p : Natural);
+   function get_pattern return Natural;
 private
    --
    --  Constants for LEDs
@@ -110,6 +107,16 @@ private
    LED_CTRL_EXAM  : constant BBS.embed.uint16 := 16#0004#;
    LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
    LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
+   --
+   --  Which pattern to select:
+   --    0 - Copy switches
+   --    1 - count
+   --    2 - bounce
+   --    3 - scan
+   --    4 - fibbonacci
+   --    others - Copy switches
+   --
+   pattern : BBS.embed.uint32 := 0;
    --
    --  Data for the various patterns.
    --
@@ -143,13 +150,13 @@ private
    procedure copy_sw_ad;
    procedure copy_sw_ctl;
    --
-   --  Process the control switches and set flags as appropriate
-   --
-   procedure process_ctrl(d : BBS.embed.uint16);
-   --
    --  Initialize the various test patterns to their initial state
    --
    procedure init_test;
+   --
+   --  Process the control switches and set flags as appropriate
+   --
+   procedure process_ctrl(d : BBS.embed.uint16);
    --
    --  Process the mode and control LEDs
    --

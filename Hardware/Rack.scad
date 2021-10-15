@@ -16,11 +16,11 @@ module flange(frames, off)
     {
       for(a = [10:20:(frames*20)])
       {
-        translate([a, -1, 10]) rotate([-90, 0, 0]) cylinder(r=screw_rad, h=6);
+        translate([a, -1, 10]) rotate([-90, 0, 0]) cylinder(r=screw_rad, h=6, $fn=12);
       }
-      for(a = [off:25:(frames*20)])
+      for(a = [off:25.2:(frames*20)])
       {
-        translate([a, 37.2-11, -1]) cylinder(r=hole_rad, h=6);
+        translate([a, 37.2-12, -1]) cylinder(r=hole_rad, h=6);
       }
     }
   }
