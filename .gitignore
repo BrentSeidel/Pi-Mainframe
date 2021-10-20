@@ -4,8 +4,9 @@
 # All files in the objects directory
 obj/*
 
-# The executable file
+# The executable files
 test
+lamp
 
 # Ada Library Information
 *.ali
