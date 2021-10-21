@@ -42,10 +42,18 @@ package body Sim is
                when 1 =>
                   count(0.1);
                when 2 =>
-                  scan(0.05);
+                  scan16(0.05);
                when 3 =>
-                  bounce(0.05);
+                  bounce16(0.05);
                when 4 =>
+                  fibonacci(0.05);
+               when 9 =>
+                  count(0.1);
+               when 10 =>
+                  scan32(0.05);
+               when 11 =>
+                  bounce32(0.05);
+               when 12 =>
                   fibonacci(0.05);
                when others =>
                   copy_sw(0.01);
@@ -82,7 +90,46 @@ package body Sim is
       delay d;
    end;
    --
-   procedure bounce(d : Duration) is
+   procedure bounce16(d : Duration) is
+   begin
+      if ad_bounce_dir = left then
+         if (ad_bouncer and 16#FFFF#) = 0 then
+            ad_bounce_dir := right;
+            ad_bouncer := 16#8000#;
+         else
+            ad_bouncer := ad_bouncer * 2;
+         end if;
+      else
+         if (ad_bouncer and 16#FFFF#) = 0 then
+            ad_bounce_dir := left;
+            ad_bouncer := 16#0001#;
+         else
+            ad_bouncer := ad_bouncer / 2;
+         end if;
+      end if;
+      if ctl_bounce_dir = left then
+         if ctl_bouncer = 0 then
+            ctl_bounce_dir := right;
+            ctl_bouncer := 16#8000#;
+         else
+            ctl_bouncer := ctl_bouncer * 2;
+         end if;
+      else
+         if ctl_bouncer = 1 then
+            ctl_bounce_dir := left;
+            ctl_bouncer := 16#0002#;
+         else
+            ctl_bouncer := ctl_bouncer / 2;
+         end if;
+      end if;
+      i2c.set_addr_data(ad_bouncer, res);
+      lr_ad := ad_bouncer;
+      i2c.set_ctrl(ctl_bouncer, res);
+      lr_ctl := ctl_bouncer;
+      delay d;
+   end;
+   --
+   procedure bounce32(d : Duration) is
    begin
       if ad_bounce_dir = left then
          if ad_bouncer = 0 then
@@ -121,7 +168,26 @@ package body Sim is
       delay d;
    end;
    --
-   procedure scan(d : Duration) is
+   procedure scan16(d : Duration) is
+   begin
+      if (ad_scanner and 16#FFFF#) = 0 then
+         ad_scanner := 1;
+      else
+         ad_scanner := ad_scanner * 2;
+      end if;
+      if ctl_scanner = 0 then
+         ctl_scanner := 2;
+      else
+         ctl_scanner := ctl_scanner * 2;
+      end if;
+      i2c.set_addr_data(ad_scanner, res);
+      lr_ad := ad_scanner;
+      i2c.set_ctrl(ctl_scanner, res);
+      lr_ctl := ctl_scanner;
+      delay d;
+   end;
+   --
+   procedure scan32(d : Duration) is
    begin
       if ad_scanner = 0 then
          ad_scanner := 1;

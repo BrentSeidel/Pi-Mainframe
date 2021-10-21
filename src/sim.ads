@@ -143,8 +143,10 @@ private
    --  Code for the various patterns.
    --
    procedure count(d : Duration);
-   procedure bounce(d : Duration);
-   procedure scan(d : Duration);
+   procedure bounce16(d : Duration);
+   procedure bounce32(d : Duration);
+   procedure scan16(d : Duration);
+   procedure scan32(d : Duration);
    procedure fibonacci(d : Duration);
    procedure copy_sw(d : Duration);
    procedure copy_sw_ad;
