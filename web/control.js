@@ -123,9 +123,47 @@ function displaySimType(xml)
   var sim_type = Number(xmlDoc.getElementsByTagName("pattern")[0].childNodes[0].nodeValue);
   var ids = ["sim-copy", "sim-count", "sim-scan", "sim-bounce", "sim-fib"][sim_type];
 
-//  console.log("Sim-type array is: " + ids);
-//  console.log("sim-type value is " + sim_type + " (" + ids + ")");
-  document.getElementById(ids).checked = true;
+  if (sim_type == 1)
+  {
+    document.getElementById("sim-count").checked = true;
+    return;
+  }
+  if (sim_type == 2)
+  {
+    document.getElementById("sim-scan16").checked = true;
+    return;
+  }
+  if (sim_type == 3)
+  {
+    document.getElementById("sim-bounce16").checked = true;
+    return;
+  }
+  if (sim_type == 4)
+  {
+    document.getElementById("sim-fib").checked = true;
+    return;
+  }
+  if (sim_type == 9)
+  {
+    document.getElementById("sim-count").checked = true;
+    return;
+  }
+  if (sim_type == 10)
+  {
+    document.getElementById("sim-scan32").checked = true;
+    return;
+  }
+  if (sim_type == 11)
+  {
+    document.getElementById("sim-bounce32").checked = true;
+    return;
+  }
+  if (sim_type == 12)
+  {
+    document.getElementById("sim-fib").checked = true;
+    return;
+  }
+  document.getElementById("sim-copy").checked = true;
 }
 //======================================
 //
