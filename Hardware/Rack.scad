@@ -2,7 +2,10 @@ use <../../Things/bbs_rack.scad>
 
 screw_rad = 4.5/2;
 hole_rad = 5.0;
-
+//
+//  Note that this flange is not symmetrical.  You can't just print two of them, one of them
+//  will need to be a reflection.  Otherwise the holes won't line up properly.
+//
 module flange(frames, off)
 {
   difference()
@@ -27,4 +30,5 @@ module flange(frames, off)
 }
 
 //rotate([0, 0, 90]) bbs_rack2(10, 6, 4);
-flange(10, 10);
+//flange(10, 10);
+scale([1, -1, 1]) flange(10, 10);

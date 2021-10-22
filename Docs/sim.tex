@@ -426,10 +426,60 @@ You can go with just plugging a USB power adapter into the micro-USB connector o
 %----------------------------------------------------------
 \chapter{Software}
 \section{Overview}
+Currently, the software has two main interfaces.  The first is the switches and lights.  The second is a web interface.
 
 \section{Simulation}
 
+\begin{table}
+  \label{tbl:Simulations}
+  \caption{Simulations Available}
+  \centering
+  \begin{tabular}{|r|l|}
+    \hline
+    0 & Copy Switch Values\\
+    1 & Count\\
+    2 & 16-bit Scan\\
+    3 & 16-bit Bounce\\
+    4 & Fibonacci Sequence\\
+    9 & Count\\
+    10 & 32-bit Scan\\
+    11 & 32-bit Bounce\\
+    12 & Fibonacci Sequence\\
+    \hline
+    other & Copy Switch Values\\
+    \hline
+  \end{tabular}
+\end{table}
+
+There are a number of ``simulations'' available for testing or display.  The desired simulation can be selected either using the switches, or, if enabled, using the web interface.  The following is a description of the control switches:
+\begin{itemize}
+  \item The \switch{Power}{Off} switch is intended to be hardwired to the power supply.  There is no program function.
+  \item The \position{Exam} switch has no current function.
+  \item The \position{Dep} switch is used to select which simulation to run.
+  \item The \switch{Addr}{Data} switch has no current function.
+  \item The \switch{Auto}{Man} switch enables simulation selection by the web interface when in the \position{Auto} position.
+  \item The \switch{Start}{Stop} switch sets all simulation variables to their initial state when moved to the \position{Start} position.  It also must be in the \position{Start} position for the simulation to run.
+  \item The \switch{Run}{Pause} switch temporarily pauses a simulation when in the \position{Pause} position.  The simulation continues running without initialization when the switch is moved to the \position{Run} position.
+\end{itemize}
+
+Note that for a simulation to run, both the \switch{Start}{Stop} switch must be in the \position{Start} position and the \switch{Run}{Pause} switch must be in the \position{Run} position.
+
+On program initialization, simulation 0 (Copy Switch Values) is selected by default.  To select a different simulation, make sure that either the \switch{Run}{Pause} switch is in the \position{Pause} position or the \switch{Start}{Stop} switch is in the \position{Stop} position.  Then:
+\begin{itemize}
+  \item Using the \switch{Addr}{Data} switches, select the desired simulation as listed in Table \ref{tbl:Simulations}.
+  \item Move the \position{Dep} switch to the \switch{Dep} position.  You may need to move it to the unlabeled position first.
+  \item Move the \position{Dep} switch to the unlabeled position.
+  \item Move the \switch{Run}{Pause} switch to the \position{Run} position.
+  \item Move the \switch{Start}{Stop} switch to the \position{Start} position.
+\end{itemize}
+
+Unless you wish to reset the simulation values, you should always leave the \switch{Start}{Stop} switch in the \position{Start} position.
+
 \section{Web Server}
+The web interface is available on port 31415 (configurable in web.adb).  It uses plain, unencrypted HTTP.
+
+\section{Other Software}
+To enhance the experience, you can install some old computer emulation software (such as simh, available at https://github.com/simh/simh).  Note that this will run completely independent from the lights and switch in this project.
 
 \end{document}
 
