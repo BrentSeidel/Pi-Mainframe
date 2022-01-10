@@ -89,24 +89,13 @@ package Sim is
                       ADDR_INST => 16#04#);
    for addr_type'Size use 8;
    --
-   --  Control switches/LEDs
-   --
---   type controls is (CTRL_EXAM, CRTL_DEP, CTRL_ADDR, CTRL_AUTO, CTRL_START, CTRL_RUN);
---   for controls use (CTRL_RUN   => 16#80#,
---                     CTRL_START => 16#40#,
---                     CTRL_AUTO  => 16#20#,
---                     CTRL_ADDR  => 16#10#,
---                     CRTL_DEP   => 16#08#,
---                     CTRL_EXAM  => 16#04#);
---   for controls'Size use 8;
-   --
    --  Flags for control switches
    --
-   ctl_run      : Boolean := False;
+--   ctl_run      : Boolean := False;
    ctl_start    : Boolean := False;
    ctl_starting : Boolean := False;  --  When ctl_start changes to True
-   ctl_auto     : Boolean := False;
-   ctl_addr     : Boolean := False;
+--   ctl_auto     : Boolean := False;
+--   ctl_addr     : Boolean := False;
    ctl_dep      : Boolean := False;
    ctl_deposit  : Boolean := False;  --  when ctl_dep changes to True
    ctl_exam     : Boolean := False;

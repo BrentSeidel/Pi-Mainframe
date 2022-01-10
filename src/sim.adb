@@ -34,11 +34,11 @@ package body Sim is
          i2c.read_addr_data(sr_ad, res);
          i2c.read_ctrl(sr_ctl, res);
          process_ctrl;
---         process_ctrl(sr_ctl);
          if ctl_starting then
             init_test;
          end if;
-         if ctl_run and ctl_start then
+         if sw_ctrl.run and sw_ctrl.start then
+--         if ctl_run and ctl_start then
             case pattern is
                when 1 =>
                   count(0.1);
@@ -271,46 +271,33 @@ package body Sim is
    --  Process the control switches and set flags as appropriate
    --
    procedure process_ctrl is
---   procedure process_ctrl(d : BBS.embed.uint16) is
---      function CTL_SW is new Ada.Unchecked_Conversion(Source => controls,
---                                                      Target => BBS.embed.uint8);
---      t : constant BBS.embed.uint8 := BBS.embed.uint8(d and 16#FF#);
    begin
---      ctl_run := (t and CTL_SW(CTRL_RUN)) /= 0;
-      ctl_run := sw_ctrl.run;
+--      ctl_run := sw_ctrl.run;
       if not ctl_start then
          ctl_start := sw_ctrl.start;
---         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
          if ctl_start then
             ctl_starting := True;
          end if;
       else
          ctl_start := sw_ctrl.start;
---         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
       end if;
-      ctl_auto := sw_ctrl.auto;
---      ctl_auto := (t and CTL_SW(CTRL_AUTO)) /= 0;
-      ctl_addr := sw_ctrl.addr;
---      ctl_addr := (t and CTL_SW(CTRL_ADDR)) /= 0;
+--      ctl_auto := sw_ctrl.auto;
+--      ctl_addr := sw_ctrl.addr;
       if not ctl_dep then
          ctl_dep := sw_ctrl.dep;
---         ctl_dep := (t and CTL_SW(CRTL_DEP)) /= 0;
          if ctl_dep then
             ctl_deposit := True;
          end if;
       else
          ctl_dep := sw_ctrl.dep;
---         ctl_dep := (t and CTL_SW(CRTL_DEP)) /= 0;
       end if;
       if not ctl_exam then
          ctl_exam := sw_ctrl.exam;
---         ctl_exam := (t and CTL_SW(CTRL_EXAM)) /= 0;
          if ctl_exam then
             ctl_examine := True;
          end if;
       else
          ctl_exam := sw_ctrl.exam;
---         ctl_exam := (t and CTL_SW(CTRL_EXAM)) /= 0;
       end if;
    end;
    --

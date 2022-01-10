@@ -2,7 +2,6 @@ with BBS.embed;
 with BBS.http;
 with BBS.internal;
 with sim;
---with Ada.Text_IO;
 package body web.xml is
    --
    --  Get and optionally set the state of the auto_man flag
@@ -15,21 +14,19 @@ package body web.xml is
    begin
       bbs.http.ok(s, "application/xml");
       if (bbs.web_common.params.Contains(p, "auto-man")) then
---         Ada.Text_IO.Put_Line("Setting auto_man to <" &
---                                bbs.web_common.params.Element(p, "auto-man") & ">");
          begin
             value := Boolean'Value(bbs.web_common.params.Element(p, "auto-man"));
          exception
             when others =>
                value := Sim.auto_man;
          end;
-         if sim.ctl_auto then
+         if sim.sw_ctrl.auto then
+--         if sim.ctl_auto then
             Sim.auto_man := value;
          end if;
---      else
---         Ada.Text_IO.Put_Line("Just returning value of auto_man");
       end if;
-      String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.ctl_auto) &
+--      String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.ctl_auto) &
+      String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.sw_ctrl.auto) &
                    "</auto-enable><auto-man>" & Boolean'Image(sim.auto_man) & "</auto-man></xml>");
    end auto_man;
    --
@@ -43,8 +40,6 @@ package body web.xml is
    begin
       bbs.http.ok(s, "application/xml");
       if (bbs.web_common.params.Contains(p, "sim-type")) then
---         Ada.Text_IO.Put_Line("Setting pattern to <" &
---                                bbs.web_common.params.Element(p, "sim-type") & ">");
          begin
             value := Natural'Value(bbs.web_common.params.Element(p, "sim-type"));
          exception
@@ -52,8 +47,6 @@ package body web.xml is
                value := Sim.get_pattern;
          end;
          Sim.set_pattern(value);
---      else
---         Ada.Text_IO.Put_Line("Just returning value of pattern");
       end if;
       String'Write(s, "<xml><pattern>" & Natural'Image(sim.get_pattern) & "</pattern></xml>");
    end sim_type;
