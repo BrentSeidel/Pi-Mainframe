@@ -91,14 +91,14 @@ package Sim is
    --
    --  Control switches/LEDs
    --
-   type controls is (CTRL_EXAM, CRTL_DEP, CTRL_ADDR, CTRL_AUTO, CTRL_START, CTRL_RUN);
-   for controls use (CTRL_RUN   => 16#80#,
-                     CTRL_START => 16#40#,
-                     CTRL_AUTO  => 16#20#,
-                     CTRL_ADDR  => 16#10#,
-                     CRTL_DEP   => 16#08#,
-                     CTRL_EXAM  => 16#04#);
-   for controls'Size use 8;
+--   type controls is (CTRL_EXAM, CRTL_DEP, CTRL_ADDR, CTRL_AUTO, CTRL_START, CTRL_RUN);
+--   for controls use (CTRL_RUN   => 16#80#,
+--                     CTRL_START => 16#40#,
+--                     CTRL_AUTO  => 16#20#,
+--                     CTRL_ADDR  => 16#10#,
+--                     CRTL_DEP   => 16#08#,
+--                     CTRL_EXAM  => 16#04#);
+--   for controls'Size use 8;
    --
    --  Flags for control switches
    --
@@ -203,7 +203,8 @@ private
    --
    --  Process the control switches and set flags as appropriate
    --
-   procedure process_ctrl(d : BBS.embed.uint16);
+   procedure process_ctrl;
+--   procedure process_ctrl(d : BBS.embed.uint16);
    --
    --  Process the mode and control LEDs
    --
