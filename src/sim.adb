@@ -274,14 +274,17 @@ package body Sim is
                                                       Target => BBS.embed.uint8);
       t : constant BBS.embed.uint8 := BBS.embed.uint8(d and 16#FF#);
    begin
-      ctl_run := (t and CTL_SW(CTRL_RUN)) /= 0;
+--      ctl_run := (t and CTL_SW(CTRL_RUN)) /= 0;
+      ctl_run := sw_ctrl.run;
       if not ctl_start then
-         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
+         ctl_start := sw_ctrl.start;
+--         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
          if ctl_start then
             ctl_starting := True;
          end if;
       else
-         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
+         ctl_start := sw_ctrl.start;
+--         ctl_start := (t and CTL_SW(CTRL_START)) /= 0;
       end if;
       ctl_auto := (t and CTL_SW(CTRL_AUTO)) /= 0;
       ctl_addr := (t and CTL_SW(CTRL_ADDR)) /= 0;

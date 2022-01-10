@@ -7,7 +7,8 @@ with i2c;
 with Sim;
 with web;
 --
---  This is a simple shell routine to call the embedded lisp interpreter.
+--  The main routine does some initializatio and then starts the simulato and
+--  web server.
 --
 procedure Test is
    package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);

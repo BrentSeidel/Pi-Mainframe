@@ -12,6 +12,43 @@ package Sim is
    --
    --  Public data for the simulation
    --
+   type ctrl_mode is record
+      unused0 : Boolean;  --  LED/Switch 0 is hardwired to power
+      ready : Boolean;    --  LED only
+      exam : Boolean;     --  Examine
+      dep  : Boolean;     --  Deposit
+      addr : Boolean;     --  Address/Data
+      auto : Boolean;     --  Auto/Man, enable remote control via web server
+      start : Boolean;    --  Start
+      run  : Boolean;     --  Run
+      inter : Boolean;    --  LED only, interrupt mode
+      data : Boolean;     --  LED only, data mode
+      inst : Boolean;     --  LED only, instruction mode
+      blnk : Boolean;     --  LED only, blank
+      kern : Boolean;     --  LED only, kernel mode
+      exec : Boolean;     --  LED only, executive mode
+      sup  : Boolean;     --  LED only, supervisor mode
+      user : Boolean;     --  LED only, user mode
+   end record;
+   for ctrl_mode use record
+      unused0 at 0 range 0 .. 0;
+      ready at 0 range 1 .. 1;
+      exam at 0 range 2 .. 2;
+      dep  at 0 range 3 .. 3;
+      addr at 0 range 4 .. 4;
+      auto at 0 range 5 .. 5;
+      start at 0 range 6 .. 6;
+      run  at 0 range 7 .. 7;
+      inter at 0 range 8 .. 8;
+      data at 0 range 9 .. 9;
+      inst at 0 range 10 .. 10;
+      blnk at 0 range 11 .. 11;
+      kern at 0 range 12 .. 12;
+      exec at 0 range 13 .. 13;
+      sup  at 0 range 14 .. 14;
+      user at 0 range 15 .. 15;
+   end record;
+   --
    --  Is selection automatic (True) or manual (False).  This is set by the web
    --  interface and can only be changed when ctl_auto is True.
    --
@@ -21,11 +58,15 @@ package Sim is
    --
    sr_ad  : BBS.embed.uint32 := 0;  -- Address/Data switch register
    sr_ctl : BBS.embed.uint16 := 0;  -- Control switch register
+   sw_ctrl : ctrl_mode with
+     Address => sr_ctl'Address;
    --
    --  LED settings (LED registers)
    --
    lr_ad  : BBS.embed.uint32 := 0;  -- Address/Data LED register
    lr_ctl : BBS.embed.uint16 := 0;  -- Control/Mode LED register
+   lr_ctrl : ctrl_mode with
+     Address => lr_ctl'Address;
    --
    --  Flag to exit simulator loop
    --
@@ -91,29 +132,33 @@ private
    --
    --  Constants for LEDs
    --
-   LED_MODE_USER  : constant BBS.embed.uint16 := 16#8000#;
-   LED_MODE_SUP   : constant BBS.embed.uint16 := 16#4000#;
-   LED_MODE_EXEC  : constant BBS.embed.uint16 := 16#2000#;
-   LED_MODE_KERN  : constant BBS.embed.uint16 := 16#1000#;
-   LED_MODE_BLNK  : constant BBS.embed.uint16 := 16#0800#;
-   LED_MODE_INST  : constant BBS.embed.uint16 := 16#0400#;
-   LED_MODE_DATA  : constant BBS.embed.uint16 := 16#0200#;
-   LED_MODE_INTR  : constant BBS.embed.uint16 := 16#0100#;
-   LED_CTRL_RUN   : constant BBS.embed.uint16 := 16#0080#;
-   LED_CTRL_START : constant BBS.embed.uint16 := 16#0040#;
-   LED_CTRL_AUTO  : constant BBS.embed.uint16 := 16#0020#;
-   LED_CTRL_ADDR  : constant BBS.embed.uint16 := 16#0010#;
-   LED_CTRL_DEP   : constant BBS.embed.uint16 := 16#0008#;
-   LED_CTRL_EXAM  : constant BBS.embed.uint16 := 16#0004#;
+--   LED_MODE_USER  : constant BBS.embed.uint16 := 16#8000#;
+--   LED_MODE_SUP   : constant BBS.embed.uint16 := 16#4000#;
+--   LED_MODE_EXEC  : constant BBS.embed.uint16 := 16#2000#;
+--   LED_MODE_KERN  : constant BBS.embed.uint16 := 16#1000#;
+--   LED_MODE_BLNK  : constant BBS.embed.uint16 := 16#0800#;
+--   LED_MODE_INST  : constant BBS.embed.uint16 := 16#0400#;
+--   LED_MODE_DATA  : constant BBS.embed.uint16 := 16#0200#;
+--   LED_MODE_INTR  : constant BBS.embed.uint16 := 16#0100#;
+--   LED_CTRL_RUN   : constant BBS.embed.uint16 := 16#0080#;
+--   LED_CTRL_START : constant BBS.embed.uint16 := 16#0040#;
+--   LED_CTRL_AUTO  : constant BBS.embed.uint16 := 16#0020#;
+--   LED_CTRL_ADDR  : constant BBS.embed.uint16 := 16#0010#;
+--   LED_CTRL_DEP   : constant BBS.embed.uint16 := 16#0008#;
+--   LED_CTRL_EXAM  : constant BBS.embed.uint16 := 16#0004#;
    LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
-   LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
+--   LED_CTRL_POWER : constant BBS.embed.uint16 := 16#0001#;
    --
    --  Which pattern to select:
-   --    0 - Copy switches
-   --    1 - count
-   --    2 - bounce
-   --    3 - scan
-   --    4 - fibbonacci
+   --     0 - Copy switches
+   --     1 - count
+   --     2 - scan 16-bit
+   --     3 - bounce 16-bit
+   --     4 - fibbonacci
+   --     9 - count
+   --    10 - scan 32-bit
+   --    11 - bounce 32-bit
+   --    12 - fibbonacci
    --    others - Copy switches
    --
    pattern : BBS.embed.uint32 := 0;
