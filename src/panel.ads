@@ -76,7 +76,8 @@ package Panel is
    --
    lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
    lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
-   lr_ctrl : ctrl_mode with
+   lr_ctrl : ctrl_mode := (atype => ADDR_DATA, mode => PROC_USER,
+                           others => False) with
      Address => lr_ctl'Address;
    --
    --  Flag to exit simulator loop

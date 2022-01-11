@@ -65,6 +65,8 @@ package body Panel is
             end if;
             copy_sw_ad;
          end if;
+         i2c.set_addr_data(lr_ad, res);
+         i2c.set_ctrl(lr_ctl, res);
          --
          --  Reset change flags
          --
@@ -83,8 +85,6 @@ package body Panel is
    begin
       ad_counter := ad_counter + 1;
       ctl_counter := ctl_counter + 2;
-      i2c.set_addr_data(ad_counter, res);
-      i2c.set_ctrl(ctl_counter, res);
       lr_ad := ad_counter;
       lr_ctl := ctl_counter;
       delay d;
@@ -122,9 +122,7 @@ package body Panel is
             ctl_bouncer := ctl_bouncer / 2;
          end if;
       end if;
-      i2c.set_addr_data(ad_bouncer, res);
       lr_ad := ad_bouncer;
-      i2c.set_ctrl(ctl_bouncer, res);
       lr_ctl := ctl_bouncer;
       delay d;
    end;
@@ -161,9 +159,7 @@ package body Panel is
             ctl_bouncer := ctl_bouncer / 2;
          end if;
       end if;
-      i2c.set_addr_data(ad_bouncer, res);
       lr_ad := ad_bouncer;
-      i2c.set_ctrl(ctl_bouncer, res);
       lr_ctl := ctl_bouncer;
       delay d;
    end;
@@ -180,9 +176,7 @@ package body Panel is
       else
          ctl_scanner := ctl_scanner * 2;
       end if;
-      i2c.set_addr_data(ad_scanner, res);
       lr_ad := ad_scanner;
-      i2c.set_ctrl(ctl_scanner, res);
       lr_ctl := ctl_scanner;
       delay d;
    end;
@@ -199,9 +193,7 @@ package body Panel is
       else
          ctl_scanner := ctl_scanner * 2;
       end if;
-      i2c.set_addr_data(ad_scanner, res);
       lr_ad := ad_scanner;
-      i2c.set_ctrl(ctl_scanner, res);
       lr_ctl := ctl_scanner;
       delay d;
    end;
@@ -210,8 +202,6 @@ package body Panel is
       ad_temp : constant BBS.embed.uint32 := ad_fib_1 + ad_fib_2;
       ctl_temp : constant BBS.embed.uint16 := ctl_fib_1 + ctl_fib_2;
    begin
-      i2c.set_addr_data(ad_temp, res);
-      i2c.set_ctrl(ctl_temp, res);
       lr_ad := ad_temp;
       ad_fib_2 := ad_fib_1;
       ad_fib_1 := ad_temp;
@@ -231,13 +221,13 @@ package body Panel is
    --
    procedure copy_sw_ad is
    begin
-      i2c.set_addr_data(sr_ad, res);
+--      i2c.set_addr_data(sr_ad, res);
       lr_ad := sr_ad;
    end;
    --
    procedure copy_sw_ctl is
    begin
-      i2c.set_ctrl(sr_ctl, res);
+--      i2c.set_ctrl(sr_ctl, res);
       lr_ctl := sr_ctl;
    end;
    --
@@ -295,13 +285,11 @@ package body Panel is
    --  Process the mode and control LEDs
    --
    procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16) is
-      data : aliased BBS.embed.uint16 := c;
-      reg : ctrl_mode with address => data'Address;
    begin
-      reg.ready := True;
-      reg.mode  := m;
-      reg.atype := a;
-      i2c.set_ctrl(data, res);
+      lr_ctl := c;
+      lr_ctrl.ready := True;
+      lr_ctrl.mode  := m;
+      lr_ctrl.atype := a;
    end;
    --
    --  Get and set the selected test pattern
