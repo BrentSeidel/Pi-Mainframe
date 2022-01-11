@@ -21,11 +21,9 @@ package body web.xml is
                value := Sim.auto_man;
          end;
          if sim.sw_ctrl.auto then
---         if sim.ctl_auto then
             Sim.auto_man := value;
          end if;
       end if;
---      String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.ctl_auto) &
       String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.sw_ctrl.auto) &
                    "</auto-enable><auto-man>" & Boolean'Image(sim.auto_man) & "</auto-man></xml>");
    end auto_man;

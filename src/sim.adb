@@ -69,9 +69,9 @@ package body Sim is
          --
          --  Reset change flags
          --
-         ctl_deposit := False;
-         ctl_examine := False;
-         ctl_starting := False;
+         pvt_deposit := False;
+         pvt_examine := False;
+         pvt_starting := False;
          exit when exit_sim;
       end loop;
       i2c.set_addr_data(0, res);
@@ -268,49 +268,40 @@ package body Sim is
       ctl_fib_2      := 2;
    end;
    --
-   --  Process the control switches and set flags as appropriate
+   --  Process the control switches that have action based on a transition to
+   --  the True state.
    --
    procedure process_ctrl is
    begin
---      ctl_run := sw_ctrl.run;
       if not ctl_start then
-         ctl_start := sw_ctrl.start;
          if ctl_start then
-            ctl_starting := True;
+            pvt_starting := True;
          end if;
-      else
-         ctl_start := sw_ctrl.start;
       end if;
---      ctl_auto := sw_ctrl.auto;
---      ctl_addr := sw_ctrl.addr;
       if not ctl_dep then
-         ctl_dep := sw_ctrl.dep;
          if ctl_dep then
-            ctl_deposit := True;
+            pvt_deposit := True;
          end if;
-      else
-         ctl_dep := sw_ctrl.dep;
       end if;
       if not ctl_exam then
-         ctl_exam := sw_ctrl.exam;
          if ctl_exam then
-            ctl_examine := True;
+            pvt_examine := True;
          end if;
-      else
-         ctl_exam := sw_ctrl.exam;
       end if;
+      ctl_start := sw_ctrl.start;
+      ctl_dep   := sw_ctrl.dep;
+      ctl_exam  := sw_ctrl.exam;
    end;
    --
    --  Process the mode and control LEDs
    --
    procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16) is
-      function p_mode is new Ada.Unchecked_Conversion(Source => proc_mode,
-                                                      Target => BBS.embed.uint8);
-      function p_type is new Ada.Unchecked_Conversion(Source => addr_type,
-                                                      Target => BBS.embed.uint8);
-      data : BBS.embed.uint16 := c and 16#00FC# + LED_CTRL_READY;
+      data : aliased BBS.embed.uint16 := c;
+      reg : ctrl_mode with address => data'Address;
    begin
-      data := data + BBS.embed.uint16(p_mode(m) + p_type(a))*16#0100#;
+      reg.ready := True;
+      reg.mode  := m;
+      reg.atype := a;
       i2c.set_ctrl(data, res);
    end;
    --
