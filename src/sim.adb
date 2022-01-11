@@ -31,14 +31,13 @@ package body Sim is
       --  Processing loop
       --
       loop
-         i2c.read_addr_data(sr_ad, res);
-         i2c.read_ctrl(sr_ctl, res);
+         i2c.read_addr_data(pvt_sr_ad, res);
+         i2c.read_ctrl(pvt_sr_ctl, res);
          process_ctrl;
          if ctl_starting then
             init_test;
          end if;
          if sw_ctrl.run and sw_ctrl.start then
---         if ctl_run and ctl_start then
             case pattern is
                when 1 =>
                   count(0.1);

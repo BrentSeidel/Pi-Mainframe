@@ -16,6 +16,7 @@ package Sim is
    --  Processor modes
    --
    type proc_mode is (PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
+   --
    for proc_mode use (PROC_KERN => 16#1#,
                       PROC_EXEC => 16#2#,
                       PROC_SUP  => 16#4#,
@@ -25,6 +26,7 @@ package Sim is
    --  Address types
    --
    type addr_type is (ADDR_INTR, ADDR_DATA, ADDR_INST);
+   --
    for addr_type use (ADDR_INTR => 16#01#,
                       ADDR_DATA => 16#02#,
                       ADDR_INST => 16#04#);
@@ -32,30 +34,31 @@ package Sim is
    --
    --  Control and mode switches and LEDs
    type ctrl_mode is record
-      unused0 : Boolean;  --  LED/Switch 0 is hardwired to power
-      ready : Boolean;    --  LED only
-      exam : Boolean;     --  Examine
-      dep  : Boolean;     --  Deposit
-      addr : Boolean;     --  Address/Data
-      auto : Boolean;     --  Auto/Man, enable remote control via web server
-      start : Boolean;    --  Start
-      run  : Boolean;     --  Run
-      atype : addr_type;    --  LED only, address type
-      blnk : Boolean;     --  LED only, blank
-      mode : proc_mode;   --  LED only, processor mode
+      unused0 : Boolean;    --  LED/Switch 0 is hardwired to power
+      ready   : Boolean;    --  LED only
+      exam    : Boolean;    --  Examine
+      dep     : Boolean;    --  Deposit
+      addr    : Boolean;    --  Address/Data
+      auto    : Boolean;    --  Auto/Man, enable remote control via web server
+      start   : Boolean;    --  Start
+      run     : Boolean;    --  Run
+      atype   : addr_type;  --  LED only, address type
+      blank   : Boolean;    --  LED only, blank
+      mode    : proc_mode;  --  LED only, processor mode
    end record;
+   --
    for ctrl_mode use record
-      unused0 at 0 range 0 .. 0;
-      ready at 0 range 1 .. 1;
-      exam at 0 range 2 .. 2;
-      dep  at 0 range 3 .. 3;
-      addr at 0 range 4 .. 4;
-      auto at 0 range 5 .. 5;
-      start at 0 range 6 .. 6;
-      run  at 0 range 7 .. 7;
-      atype at 0 range 8 .. 10;
-      blnk at 0 range 11 .. 11;
-      mode at 0 range 12 .. 15;
+      unused0 at 0 range  0 ..  0;
+      ready   at 0 range  1 ..  1;
+      exam    at 0 range  2 ..  2;
+      dep     at 0 range  3 ..  3;
+      addr    at 0 range  4 ..  4;
+      auto    at 0 range  5 ..  5;
+      start   at 0 range  6 ..  6;
+      run     at 0 range  7 ..  7;
+      atype   at 0 range  8 .. 10;
+      blank   at 0 range 11 .. 11;
+      mode    at 0 range 12 .. 15;
    end record;
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
@@ -63,17 +66,16 @@ package Sim is
    --
    auto_man : Boolean := False;
    --
-   --  Switch settings (switch registers)
+   --  Switch settings (switch registers).  These are read only
    --
-   sr_ad  : aliased BBS.embed.uint32 := 0;  -- Address/Data switch register
-   sr_ctl : BBS.embed.uint16 := 0;  -- Control switch register
-   sw_ctrl : ctrl_mode with
-     Address => sr_ctl'Address;
+   function sr_ad   return BBS.embed.uint32;  --  Address/Data switches
+   function sr_ctl  return BBS.embed.uint16;  --  Control switches
+   function sw_ctrl return ctrl_mode;         --  Control switches
    --
    --  LED settings (LED registers)
    --
-   lr_ad  : aliased BBS.embed.uint32 := 0;  -- Address/Data LED register
-   lr_ctl : BBS.embed.uint16 := 0;  -- Control/Mode LED register
+   lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
+   lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
    lr_ctrl : ctrl_mode with
      Address => lr_ctl'Address;
    --
@@ -106,6 +108,16 @@ package Sim is
    function get_pattern return Natural;
 private
    --
+   --  Switch settings (switch registers).  These are read only
+   --
+   pvt_sr_ad  : BBS.embed.uint32 := 0;          -- Address/Data switch register
+   pvt_sr_ctl : aliased BBS.embed.uint16 := 0;  -- Control switch register
+   pvt_sw_ctrl : ctrl_mode with
+     Address => sr_ctl'Address;
+   function sr_ad   return BBS.embed.uint32 is (pvt_sr_ad);
+   function sr_ctl  return BBS.embed.uint16 is (pvt_sr_ctl);
+   function sw_ctrl return ctrl_mode is (pvt_sw_ctrl);
+   --
    --  Local switch flags for detecting switch changes
    --
    ctl_start    : Boolean := False;
@@ -117,10 +129,6 @@ private
    function ctl_starting return Boolean is (pvt_starting);
    function ctl_deposit  return Boolean is (pvt_deposit);
    function ctl_examine  return Boolean is (pvt_examine);
-   --
-   --  Constants for LEDs
-   --
-   LED_CTRL_READY : constant BBS.embed.uint16 := 16#0002#;
    --
    --  Which pattern to select:
    --     0 - Copy switches
