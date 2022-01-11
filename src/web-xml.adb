@@ -1,7 +1,7 @@
 with BBS.embed;
 with BBS.http;
 with BBS.internal;
-with sim;
+with Panel;
 package body web.xml is
    --
    --  Get and optionally set the state of the auto_man flag
@@ -10,7 +10,7 @@ package body web.xml is
                       h : bbs.web_common.params.Map;
                       p : bbs.web_common.params.Map) is
       pragma Unreferenced(h);
-      value : Boolean := Sim.auto_man;
+      value : Boolean := Panel.auto_man;
    begin
       bbs.http.ok(s, "application/xml");
       if (bbs.web_common.params.Contains(p, "auto-man")) then
@@ -18,14 +18,14 @@ package body web.xml is
             value := Boolean'Value(bbs.web_common.params.Element(p, "auto-man"));
          exception
             when others =>
-               value := Sim.auto_man;
+               value := Panel.auto_man;
          end;
-         if sim.sw_ctrl.auto then
-            Sim.auto_man := value;
+         if Panel.sw_ctrl.auto then
+            Panel.auto_man := value;
          end if;
       end if;
-      String'Write(s, "<xml><auto-enable>" & Boolean'Image(sim.sw_ctrl.auto) &
-                   "</auto-enable><auto-man>" & Boolean'Image(sim.auto_man) & "</auto-man></xml>");
+      String'Write(s, "<xml><auto-enable>" & Boolean'Image(Panel.sw_ctrl.auto) &
+                   "</auto-enable><auto-man>" & Boolean'Image(Panel.auto_man) & "</auto-man></xml>");
    end auto_man;
    --
    --  Get and optionally set the type of the simulation
@@ -34,7 +34,7 @@ package body web.xml is
                       h : bbs.web_common.params.Map;
                       p : bbs.web_common.params.Map) is
       pragma Unreferenced(h);
-      value : Natural := Sim.get_pattern;
+      value : Natural := Panel.get_pattern;
    begin
       bbs.http.ok(s, "application/xml");
       if (bbs.web_common.params.Contains(p, "sim-type")) then
@@ -42,11 +42,11 @@ package body web.xml is
             value := Natural'Value(bbs.web_common.params.Element(p, "sim-type"));
          exception
             when others =>
-               value := Sim.get_pattern;
+               value := Panel.get_pattern;
          end;
-         Sim.set_pattern(value);
+         Panel.set_pattern(value);
       end if;
-      String'Write(s, "<xml><pattern>" & Natural'Image(sim.get_pattern) & "</pattern></xml>");
+      String'Write(s, "<xml><pattern>" & Natural'Image(Panel.get_pattern) & "</pattern></xml>");
    end sim_type;
    --
    --  Get switch and LED register values.  Currently read-only
@@ -59,10 +59,10 @@ package body web.xml is
    begin
       bbs.http.ok(s, "application/xml");
       String'Write(s, "<xml>");
-      String'Write(s, "<lr-ad>" & BBS.embed.uint32'Image(sim.lr_ad) & "</lr-ad>");
-      String'Write(s, "<lr-ctl>" & BBS.embed.uint16'Image(sim.lr_ctl) & "</lr-ctl>");
-      String'Write(s, "<sr-ad>" & BBS.embed.uint32'Image(sim.sr_ad) & "</sr-ad>");
-      String'Write(s, "<sr-ctl>" & BBS.embed.uint16'Image(sim.sr_ctl) & "</sr-ctl>");
+      String'Write(s, "<lr-ad>" & BBS.embed.uint32'Image(Panel.lr_ad) & "</lr-ad>");
+      String'Write(s, "<lr-ctl>" & BBS.embed.uint16'Image(Panel.lr_ctl) & "</lr-ctl>");
+      String'Write(s, "<sr-ad>" & BBS.embed.uint32'Image(Panel.sr_ad) & "</sr-ad>");
+      String'Write(s, "<sr-ctl>" & BBS.embed.uint16'Image(Panel.sr_ctl) & "</sr-ctl>");
       String'Write(s, "</xml>");
    end sw_led_reg;
    --
@@ -73,7 +73,7 @@ package body web.xml is
                        h : bbs.web_common.params.Map;
                        p : bbs.web_common.params.Map)is
    begin
-      sim.exit_sim := True;
+      Panel.exit_sim := True;
       BBS.internal.html_set_exit(s, h, p);
    end set_exits;
    --

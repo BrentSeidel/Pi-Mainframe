@@ -1,6 +1,6 @@
 with Ada.Text_IO;
 with Ada.Unchecked_Conversion;
-package body Sim is
+package body Panel is
    --
    --  Run the LED patterns
    --

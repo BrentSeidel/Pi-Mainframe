@@ -8,7 +8,7 @@ with i2c;
 --  This package contains information and code for the simulator.  Right now,
 --  it just blinks lights in interesting patterns.
 --
-package Sim is
+package Panel is
    --
    --  Public data for the simulation
    --
