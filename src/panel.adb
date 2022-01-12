@@ -33,7 +33,7 @@ package body Panel is
       loop
          i2c.read_addr_data(pvt_sr_ad, res);
          i2c.read_ctrl(pvt_sr_ctl, res);
-         process_ctrl;
+         process_switch;
          if ctl_starting then
             init_test;
          end if;
@@ -60,7 +60,7 @@ package body Panel is
             end case;
          else
             process_mode_ctrl(PROC_USER, ADDR_DATA, sr_ctl);
-            if ctl_deposit then
+            if pvt_deposit then
                pattern := sr_ad;
             end if;
             copy_sw_ad;
@@ -221,13 +221,11 @@ package body Panel is
    --
    procedure copy_sw_ad is
    begin
---      i2c.set_addr_data(sr_ad, res);
       lr_ad := sr_ad;
    end;
    --
    procedure copy_sw_ctl is
    begin
---      i2c.set_ctrl(sr_ctl, res);
       lr_ctl := sr_ctl;
    end;
    --
@@ -260,20 +258,20 @@ package body Panel is
    --  Process the control switches that have action based on a transition to
    --  the True state.
    --
-   procedure process_ctrl is
+   procedure process_switch is
    begin
       if not ctl_start then
-         if ctl_start then
+         if sw_ctrl.start then
             pvt_starting := True;
          end if;
       end if;
       if not ctl_dep then
-         if ctl_dep then
+         if sw_ctrl.dep then
             pvt_deposit := True;
          end if;
       end if;
       if not ctl_exam then
-         if ctl_exam then
+         if sw_ctrl.exam then
             pvt_examine := True;
          end if;
       end if;

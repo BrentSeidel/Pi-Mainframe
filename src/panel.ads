@@ -114,7 +114,7 @@ private
    pvt_sr_ad  : BBS.embed.uint32 := 0;          -- Address/Data switch register
    pvt_sr_ctl : aliased BBS.embed.uint16 := 0;  -- Control switch register
    pvt_sw_ctrl : ctrl_mode with
-     Address => sr_ctl'Address;
+     Address => pvt_sr_ctl'Address;
    function sr_ad   return BBS.embed.uint32 is (pvt_sr_ad);
    function sr_ctl  return BBS.embed.uint16 is (pvt_sr_ctl);
    function sw_ctrl return ctrl_mode is (pvt_sw_ctrl);
@@ -185,7 +185,7 @@ private
    --
    --  Process the control switches and set flags as appropriate
    --
-   procedure process_ctrl;
+   procedure process_switch;
    --
    --  Process the mode and control LEDs
    --
