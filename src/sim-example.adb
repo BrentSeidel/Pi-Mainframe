@@ -65,9 +65,31 @@ package body Sim.example is
    --
    --  Called once when the Examine switch is moved to the Examine position.
    --
---   overriding
---   procedure examine(self : in out simple) is null;
-
+   overriding
+   procedure examine(self : in out simple) is
+   begin
+      Panel.lr_ad := self.pattern;
+   end;
+   --
+   --  Called to set a memory value
+   --
+   overriding
+   procedure set_mem(self : in out simple; addr : BBS.embed.uint32;
+                     data : BBS.embed.uint32) is
+      pragma Unreferenced(addr);
+   begin
+      self.pattern := data;
+   end;
+   --
+   --  Called to read a memory value
+   --
+   overriding
+   function read_mem(self : in out simple; addr : BBS.embed.uint32) return
+     BBS.embed.uint32 is
+      pragma Unreferenced(addr);
+   begin
+      return self.pattern;
+   end;
    --
    --  Code for the various patterns.
    --

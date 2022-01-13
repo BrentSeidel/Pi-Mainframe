@@ -1,7 +1,7 @@
 with BBS.embed;
 --use type BBS.embed.uint8;
-use type BBS.embed.uint16;
-use type BBS.embed.uint32;
+--use type BBS.embed.uint16;
+--use type BBS.embed.uint32;
 with BBS.embed.i2c;
 with i2c;
 with sim;
@@ -21,9 +21,10 @@ package Panel is
    --
    --  Processor modes
    --
-   type proc_mode is (PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
+   type proc_mode is (PROC_NONE, PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
    --
-   for proc_mode use (PROC_KERN => 16#1#,
+   for proc_mode use (PROC_NONE => 0,
+                      PROC_KERN => 16#1#,
                       PROC_EXEC => 16#2#,
                       PROC_SUP  => 16#4#,
                       PROC_USER => 16#8#);
@@ -31,9 +32,10 @@ package Panel is
    --
    --  Address types
    --
-   type addr_type is (ADDR_INTR, ADDR_DATA, ADDR_INST);
+   type addr_type is (ADDR_NONE, ADDR_INTR, ADDR_DATA, ADDR_INST);
    --
-   for addr_type use (ADDR_INTR => 16#01#,
+   for addr_type use (ADDR_NONE => 0,
+                      ADDR_INTR => 16#01#,
                       ADDR_DATA => 16#02#,
                       ADDR_INST => 16#04#);
    for addr_type'Size use 3;
@@ -149,45 +151,45 @@ private
    --    12 - fibbonacci
    --    others - Copy switches
    --
-   pattern : BBS.embed.uint32 := 0;
+--   pattern : BBS.embed.uint32 := 0;
    --
    --  Data for the various patterns.
    --
-   ad_counter : BBS.embed.uint32 := 0;
-   ctl_counter : BBS.embed.uint16 := 0;
+--   ad_counter : BBS.embed.uint32 := 0;
+--   ctl_counter : BBS.embed.uint16 := 0;
 
-   type bounce_type is (left, right);
-   ad_bouncer : BBS.embed.uint32 := 0;
-   ad_bounce_dir : bounce_type := left;
-   ctl_bouncer : BBS.embed.uint16 := 0;
-   ctl_bounce_dir : bounce_type := left;
+--   type bounce_type is (left, right);
+--   ad_bouncer : BBS.embed.uint32 := 0;
+--   ad_bounce_dir : bounce_type := left;
+--   ctl_bouncer : BBS.embed.uint16 := 0;
+--   ctl_bounce_dir : bounce_type := left;
 
-   ad_scanner : BBS.embed.uint32 := 0;
-   ctl_scanner : BBS.embed.uint16 := 0;
+--   ad_scanner : BBS.embed.uint32 := 0;
+--   ctl_scanner : BBS.embed.uint16 := 0;
 
-   ad_fib_1 : BBS.embed.uint32 := 1;
-   ad_fib_2 : BBS.embed.uint32 := 1;
-   ctl_fib_1 : BBS.embed.uint16 := 1;
-   ctl_fib_2 : BBS.embed.uint16 := 2;
+--   ad_fib_1 : BBS.embed.uint32 := 1;
+--   ad_fib_2 : BBS.embed.uint32 := 1;
+--   ctl_fib_1 : BBS.embed.uint16 := 1;
+--   ctl_fib_2 : BBS.embed.uint16 := 2;
 
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
    --
    --  Code for the various patterns.
    --
-   procedure count(d : Duration);
-   procedure bounce16(d : Duration);
-   procedure bounce32(d : Duration);
-   procedure scan16(d : Duration);
-   procedure scan32(d : Duration);
-   procedure fibonacci(d : Duration);
+--   procedure count(d : Duration);
+--   procedure bounce16(d : Duration);
+--   procedure bounce32(d : Duration);
+--   procedure scan16(d : Duration);
+--   procedure scan32(d : Duration);
+--   procedure fibonacci(d : Duration);
    procedure copy_sw(d : Duration);
    procedure copy_sw_ad;
    procedure copy_sw_ctl;
    --
    --  Initialize the various test patterns to their initial state
    --
-   procedure init_test;
+--   procedure init_test;
    --
    --  Process the control switches and set flags as appropriate
    --

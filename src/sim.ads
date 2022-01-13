@@ -1,3 +1,4 @@
+with BBS.embed;
 package Sim is
    --
    --  This package describes an interaface that the panel can used to control
@@ -31,6 +32,16 @@ package Sim is
    --  Called once when the Examine switch is moved to the Examine position.
    --
    procedure examine(self : in out simulator) is abstract;
+   --
+   --  Called to set a memory value
+   --
+   procedure set_mem(self : in out simulator; addr : BBS.embed.uint32;
+                     data : BBS.embed.uint32) is abstract;
+   --
+   --  Called to read a memory value
+   --
+   function read_mem(self : in out simulator; addr : BBS.embed.uint32) return
+     BBS.embed.uint32 is abstract;
 
 private
    type simulator is abstract tagged record

@@ -28,7 +28,19 @@ package Sim.example is
    --  Called once when the Examine switch is moved to the Examine position.
    --
    overriding
-   procedure examine(self : in out simple) is null;
+   procedure examine(self : in out simple);
+   --
+   --  Called to set a memory value
+   --
+   overriding
+   procedure set_mem(self : in out simple; addr : BBS.embed.uint32;
+                     data : BBS.embed.uint32);
+   --
+   --  Called to read a memory value
+   --
+   overriding
+   function read_mem(self : in out simple; addr : BBS.embed.uint32) return
+     BBS.embed.uint32;
 
 private
    --
