@@ -5,6 +5,7 @@ package Sim is
    --  of multiple simulator.
    --
    type simulator is abstract tagged private;
+   type sim_access is access all simulator'Class;
    --
    --  The actual interface.  These are routines that are called under specific
    --  circumstances.  They can examine the switch register to further decide

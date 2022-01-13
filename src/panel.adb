@@ -36,7 +36,7 @@ package body Panel is
          process_switch;
          if ctl_starting then
             init_test;
-            simulate.start;
+            simulate.all.start;
          end if;
          if sw_ctrl.run and sw_ctrl.start then
             case pattern is
@@ -63,9 +63,9 @@ package body Panel is
             process_mode_ctrl(PROC_USER, ADDR_DATA, sr_ctl);
             if pvt_deposit then
                pattern := sr_ad;
-               simulate.deposit;
+               simulate.all.deposit;
             elsif pvt_examine then
-               simulate.examine;
+               simulate.all.examine;
             end if;
             copy_sw_ad;
          end if;
