@@ -4,6 +4,8 @@ use type BBS.embed.uint16;
 use type BBS.embed.uint32;
 with BBS.embed.i2c;
 with i2c;
+with sim;
+with sim.example;
 --
 --  This package contains information and code for the simulator.  Right now,
 --  it just blinks lights in interesting patterns.
@@ -108,6 +110,10 @@ package Panel is
    procedure set_pattern(p : Natural);
    function get_pattern return Natural;
 private
+   --
+   --  Simulator
+   --
+   simulate : Sim.example.simple;
    --
    --  Switch settings (switch registers).  These are read only
    --
