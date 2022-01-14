@@ -42,6 +42,10 @@ package Sim is
    --
    function read_mem(self : in out simulator; addr : BBS.embed.uint32) return
      BBS.embed.uint32 is abstract;
+   --
+   --  Called when not running to report a change in the addr/data switch
+   --
+   procedure change_addr_data(self : in out simulator) is abstract;
 
 private
    type simulator is abstract tagged record

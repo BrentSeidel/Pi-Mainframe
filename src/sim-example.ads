@@ -41,6 +41,11 @@ package Sim.example is
    overriding
    function read_mem(self : in out simple; addr : BBS.embed.uint32) return
      BBS.embed.uint32;
+   --
+   --  Called when not running to report a change in the addr/data switch
+   --
+   overriding
+   procedure change_addr_data(self : in out simple);
 
 private
    --
@@ -59,6 +64,7 @@ private
    type bounce_type is (left, right);
 
    type simple is new simulator with record
+      addr : BBS.embed.uint32 := 0;
       pattern : BBS.embed.uint32 := 0;
       --
       --  Data for the various patterns.

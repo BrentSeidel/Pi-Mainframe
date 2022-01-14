@@ -60,7 +60,12 @@ package body Sim.example is
    overriding
    procedure deposit(self : in out simple) is
    begin
-      self.pattern := Panel.sr_ad;
+      if Panel.sw_ctrl.addr then
+         self.addr := Panel.sr_ad;
+      else
+         self.pattern := Panel.sr_ad;
+         self.addr := self.addr + 1;
+      end if;
    end;
    --
    --  Called once when the Examine switch is moved to the Examine position.
@@ -68,7 +73,12 @@ package body Sim.example is
    overriding
    procedure examine(self : in out simple) is
    begin
-      Panel.lr_ad := self.pattern;
+      if Panel.sw_ctrl.addr then
+         Panel.lr_ad := self.addr;
+      else
+         Panel.lr_ad := self.pattern;
+         self.addr := self.addr + 1;
+      end if;
    end;
    --
    --  Called to set a memory value
@@ -90,6 +100,21 @@ package body Sim.example is
    begin
       return self.pattern;
    end;
+   --
+   --  Called when not running to report a change in the addr/data switch.  This
+   --  works basically like examine, except that the address is not incremented.
+   --
+   overriding
+   procedure change_addr_data(self : in out simple) is
+   begin
+      if Panel.sw_ctrl.addr then
+         Panel.lr_ad := self.addr;
+      else
+         Panel.lr_ad := self.pattern;
+         self.addr := self.addr + 1;
+      end if;
+   end;
+   --  --------------------------------------------------------------------
    --
    --  Code for the various patterns.
    --

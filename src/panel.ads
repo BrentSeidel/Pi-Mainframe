@@ -1,11 +1,7 @@
 with BBS.embed;
---use type BBS.embed.uint8;
---use type BBS.embed.uint16;
---use type BBS.embed.uint32;
 with BBS.embed.i2c;
 with i2c;
 with sim;
---with sim.example;
 --
 --  This package contains information and code for the simulator.  Right now,
 --  it just blinks lights in interesting patterns.
@@ -41,6 +37,7 @@ package Panel is
    for addr_type'Size use 3;
    --
    --  Control and mode switches and LEDs
+   --
    type ctrl_mode is record
       unused0 : Boolean;    --  LED/Switch 0 is hardwired to power
       ready   : Boolean;    --  LED only
@@ -135,61 +132,13 @@ private
    pvt_starting : Boolean := False;  --  When ctl_start changes to True
    pvt_deposit  : Boolean := False;  --  when ctl_dep changes to True
    pvt_examine  : Boolean := False;  --  when ctl_exam changes to True
+   last_addr    : Boolean := False;  --  Last value of sw_ctrl.addr
    function ctl_starting return Boolean is (pvt_starting);
    function ctl_deposit  return Boolean is (pvt_deposit);
    function ctl_examine  return Boolean is (pvt_examine);
    --
-   --  Which pattern to select:
-   --     0 - Copy switches
-   --     1 - count
-   --     2 - scan 16-bit
-   --     3 - bounce 16-bit
-   --     4 - fibbonacci
-   --     9 - count
-   --    10 - scan 32-bit
-   --    11 - bounce 32-bit
-   --    12 - fibbonacci
-   --    others - Copy switches
-   --
---   pattern : BBS.embed.uint32 := 0;
-   --
-   --  Data for the various patterns.
-   --
---   ad_counter : BBS.embed.uint32 := 0;
---   ctl_counter : BBS.embed.uint16 := 0;
-
---   type bounce_type is (left, right);
---   ad_bouncer : BBS.embed.uint32 := 0;
---   ad_bounce_dir : bounce_type := left;
---   ctl_bouncer : BBS.embed.uint16 := 0;
---   ctl_bounce_dir : bounce_type := left;
-
---   ad_scanner : BBS.embed.uint32 := 0;
---   ctl_scanner : BBS.embed.uint16 := 0;
-
---   ad_fib_1 : BBS.embed.uint32 := 1;
---   ad_fib_2 : BBS.embed.uint32 := 1;
---   ctl_fib_1 : BBS.embed.uint16 := 1;
---   ctl_fib_2 : BBS.embed.uint16 := 2;
-
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
-   --
-   --  Code for the various patterns.
-   --
---   procedure count(d : Duration);
---   procedure bounce16(d : Duration);
---   procedure bounce32(d : Duration);
---   procedure scan16(d : Duration);
---   procedure scan32(d : Duration);
---   procedure fibonacci(d : Duration);
-   procedure copy_sw(d : Duration);
-   procedure copy_sw_ad;
-   procedure copy_sw_ctl;
-   --
-   --  Initialize the various test patterns to their initial state
-   --
---   procedure init_test;
    --
    --  Process the control switches and set flags as appropriate
    --
