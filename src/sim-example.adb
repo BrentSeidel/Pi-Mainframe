@@ -62,8 +62,10 @@ package body Sim.example is
    begin
       if Panel.sw_ctrl.addr then
          self.addr := Panel.sr_ad;
+         Panel.lr_ad := self.addr;
       else
          self.pattern := Panel.sr_ad;
+         Panel.lr_ad := self.pattern;
          self.addr := self.addr + 1;
       end if;
    end;
@@ -111,7 +113,6 @@ package body Sim.example is
          Panel.lr_ad := self.addr;
       else
          Panel.lr_ad := self.pattern;
-         self.addr := self.addr + 1;
       end if;
    end;
    --  --------------------------------------------------------------------
