@@ -138,9 +138,12 @@ package body BBS.Sim.example is
    overriding
    function read_reg(self : in out simple; num : BBS.embed.uint32)
                      return BBS.embed.uint32 is
-      pragma Unreferenced(num);
    begin
-      return 0;
+      if num < reg_id'Pos(reg_id'Last) then
+         return self.reg(reg_id'Val(num));
+      else
+         return 0;
+      end if;
    end;
    --
    --  Called to set register value
