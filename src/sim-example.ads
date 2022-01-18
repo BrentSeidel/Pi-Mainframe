@@ -4,6 +4,9 @@ with i2c;
 package Sim.example is
    type simple is new simulator with private;
    --
+   --  ----------------------------------------------------------------------
+   --  Simulator control
+   --
    --  Called first to initialize the simulator
    --
    overriding
@@ -30,22 +33,56 @@ package Sim.example is
    overriding
    procedure examine(self : in out simple);
    --
+   --  ----------------------------------------------------------------------
+   --  Simulator information
+   --
+   --  Called to get simulator name
+   --
+   overriding
+   function name(self : in out simple) return String is ("Example simulator");
+   --
+   --  Called to get simulator memory size
+   --
+   overriding
+   function mem_size(self : in out simple) return BBS.embed.uint32 is (0);
+   --
+   --  Called to get number of registers
+   --
+   overriding
+   function registers(self : in out simple) return BBS.embed.uint32;
+   --
+   --  ----------------------------------------------------------------------
+   --  Simulator data
+   --
    --  Called to set a memory value
    --
    overriding
-   procedure set_mem(self : in out simple; addr : BBS.embed.uint32;
+   procedure set_mem(self : in out simple; mem_addr : BBS.embed.uint32;
                      data : BBS.embed.uint32);
    --
    --  Called to read a memory value
    --
    overriding
-   function read_mem(self : in out simple; addr : BBS.embed.uint32) return
+   function read_mem(self : in out simple; mem_addr : BBS.embed.uint32) return
      BBS.embed.uint32;
    --
-   --  Called when not running to report a change in the addr/data switch
+   --  Called to get register name
    --
    overriding
-   procedure change_addr_data(self : in out simple);
+   function reg_name(self : in out simple; num : BBS.embed.uint32)
+                     return String;
+   --
+   --  Called to get register value
+   --
+   overriding
+   function read_reg(self : in out simple; num : BBS.embed.uint32)
+                     return BBS.embed.uint32;
+   --
+   --  Called to set register value
+   --
+   overriding
+   procedure set_reg(self : in out simple; num : BBS.embed.uint32;
+                     data : BBS.embed.uint32) is null;
 
 private
    --
@@ -62,28 +99,28 @@ private
    --    others - Copy switches
    --
    type bounce_type is (left, right);
+   type reg_id is (addr,          --  Address register
+                   pattern,       --  Selected pattern
+                   ad_counter,    --  Address/Data LED counter
+                   ctl_counter,   --  Control LED counter
+                   ad_bouncer,    --  Address/Data LED bouncer
+                   ctl_bouncer,   --  Control LED bouncer
+                   ad_scanner,    --  Address/Data LED scanner
+                   ctl_scanner,   --  Control LED scanner
+                   ad_fib1,       --  Address/Data LED Fibonacci value 1
+                   ad_fib2,       --  Address/Data LED Fibonacci value 2
+                   ctl_fib1,      --  Control LED Fibonacci value 1
+                   ctl_fib2);     --  Control LED Fibonacci value 2
+   type reg_array is array (reg_id) of BBS.embed.uint32;
 
    type simple is new simulator with record
-      addr : BBS.embed.uint32 := 0;
-      pattern : BBS.embed.uint32 := 0;
+      reg : reg_array := (ad_fib1 => 1, ad_fib2 => 1, ctl_fib1 => 1,
+                          ctl_fib2 => 2, others => 0);
       --
       --  Data for the various patterns.
       --
-      ad_counter : BBS.embed.uint32 := 0;
-      ctl_counter : BBS.embed.uint16 := 0;
-      --
-      ad_bouncer : BBS.embed.uint32 := 0;
       ad_bounce_dir : bounce_type := left;
-      ctl_bouncer : BBS.embed.uint16 := 0;
       ctl_bounce_dir : bounce_type := left;
-      --
-      ad_scanner : BBS.embed.uint32 := 0;
-      ctl_scanner : BBS.embed.uint16 := 0;
-      --
-      ad_fib_1 : BBS.embed.uint32 := 1;
-      ad_fib_2 : BBS.embed.uint32 := 1;
-      ctl_fib_1 : BBS.embed.uint16 := 1;
-      ctl_fib_2 : BBS.embed.uint16 := 2;
    end record;
 
    err  : BBS.embed.i2c.err_code;

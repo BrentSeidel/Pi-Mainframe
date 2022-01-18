@@ -4,24 +4,27 @@ use type BBS.embed.uint16;
 use type BBS.embed.uint32;
 package body Sim.example is
    --
+   --  ----------------------------------------------------------------------
+   --  Simulator control
+   --
    --  Called once when Start/Stop switch is moved to start position
    --
    overriding
    procedure start(self : in out simple) is
    begin
-      self.pattern := 0;
-      self.ad_counter := 0;
-      self.ctl_counter := 0;
-      self.ad_bouncer := 0;
+      self.reg(pattern) := 0;
+      self.reg(ad_counter) := 0;
+      self.reg(ctl_counter) := 0;
+      self.reg(ad_bouncer) := 0;
       self.ad_bounce_dir := left;
-      self.ctl_bouncer := 0;
+      self.reg(ctl_bouncer) := 0;
       self.ctl_bounce_dir := left;
-      self.ad_scanner := 0;
-      self.ctl_scanner := 0;
-      self.ad_fib_1 := 1;
-      self.ad_fib_2 := 1;
-      self.ctl_fib_1 := 1;
-      self.ctl_fib_2 := 2;
+      self.reg(ad_scanner) := 0;
+      self.reg(ctl_scanner) := 0;
+      self.reg(ad_fib1) := 1;
+      self.reg(ad_fib2) := 1;
+      self.reg(ctl_fib1) := 1;
+      self.reg(ctl_fib2) := 2;
    end;
    --
    --  Called once per frame when start/stop is in the start position and run/pause
@@ -31,7 +34,8 @@ package body Sim.example is
    procedure run(self : in out simple) is
       d : Duration := 0.05;
    begin
-      case self.pattern is
+      Panel.lr_addr := self.reg(pattern);
+      case self.reg(pattern) is
          when 1 =>
             self.count;
          when 2 =>
@@ -61,13 +65,13 @@ package body Sim.example is
    procedure deposit(self : in out simple) is
    begin
       if Panel.sw_ctrl.addr then
-         self.addr := Panel.sr_ad;
-         Panel.lr_ad := self.addr;
+         self.reg(addr) := Panel.sr_ad;
       else
-         self.pattern := Panel.sr_ad;
-         Panel.lr_ad := self.pattern;
-         self.addr := self.addr + 1;
+         self.reg(pattern) := Panel.sr_ad;
+         Panel.lr_data := self.reg(pattern);
+         self.reg(addr) := self.reg(addr) + 1;
       end if;
+      Panel.lr_addr := self.reg(addr);
    end;
    --
    --  Called once when the Examine switch is moved to the Examine position.
@@ -75,185 +79,215 @@ package body Sim.example is
    overriding
    procedure examine(self : in out simple) is
    begin
-      if Panel.sw_ctrl.addr then
-         Panel.lr_ad := self.addr;
-      else
-         Panel.lr_ad := self.pattern;
-         self.addr := self.addr + 1;
+      Panel.lr_addr := self.reg(addr);
+      Panel.lr_data := self.reg(pattern);
+      if not Panel.sw_ctrl.addr then
+         self.reg(addr) := self.reg(addr) + 1;
       end if;
    end;
+   --
+   --  ----------------------------------------------------------------------
+   --  Simulator information
+   --
+   --  Called to get number of registers
+   --
+   overriding
+   function registers(self : in out simple) return BBS.embed.uint32 is
+   begin
+      return reg_id'Pos(reg_id'Last);
+   end;
+   --
+   --  ----------------------------------------------------------------------
+   --  Simulator data
    --
    --  Called to set a memory value
    --
    overriding
-   procedure set_mem(self : in out simple; addr : BBS.embed.uint32;
+   procedure set_mem(self : in out simple; mem_addr : BBS.embed.uint32;
                      data : BBS.embed.uint32) is
-      pragma Unreferenced(addr);
+      pragma Unreferenced(mem_addr);
    begin
-      self.pattern := data;
+      self.reg(pattern) := data;
    end;
    --
    --  Called to read a memory value
    --
    overriding
-   function read_mem(self : in out simple; addr : BBS.embed.uint32) return
+   function read_mem(self : in out simple; mem_addr : BBS.embed.uint32) return
      BBS.embed.uint32 is
-      pragma Unreferenced(addr);
+      pragma Unreferenced(mem_addr);
    begin
-      return self.pattern;
+      return self.reg(pattern);
    end;
    --
-   --  Called when not running to report a change in the addr/data switch.  This
-   --  works basically like examine, except that the address is not incremented.
+   --  Called to get register name
    --
    overriding
-   procedure change_addr_data(self : in out simple) is
+   function reg_name(self : in out simple; num : BBS.embed.uint32)
+                     return String is
    begin
-      if Panel.sw_ctrl.addr then
-         Panel.lr_ad := self.addr;
+      if num < reg_id'Pos(reg_id'Last) then
+         return reg_id'Image(reg_id'Val(num));
       else
-         Panel.lr_ad := self.pattern;
+         return "<invalid>";
       end if;
    end;
+   --
+   --  Called to get register value
+   --
+   overriding
+   function read_reg(self : in out simple; num : BBS.embed.uint32)
+                     return BBS.embed.uint32 is
+      pragma Unreferenced(num);
+   begin
+      return 0;
+   end;
+   --
+   --  Called to set register value
+   --
+--   overriding
+--   procedure set_reg(self : in out simple; num : BBS.embed.uint32;
+--                     data : BBS.embed.uint32) is null;
    --  --------------------------------------------------------------------
    --
    --  Code for the various patterns.
    --
    procedure count(self : in out simple) is
    begin
-      self.ad_counter := self.ad_counter + 1;
-      self.ctl_counter := self.ctl_counter + 2;
-      Panel.lr_ad := self.ad_counter;
-      Panel.lr_ctl := self.ctl_counter;
+      self.reg(ad_counter) := self.reg(ad_counter) + 1;
+      self.reg(ctl_counter) := self.reg(ctl_counter) + 2;
+      Panel.lr_data := self.reg(ad_counter);
+      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_counter) and 16#FFFF#);
    end;
    --
    procedure bounce16(self : in out simple) is
    begin
       if self.ad_bounce_dir = left then
-         if (self.ad_bouncer and 16#FFFF#) = 0 then
+         if (self.reg(ad_bouncer) and 16#FFFF#) = 0 then
             self.ad_bounce_dir := right;
-            self.ad_bouncer := 16#8000#;
+            self.reg(ad_bouncer) := 16#8000#;
          else
-            self.ad_bouncer := self.ad_bouncer * 2;
+            self.reg(ad_bouncer) := self.reg(ad_bouncer) * 2;
          end if;
       else
-         if (self.ad_bouncer and 16#FFFF#) = 0 then
+         if (self.reg(ad_bouncer) and 16#FFFF#) = 0 then
             self.ad_bounce_dir := left;
-            self.ad_bouncer := 16#0001#;
+            self.reg(ad_bouncer) := 16#0001#;
          else
-            self.ad_bouncer := self.ad_bouncer / 2;
+            self.reg(ad_bouncer) := self.reg(ad_bouncer) / 2;
          end if;
       end if;
       if self.ctl_bounce_dir = left then
-         if self.ctl_bouncer = 0 then
+         if self.reg(ctl_bouncer) = 0 then
             self.ctl_bounce_dir := right;
-            self.ctl_bouncer := 16#8000#;
+            self.reg(ctl_bouncer) := 16#8000#;
          else
-            self.ctl_bouncer := self.ctl_bouncer * 2;
+            self.reg(ctl_bouncer) := self.reg(ctl_bouncer) * 2;
          end if;
       else
-         if self.ctl_bouncer = 1 then
+         if self.reg(ctl_bouncer) = 1 then
             self.ctl_bounce_dir := left;
-            self.ctl_bouncer := 16#0002#;
+            self.reg(ctl_bouncer) := 16#0002#;
          else
-            self.ctl_bouncer := self.ctl_bouncer / 2;
+            self.reg(ctl_bouncer) := self.reg(ctl_bouncer) / 2;
          end if;
       end if;
-      Panel.lr_ad := self.ad_bouncer;
-      Panel.lr_ctl := self.ctl_bouncer;
+      Panel.lr_data := self.reg(ad_bouncer);
+      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_bouncer) and 16#FFFF#);
    end;
    --
    procedure bounce32(self : in out simple) is
    begin
       if self.ad_bounce_dir = left then
-         if self.ad_bouncer = 0 then
+         if self.reg(ad_bouncer) = 0 then
             self.ad_bounce_dir := right;
-            self.ad_bouncer := 16#8000_0000#;
+            self.reg(ad_bouncer) := 16#8000_0000#;
          else
-            self.ad_bouncer := self.ad_bouncer * 2;
+            self.reg(ad_bouncer) := self.reg(ad_bouncer) * 2;
          end if;
       else
-         if self.ad_bouncer = 0 then
+         if self.reg(ad_bouncer) = 0 then
             self.ad_bounce_dir := left;
-            self.ad_bouncer := 16#0000_0001#;
+            self.reg(ad_bouncer) := 16#0000_0001#;
          else
-            self.ad_bouncer := self.ad_bouncer / 2;
+            self.reg(ad_bouncer) := self.reg(ad_bouncer) / 2;
          end if;
       end if;
       if self.ctl_bounce_dir = left then
-         if self.ctl_bouncer = 0 then
+         if self.reg(ctl_bouncer) = 0 then
             self.ctl_bounce_dir := right;
-            self.ctl_bouncer := 16#8000#;
+            self.reg(ctl_bouncer) := 16#8000#;
          else
-            self.ctl_bouncer := self.ctl_bouncer * 2;
+            self.reg(ctl_bouncer) := self.reg(ctl_bouncer) * 2;
          end if;
       else
-         if self.ctl_bouncer = 1 then
+         if self.reg(ctl_bouncer) = 1 then
             self.ctl_bounce_dir := left;
-            self.ctl_bouncer := 16#0002#;
+            self.reg(ctl_bouncer) := 16#0002#;
          else
-            self.ctl_bouncer := self.ctl_bouncer / 2;
+            self.reg(ctl_bouncer) := self.reg(ctl_bouncer) / 2;
          end if;
       end if;
-      Panel.lr_ad := self.ad_bouncer;
-      Panel.lr_ctl := self.ctl_bouncer;
+      Panel.lr_data := self.reg(ad_bouncer);
+      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_bouncer) and 16#FFFF#);
    end;
    --
    procedure scan16(self : in out simple) is
    begin
-      if (self.ad_scanner and 16#FFFF#) = 0 then
-         self.ad_scanner := 1;
+      if (self.reg(ad_scanner) and 16#FFFF#) = 0 then
+         self.reg(ad_scanner) := 1;
       else
-         self.ad_scanner := self.ad_scanner * 2;
+         self.reg(ad_scanner) := self.reg(ad_scanner) * 2;
       end if;
-      if self.ctl_scanner = 0 then
-         self.ctl_scanner := 2;
+      if self.reg(ctl_scanner) = 0 then
+         self.reg(ctl_scanner) := 2;
       else
-         self.ctl_scanner := self.ctl_scanner * 2;
+         self.reg(ctl_scanner) := self.reg(ctl_scanner) * 2;
       end if;
-      Panel.lr_ad := self.ad_scanner;
-      Panel.lr_ctl := self.ctl_scanner;
+      Panel.lr_data := self.reg(ad_scanner);
+      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_scanner) and 16#FFFF#);
    end;
    --
    procedure scan32(self : in out simple) is
    begin
-      if self.ad_scanner = 0 then
-         self.ad_scanner := 1;
+      if self.reg(ad_scanner) = 0 then
+         self.reg(ad_scanner) := 1;
       else
-         self.ad_scanner := self.ad_scanner * 2;
+         self.reg(ad_scanner) := self.reg(ad_scanner) * 2;
       end if;
-      if self.ctl_scanner = 0 then
-         self.ctl_scanner := 2;
+      if self.reg(ctl_scanner) = 0 then
+         self.reg(ctl_scanner) := 2;
       else
-         self.ctl_scanner := self.ctl_scanner * 2;
+         self.reg(ctl_scanner) := self.reg(ctl_scanner) * 2;
       end if;
-      Panel.lr_ad := self.ad_scanner;
-      Panel.lr_ctl := self.ctl_scanner;
+      Panel.lr_data := self.reg(ad_scanner);
+      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_scanner) and 16#FFFF#);
    end;
    --
    procedure fibonacci(self : in out simple) is
-      ad_temp : constant BBS.embed.uint32 := self.ad_fib_1 + self.ad_fib_2;
-      ctl_temp : constant BBS.embed.uint16 := self.ctl_fib_1 + self.ctl_fib_2;
+      ad_temp : constant BBS.embed.uint32 := self.reg(ad_fib1) + self.reg(ad_fib2);
+      ctl_temp : constant BBS.embed.uint16 := BBS.embed.uint16((self.reg(ctl_fib1) + self.reg(ctl_fib2)) and 16#FFFF#);
    begin
-      Panel.lr_ad := ad_temp;
-      self.ad_fib_2 := self.ad_fib_1;
-      self.ad_fib_1 := ad_temp;
+      Panel.lr_data := ad_temp;
+      self.reg(ad_fib2) := self.reg(ad_fib1);
+      self.reg(ad_fib1) := ad_temp;
       Panel.lr_ctl := ctl_temp;
-      self.ctl_fib_2 := self.ctl_fib_1;
-      self.ctl_fib_1 := ctl_temp;
-      if (self.ad_fib_1 = 0) and (self.ad_fib_2 = 0) then
-         self.ad_fib_1 := 1;
-         self.ad_fib_2 := 1;
+      self.reg(ctl_fib2) := self.reg(ctl_fib1);
+      self.reg(ctl_fib1) := BBS.embed.uint32(ctl_temp);
+      if (self.reg(ad_fib1) = 0) and (self.reg(ad_fib2) = 0) then
+         self.reg(ad_fib1) := 1;
+         self.reg(ad_fib2) := 1;
       end if;
-      if (self.ctl_fib_1 = 0) and (self.ctl_fib_2 = 0) then
-         self.ctl_fib_1 := 1;
-         self.ctl_fib_2 := 2;
+      if (self.reg(ctl_fib1) = 0) and (self.reg(ctl_fib2) = 0) then
+         self.reg(ctl_fib1) := 1;
+         self.reg(ctl_fib2) := 2;
       end if;
    end;
    --
    procedure copy_sw_ad is
    begin
-      Panel.lr_ad := Panel.sr_ad;
+      Panel.lr_data := Panel.sr_ad;
+      Panel.lr_addr := Panel.sr_ad;
    end;
    --
    procedure copy_sw_ctl is

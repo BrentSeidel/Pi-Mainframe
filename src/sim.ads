@@ -12,6 +12,9 @@ package Sim is
    --  circumstances.  They can examine the switch register to further decide
    --  their actions and set the LED registers as desired.
    --
+   --  ----------------------------------------------------------------------
+   --  Simulator control
+   --
    --  Called first to initialize the simulator
    --
    procedure init(self : in out simulator) is abstract;
@@ -33,19 +36,48 @@ package Sim is
    --
    procedure examine(self : in out simulator) is abstract;
    --
+   --  ----------------------------------------------------------------------
+   --  Simulator information
+   --
+   --  Called to get simulator name
+   --
+   function name(self : in out simulator) return String is ("No simulator");
+   --
+   --  Called to get simulator memory size
+   --
+   function mem_size(self : in out simulator) return BBS.embed.uint32 is (0);
+   --
+   --  Called to get number of registers
+   --
+   function registers(self : in out simulator) return BBS.embed.uint32 is (0);
+   --
+   --  ----------------------------------------------------------------------
+   --  Simulator data
+   --
    --  Called to set a memory value
    --
-   procedure set_mem(self : in out simulator; addr : BBS.embed.uint32;
+   procedure set_mem(self : in out simulator; mem_addr : BBS.embed.uint32;
                      data : BBS.embed.uint32) is abstract;
    --
    --  Called to read a memory value
    --
-   function read_mem(self : in out simulator; addr : BBS.embed.uint32) return
+   function read_mem(self : in out simulator; mem_addr : BBS.embed.uint32) return
      BBS.embed.uint32 is abstract;
    --
-   --  Called when not running to report a change in the addr/data switch
+   --  Called to get register name
    --
-   procedure change_addr_data(self : in out simulator) is abstract;
+   function reg_name(self : in out simulator; num : BBS.embed.uint32)
+                     return String is abstract;
+   --
+   --  Called to get register value
+   --
+   function read_reg(self : in out simulator; num : BBS.embed.uint32)
+                     return BBS.embed.uint32 is abstract;
+   --
+   --  Called to set register value
+   --
+   procedure set_reg(self : in out simulator; num : BBS.embed.uint32;
+                     data : BBS.embed.uint32) is abstract;
 
 private
    type simulator is abstract tagged record

@@ -79,6 +79,8 @@ package Panel is
    --
    --  LED settings (LED registers)
    --
+   lr_data : BBS.embed.uint32 := 0;
+   lr_addr : BBS.embed.uint32 := 0;
    lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
    lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
    lr_ctrl : ctrl_mode := (atype => ADDR_DATA, mode => PROC_USER,

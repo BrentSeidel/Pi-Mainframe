@@ -45,10 +45,12 @@ package body Panel is
                simulate.all.deposit;
             elsif pvt_examine then
                simulate.all.examine;
-            elsif last_addr /= sw_ctrl.addr then
-               last_addr := sw_ctrl.addr;
-               simulate.all.change_addr_data;
             end if;
+         end if;
+         if sw_ctrl.addr then
+            lr_ad := lr_addr;
+         else
+            lr_ad := lr_data;
          end if;
          i2c.set_addr_data(lr_ad, res);
          i2c.set_ctrl(lr_ctl, res);
