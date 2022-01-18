@@ -1,7 +1,7 @@
 with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
-with sim;
+with BBS.Sim;
 --
 --  This package contains information and code for the simulator.  Right now,
 --  it just blinks lights in interesting patterns.
@@ -13,7 +13,7 @@ package Panel is
    --
    --  Simulator
    --
-   simulate : Sim.sim_access;
+   simulate : BBS.Sim.sim_access;
    --
    --  Processor modes
    --

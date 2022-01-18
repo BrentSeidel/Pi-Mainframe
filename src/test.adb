@@ -5,7 +5,7 @@ with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
 with i2c;
 with Panel;
-With Sim.example;
+With BBS.Sim.example;
 with web;
 --
 --  The main routine does some initializatio and then starts the simulato and
@@ -35,7 +35,7 @@ begin
          end if;
       end if;
    end loop;
-   Panel.simulate := new Sim.example.simple;
+   Panel.simulate := new BBS.Sim.example.simple;
    Panel.run.Start;
    web.start_server;
 exception

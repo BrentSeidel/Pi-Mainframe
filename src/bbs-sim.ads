@@ -1,5 +1,5 @@
 with BBS.embed;
-package Sim is
+package BBS.Sim is
    --
    --  This package describes an interaface that the panel can used to control
    --  a simulator.  Specifying this interface should allow easier implementation
@@ -83,4 +83,4 @@ private
    type simulator is abstract tagged record
       null;
    end record;
-end Sim;
+end BBS.Sim;

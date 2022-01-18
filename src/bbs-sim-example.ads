@@ -1,7 +1,7 @@
 with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
-package Sim.example is
+package BBS.Sim.example is
    type simple is new simulator with private;
    --
    --  ----------------------------------------------------------------------
@@ -137,4 +137,4 @@ private
    procedure copy_sw;
    procedure copy_sw_ad;
    procedure copy_sw_ctl;
-end;
+end BBS.Sim.example;

@@ -6,6 +6,7 @@
 / web/index.html text/html
 /Main web/index.html text/html
 /Control web/sim_ctrl.html text/html
+/Information web/sim_info.html text/html
 #
 # Internal pages
 #
@@ -20,6 +21,7 @@
 # JavaScript
 #
 /ctrl web/control.js application/javascript
+/info web/info.js application/javascript
 #
 # Images
 #
@@ -32,6 +34,8 @@
 /xml/auto-man auto_man internal
 /xml/sim-type sim_type internal
 /xml/panel-reg panel_reg internal
+/xml/cpu-info cpu_info internal
+/xml/cpu-reg cpu_reg internal
 #
 # Style sheet for pages.
 #

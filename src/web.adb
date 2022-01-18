@@ -1,10 +1,7 @@
 with Ada.Text_IO;
 with Ada.Exceptions;
---with bbs.svg;
---with bbs.internal;
-with bbs.http;
-with bbs.web_server;
---with bbs.web_common;
+with BBS.http;
+with BBS.web_server;
 with web.internal;
 with web.xml;
 package body web is
@@ -27,6 +24,8 @@ package body web is
       internal_map.Insert("auto_man", web.xml.auto_man'Access);
       internal_map.Insert("sim_type", web.xml.sim_type'Access);
       internal_map.Insert("panel_reg", web.xml.sw_led_reg'Access);
+      internal_map.Insert("cpu_info", web.xml.Get_CPU_info'Access);
+      internal_map.Insert("cpu_reg", web.xml.Get_CPU_reg'Access);
    end;
    --
    procedure start_server is
@@ -34,9 +33,9 @@ package body web is
       --
       -- Set debugging flags to appropriate values.
       --
-      bbs.web_server.debug.set;
-      bbs.http.debug_req.set;
-      bbs.http.debug_head.clear;
+      BBS.web_server.debug.set;
+      BBS.http.debug_req.set;
+      BBS.http.debug_head.clear;
       --
       -- Build the map for internal routines.
       --
@@ -44,7 +43,7 @@ package body web is
       --
       -- Start the web server.  This does not return normally.
       --
-      bbs.web_server.server(internal_map, "web/config.txt", 31415);
+      BBS.web_server.server(internal_map, "web/config.txt", 31415);
       --
    exception
       when err: Others =>

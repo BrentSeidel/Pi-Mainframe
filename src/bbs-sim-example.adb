@@ -2,7 +2,7 @@ with Panel;
 with BBS.embed;
 use type BBS.embed.uint16;
 use type BBS.embed.uint32;
-package body Sim.example is
+package body BBS.Sim.example is
    --
    --  ----------------------------------------------------------------------
    --  Simulator control
@@ -129,7 +129,7 @@ package body Sim.example is
       if num < reg_id'Pos(reg_id'Last) then
          return reg_id'Image(reg_id'Val(num));
       else
-         return "<invalid>";
+         return "*invalid*";
       end if;
    end;
    --
@@ -301,4 +301,4 @@ package body Sim.example is
       copy_sw_ctl;
    end;
 
-end;
+end BBS.Sim.example;
