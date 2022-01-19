@@ -33,6 +33,8 @@ package body Panel is
       loop
          i2c.read_addr_data(pvt_sr_ad, res);
          i2c.read_ctrl(pvt_sr_ctl, res);
+         simulate.all.set_sr_ad(pvt_sr_ad);
+         simulate.all.set_sr_ctrl(pvt_sw_ctrl);
          process_switch;
          if ctl_starting then
             simulate.all.start;
@@ -47,6 +49,9 @@ package body Panel is
                simulate.all.examine;
             end if;
          end if;
+         lr_addr := simulate.all.get_lr_addr;
+         lr_data := simulate.all.get_lr_data;
+         lr_ctrl := simulate.all.get_lr_ctrl;
          if sw_ctrl.addr then
             lr_ad := lr_addr;
          else
