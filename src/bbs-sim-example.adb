@@ -93,6 +93,7 @@ package body BBS.Sim.example is
    --
    overriding
    function registers(self : in out simple) return BBS.embed.uint32 is
+      pragma Unreferenced(self);
    begin
       return reg_id'Pos(reg_id'Last) + 1;
    end;
@@ -125,6 +126,7 @@ package body BBS.Sim.example is
    overriding
    function reg_name(self : in out simple; num : BBS.embed.uint32)
                      return String is
+      pragma Unreferenced(self);
    begin
       if num <= reg_id'Pos(reg_id'Last) then
          return reg_id'Image(reg_id'Val(num));

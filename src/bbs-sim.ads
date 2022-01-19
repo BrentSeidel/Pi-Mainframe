@@ -5,6 +5,59 @@ package BBS.Sim is
    --  a simulator.  Specifying this interface should allow easier implementation
    --  of multiple simulator.
    --
+   --  Processor modes
+   --
+   type proc_mode is (PROC_NONE, PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
+   --
+   for proc_mode use (PROC_NONE => 0,
+                      PROC_KERN => 16#1#,
+                      PROC_EXEC => 16#2#,
+                      PROC_SUP  => 16#4#,
+                      PROC_USER => 16#8#);
+   for proc_mode'Size use 4;
+   --
+   --  Address types
+   --
+   type addr_type is (ADDR_NONE, ADDR_INTR, ADDR_DATA, ADDR_INST);
+   --
+   for addr_type use (ADDR_NONE => 0,
+                      ADDR_INTR => 16#01#,
+                      ADDR_DATA => 16#02#,
+                      ADDR_INST => 16#04#);
+   for addr_type'Size use 3;
+   --
+   --  Control and mode switches and LEDs
+   --
+   type ctrl_mode is record
+      unused0 : Boolean;    --  LED/Switch 0 is hardwired to power
+      ready   : Boolean;    --  LED only
+      exam    : Boolean;    --  Examine
+      dep     : Boolean;    --  Deposit
+      addr    : Boolean;    --  Address/Data
+      auto    : Boolean;    --  Auto/Man, enable remote control via web server
+      start   : Boolean;    --  Start
+      run     : Boolean;    --  Run
+      atype   : addr_type;  --  LED only, address type
+      blank   : Boolean;    --  LED only, blank
+      mode    : proc_mode;  --  LED only, processor mode
+   end record;
+   --
+   for ctrl_mode use record
+      unused0 at 0 range  0 ..  0;
+      ready   at 0 range  1 ..  1;
+      exam    at 0 range  2 ..  2;
+      dep     at 0 range  3 ..  3;
+      addr    at 0 range  4 ..  4;
+      auto    at 0 range  5 ..  5;
+      start   at 0 range  6 ..  6;
+      run     at 0 range  7 ..  7;
+      atype   at 0 range  8 .. 10;
+      blank   at 0 range 11 .. 11;
+      mode    at 0 range 12 .. 15;
+   end record;
+   --
+   --  The simulator object
+   --
    type simulator is abstract tagged private;
    type sim_access is access all simulator'Class;
    --
@@ -80,7 +133,17 @@ package BBS.Sim is
                      data : BBS.embed.uint32) is abstract;
 
 private
+   --
+   --  Simulator object.
+   --
+   --  Note that the types for lr_ad and sr_ad will have to change if processors
+   --  with word size longer than 32 bits are to be supported.
+   --
    type simulator is abstract tagged record
-      null;
+      lr_addr : BBS.embed.uint32;  --  LED register for address
+      lr_data : BBS.embed.uint32;  --  LED register for data
+      sr_ad   : BBS.embed.uint32;  --  Switch register for address/data
+      lr_ctl  : ctrl_mode;  --  LED registers for control/mode
+      sr_ctl  : ctrl_mode;  --  Switch register for control/mode
    end record;
 end BBS.Sim;

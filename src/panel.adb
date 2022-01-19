@@ -40,7 +40,7 @@ package body Panel is
          if sw_ctrl.run and sw_ctrl.start then
             simulate.all.run;
          else
-            process_mode_ctrl(PROC_KERN, ADDR_INTR, sr_ctl);
+            process_mode_ctrl(BBS.Sim.PROC_KERN, BBS.Sim.ADDR_INTR, sr_ctl);
             if pvt_deposit then
                simulate.all.deposit;
             elsif pvt_examine then
@@ -95,7 +95,7 @@ package body Panel is
    --
    --  Process the mode and control LEDs
    --
-   procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16) is
+   procedure process_mode_ctrl(m : BBS.Sim.proc_mode; a : BBS.Sim.addr_type; c : BBS.embed.uint16) is
    begin
       lr_ctl := c;
       lr_ctrl.ready := True;

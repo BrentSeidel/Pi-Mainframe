@@ -15,57 +15,6 @@ package Panel is
    --
    simulate : BBS.Sim.sim_access;
    --
-   --  Processor modes
-   --
-   type proc_mode is (PROC_NONE, PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
-   --
-   for proc_mode use (PROC_NONE => 0,
-                      PROC_KERN => 16#1#,
-                      PROC_EXEC => 16#2#,
-                      PROC_SUP  => 16#4#,
-                      PROC_USER => 16#8#);
-   for proc_mode'Size use 4;
-   --
-   --  Address types
-   --
-   type addr_type is (ADDR_NONE, ADDR_INTR, ADDR_DATA, ADDR_INST);
-   --
-   for addr_type use (ADDR_NONE => 0,
-                      ADDR_INTR => 16#01#,
-                      ADDR_DATA => 16#02#,
-                      ADDR_INST => 16#04#);
-   for addr_type'Size use 3;
-   --
-   --  Control and mode switches and LEDs
-   --
-   type ctrl_mode is record
-      unused0 : Boolean;    --  LED/Switch 0 is hardwired to power
-      ready   : Boolean;    --  LED only
-      exam    : Boolean;    --  Examine
-      dep     : Boolean;    --  Deposit
-      addr    : Boolean;    --  Address/Data
-      auto    : Boolean;    --  Auto/Man, enable remote control via web server
-      start   : Boolean;    --  Start
-      run     : Boolean;    --  Run
-      atype   : addr_type;  --  LED only, address type
-      blank   : Boolean;    --  LED only, blank
-      mode    : proc_mode;  --  LED only, processor mode
-   end record;
-   --
-   for ctrl_mode use record
-      unused0 at 0 range  0 ..  0;
-      ready   at 0 range  1 ..  1;
-      exam    at 0 range  2 ..  2;
-      dep     at 0 range  3 ..  3;
-      addr    at 0 range  4 ..  4;
-      auto    at 0 range  5 ..  5;
-      start   at 0 range  6 ..  6;
-      run     at 0 range  7 ..  7;
-      atype   at 0 range  8 .. 10;
-      blank   at 0 range 11 .. 11;
-      mode    at 0 range 12 .. 15;
-   end record;
-   --
    --  Is selection automatic (True) or manual (False).  This is set by the web
    --  interface and can only be changed when ctl_auto is True.
    --
@@ -75,7 +24,7 @@ package Panel is
    --
    function sr_ad   return BBS.embed.uint32;  --  Address/Data switches
    function sr_ctl  return BBS.embed.uint16;  --  Control switches
-   function sw_ctrl return ctrl_mode;         --  Control switches
+   function sw_ctrl return BBS.Sim.ctrl_mode;         --  Control switches
    --
    --  LED settings (LED registers)
    --
@@ -83,8 +32,8 @@ package Panel is
    lr_addr : BBS.embed.uint32 := 0;
    lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
    lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
-   lr_ctrl : ctrl_mode := (atype => ADDR_DATA, mode => PROC_USER,
-                           others => False) with
+   lr_ctrl : BBS.Sim.ctrl_mode := (atype => BBS.Sim.ADDR_DATA, mode => BBS.Sim.PROC_USER,
+                                   others => False) with
      Address => lr_ctl'Address;
    --
    --  Flag to exit simulator loop
@@ -120,11 +69,11 @@ private
    --
    pvt_sr_ad  : BBS.embed.uint32 := 0;          -- Address/Data switch register
    pvt_sr_ctl : aliased BBS.embed.uint16 := 0;  -- Control switch register
-   pvt_sw_ctrl : ctrl_mode with
+   pvt_sw_ctrl : BBS.Sim.ctrl_mode with
      Address => pvt_sr_ctl'Address;
    function sr_ad   return BBS.embed.uint32 is (pvt_sr_ad);
    function sr_ctl  return BBS.embed.uint16 is (pvt_sr_ctl);
-   function sw_ctrl return ctrl_mode is (pvt_sw_ctrl);
+   function sw_ctrl return BBS.Sim.ctrl_mode is (pvt_sw_ctrl);
    --
    --  Local switch flags for detecting switch changes
    --
@@ -148,5 +97,5 @@ private
    --
    --  Process the mode and control LEDs
    --
-   procedure process_mode_ctrl(m : proc_mode; a : addr_type; c : BBS.embed.uint16);
+   procedure process_mode_ctrl(m : BBS.Sim.proc_mode; a : BBS.Sim.addr_type; c : BBS.embed.uint16);
 end;
