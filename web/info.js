@@ -10,10 +10,10 @@ var num_registers
 //  Call this routine when the page is finished loading.  It sets a
 //  periodic task to update values every second.
 //
-function page_loaded()
+function on_load()
 {
   getCPUInfo();
-//  reload_timer = window.setInterval(update_values, 1000);
+  reload_timer = window.setInterval(update_values, 1000);
 }
 //
 //  Update values.  This is called periodically to update values that may
@@ -21,7 +21,7 @@ function page_loaded()
 //
 function update_values()
 {
-  getCPUInfo();
+  updateRegisters();
 }
 //======================================
 //
@@ -54,9 +54,6 @@ function displayCPUInfo(xml)
   sim_name = xmlDoc.getElementsByTagName("cpu-name")[0].childNodes[0].nodeValue;
   memory_size = Number(xmlDoc.getElementsByTagName("cpu-mem")[0].childNodes[0].nodeValue);
   num_registers = Number(xmlDoc.getElementsByTagName("cpu-reg")[0].childNodes[0].nodeValue);
-//  console.log("Sim name: " + sim_name);
-//  console.log("Number of Registers: " + num_registers);
-//  console.log("Memory Size: " + memory_size);
   document.getElementById("Sim Name").textContent = sim_name;
   document.getElementById("Num Reg").textContent = num_registers;
   document.getElementById("Mem Size").textContent = memory_size;
@@ -70,11 +67,23 @@ function displayCPUInfo(xml)
       cell.id = "Reg-Name-" + index;
       cell = row.insertCell(2);
       cell.id = "Reg-Value-" + index;
+      cell.style.textAlign = "right";
       getRegister(index);
   }
-
 }
 //======================================
+//
+//  Update register values.  This is done periodically.
+//
+function updateRegisters()
+{
+  var index;
+
+  for (index = 0; index < num_registers; index++)
+  {
+      getRegister(index);
+  }
+}
 //
 // Requests register value from the server using AJAX.
 //
@@ -98,8 +107,8 @@ function displayRegValue(xml)
   var xmlDoc = xml.responseXML;
   var num = Number(xmlDoc.getElementsByTagName("reg-num")[0].childNodes[0].nodeValue);
   var name = xmlDoc.getElementsByTagName("reg-name")[0].childNodes[0].nodeValue
-  var value = xmlDoc.getElementsByTagName("reg-value")[0].childNodes[0].nodeValue
+  var value = Number(xmlDoc.getElementsByTagName("reg-value")[0].childNodes[0].nodeValue)
 
   document.getElementById("Reg-Name-" + num).textContent = name;
-  document.getElementById("Reg-Value-" + num).textContent = value;
+  document.getElementById("Reg-Value-" + num).textContent = value.toString(16);
 }
