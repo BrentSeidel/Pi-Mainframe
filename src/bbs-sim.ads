@@ -5,6 +5,14 @@ package BBS.Sim is
    --  a simulator.  Specifying this interface should allow easier implementation
    --  of multiple simulator.
    --
+   --  Basic types for address and data bus.  Currently these support up to 32
+   --  bits of address and data.  These will need to change if larger processors
+   --  are to be supported.
+   --
+   subtype data_bus is BBS.embed.uint32;  --  Data bus
+   subtype addr_bus is BBS.embed.uint32;  --  Address bus
+   subtype ad_bus   is BBS.embed.uint32;  --  Greater of address and data bus
+   --
    --  Processor modes
    --
    type proc_mode is (PROC_NONE, PROC_KERN, PROC_EXEC, PROC_SUP, PROC_USER);
@@ -56,6 +64,8 @@ package BBS.Sim is
       mode    at 0 range 12 .. 15;
    end record;
    --
+   for ctrl_mode'Size use 16;
+   --
    --  The simulator object
    --
    type simulator is abstract tagged private;
@@ -98,7 +108,7 @@ package BBS.Sim is
    --
    --  Called to get simulator memory size
    --
-   function mem_size(self : in out simulator) return BBS.embed.uint32 is (0);
+   function mem_size(self : in out simulator) return addr_bus is (0);
    --
    --  Called to get number of registers
    --
@@ -114,7 +124,7 @@ package BBS.Sim is
    --
    --  Called to read a memory value
    --
-   function read_mem(self : in out simulator; mem_addr : BBS.embed.uint32) return
+   function read_mem(self : in out simulator; mem_addr : addr_bus) return
      BBS.embed.uint32 is abstract;
    --
    --  Called to get register name
@@ -131,6 +141,14 @@ package BBS.Sim is
    --
    procedure set_reg(self : in out simulator; num : BBS.embed.uint32;
                      data : BBS.embed.uint32) is abstract;
+   --
+   --  Simulator switches and lights
+   --
+   function get_lr_data(self : in out simulator) return BBS.embed.uint32;
+   function get_lr_addr(self : in out simulator) return addr_bus;
+   function get_lr_ctrl(self : in out simulator) return ctrl_mode;
+   procedure set_sr_ad(self : in out simulator; value : ad_bus);
+   procedure set_sr_ctrl(self : in out simulator; value : ctrl_mode);
 
 private
    --
@@ -140,9 +158,9 @@ private
    --  with word size longer than 32 bits are to be supported.
    --
    type simulator is abstract tagged record
-      lr_addr : BBS.embed.uint32;  --  LED register for address
-      lr_data : BBS.embed.uint32;  --  LED register for data
-      sr_ad   : BBS.embed.uint32;  --  Switch register for address/data
+      lr_addr : addr_bus;   --  LED register for address
+      lr_data : data_bus;   --  LED register for data
+      sr_ad   : ad_bus;     --  Switch register for address/data
       lr_ctl  : ctrl_mode;  --  LED registers for control/mode
       sr_ctl  : ctrl_mode;  --  Switch register for control/mode
    end record;

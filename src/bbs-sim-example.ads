@@ -2,6 +2,9 @@ with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
 package BBS.Sim.example is
+   --
+   --  The simple simulator object inheriting from Sim.simulator.
+   --
    type simple is new simulator with private;
    --
    --  ----------------------------------------------------------------------
@@ -44,7 +47,7 @@ package BBS.Sim.example is
    --  Called to get simulator memory size
    --
    overriding
-   function mem_size(self : in out simple) return BBS.embed.uint32 is (0);
+   function mem_size(self : in out simple) return addr_bus is (0);
    --
    --  Called to get number of registers
    --
@@ -63,7 +66,7 @@ package BBS.Sim.example is
    --  Called to read a memory value
    --
    overriding
-   function read_mem(self : in out simple; mem_addr : BBS.embed.uint32) return
+   function read_mem(self : in out simple; mem_addr : addr_bus) return
      BBS.embed.uint32;
    --
    --  Called to get register name
@@ -134,7 +137,5 @@ private
    procedure scan16(self : in out simple);
    procedure scan32(self : in out simple);
    procedure fibonacci(self : in out simple);
-   procedure copy_sw;
-   procedure copy_sw_ad;
-   procedure copy_sw_ctl;
+   procedure copy_sw(self : in out simple);
 end BBS.Sim.example;

@@ -3,8 +3,7 @@ with BBS.embed.i2c;
 with i2c;
 with BBS.Sim;
 --
---  This package contains information and code for the simulator.  Right now,
---  it just blinks lights in interesting patterns.
+--  This package contains information and code for the front panel of the simulator.
 --
 package Panel is
    --

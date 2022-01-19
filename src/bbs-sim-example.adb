@@ -1,8 +1,11 @@
-with Panel;
 with BBS.embed;
 use type BBS.embed.uint16;
 use type BBS.embed.uint32;
+with Ada.Unchecked_Conversion;
 package body BBS.Sim.example is
+   --
+   function uint16_to_ctrl is new Ada.Unchecked_Conversion(source => BBS.embed.uint16,
+                                                           target => ctrl_mode);
    --
    --  ----------------------------------------------------------------------
    --  Simulator control
@@ -34,7 +37,7 @@ package body BBS.Sim.example is
    procedure run(self : in out simple) is
       d : Duration := 0.05;
    begin
-      Panel.lr_addr := self.reg(pattern);
+      self.lr_addr := self.reg(pattern);
       case self.reg(pattern) is
          when 1 =>
             self.count;
@@ -53,7 +56,7 @@ package body BBS.Sim.example is
          when 12 =>
             self.fibonacci;
          when others =>
-            copy_sw;
+            self.copy_sw;
             d := 0.01;
       end case;
       delay d;
@@ -64,14 +67,14 @@ package body BBS.Sim.example is
    overriding
    procedure deposit(self : in out simple) is
    begin
-      if Panel.sw_ctrl.addr then
-         self.reg(addr) := Panel.sr_ad;
+      if self.sr_ctl.addr then
+         self.reg(addr) := self.sr_ad;
       else
-         self.reg(pattern) := Panel.sr_ad;
-         Panel.lr_data := self.reg(pattern);
+         self.reg(pattern) := self.sr_ad;
+         self.lr_data := self.reg(pattern);
          self.reg(addr) := self.reg(addr) + 1;
       end if;
-      Panel.lr_addr := self.reg(addr);
+      self.lr_addr := self.reg(addr);
    end;
    --
    --  Called once when the Examine switch is moved to the Examine position.
@@ -79,9 +82,9 @@ package body BBS.Sim.example is
    overriding
    procedure examine(self : in out simple) is
    begin
-      Panel.lr_addr := self.reg(addr);
-      Panel.lr_data := self.reg(pattern);
-      if not Panel.sw_ctrl.addr then
+      self.lr_addr := self.reg(addr);
+      self.lr_data := self.reg(pattern);
+      if not self.sr_ctl.addr then
          self.reg(addr) := self.reg(addr) + 1;
       end if;
    end;
@@ -114,7 +117,7 @@ package body BBS.Sim.example is
    --  Called to read a memory value
    --
    overriding
-   function read_mem(self : in out simple; mem_addr : BBS.embed.uint32) return
+   function read_mem(self : in out simple; mem_addr : addr_bus) return
      BBS.embed.uint32 is
       pragma Unreferenced(mem_addr);
    begin
@@ -161,8 +164,8 @@ package body BBS.Sim.example is
    begin
       self.reg(ad_counter) := self.reg(ad_counter) + 1;
       self.reg(ctl_counter) := self.reg(ctl_counter) + 2;
-      Panel.lr_data := self.reg(ad_counter);
-      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_counter) and 16#FFFF#);
+      self.lr_data := self.reg(ad_counter);
+      self.lr_ctl := uint16_to_ctrl(BBS.embed.uint16(self.reg(ctl_counter) and 16#FFFF#));
    end;
    --
    procedure bounce16(self : in out simple) is
@@ -197,8 +200,8 @@ package body BBS.Sim.example is
             self.reg(ctl_bouncer) := self.reg(ctl_bouncer) / 2;
          end if;
       end if;
-      Panel.lr_data := self.reg(ad_bouncer);
-      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_bouncer) and 16#FFFF#);
+      self.lr_data := self.reg(ad_bouncer);
+      self.lr_ctl := uint16_to_ctrl(BBS.embed.uint16(self.reg(ctl_bouncer) and 16#FFFF#));
    end;
    --
    procedure bounce32(self : in out simple) is
@@ -233,8 +236,8 @@ package body BBS.Sim.example is
             self.reg(ctl_bouncer) := self.reg(ctl_bouncer) / 2;
          end if;
       end if;
-      Panel.lr_data := self.reg(ad_bouncer);
-      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_bouncer) and 16#FFFF#);
+      self.lr_data := self.reg(ad_bouncer);
+      self.lr_ctl := uint16_to_ctrl(BBS.embed.uint16(self.reg(ctl_bouncer) and 16#FFFF#));
    end;
    --
    procedure scan16(self : in out simple) is
@@ -249,8 +252,8 @@ package body BBS.Sim.example is
       else
          self.reg(ctl_scanner) := self.reg(ctl_scanner) * 2;
       end if;
-      Panel.lr_data := self.reg(ad_scanner);
-      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_scanner) and 16#FFFF#);
+      self.lr_data := self.reg(ad_scanner);
+      self.lr_ctl := uint16_to_ctrl(BBS.embed.uint16(self.reg(ctl_scanner) and 16#FFFF#));
    end;
    --
    procedure scan32(self : in out simple) is
@@ -265,18 +268,18 @@ package body BBS.Sim.example is
       else
          self.reg(ctl_scanner) := self.reg(ctl_scanner) * 2;
       end if;
-      Panel.lr_data := self.reg(ad_scanner);
-      Panel.lr_ctl := BBS.embed.uint16(self.reg(ctl_scanner) and 16#FFFF#);
+      self.lr_data := self.reg(ad_scanner);
+      self.lr_ctl := uint16_to_ctrl(BBS.embed.uint16(self.reg(ctl_scanner) and 16#FFFF#));
    end;
    --
    procedure fibonacci(self : in out simple) is
       ad_temp : constant BBS.embed.uint32 := self.reg(ad_fib1) + self.reg(ad_fib2);
       ctl_temp : constant BBS.embed.uint16 := BBS.embed.uint16((self.reg(ctl_fib1) + self.reg(ctl_fib2)) and 16#FFFF#);
    begin
-      Panel.lr_data := ad_temp;
+      self.lr_data := ad_temp;
       self.reg(ad_fib2) := self.reg(ad_fib1);
       self.reg(ad_fib1) := ad_temp;
-      Panel.lr_ctl := ctl_temp;
+      self.lr_ctl := uint16_to_ctrl(ctl_temp);
       self.reg(ctl_fib2) := self.reg(ctl_fib1);
       self.reg(ctl_fib1) := BBS.embed.uint32(ctl_temp);
       if (self.reg(ad_fib1) = 0) and (self.reg(ad_fib2) = 0) then
@@ -289,21 +292,12 @@ package body BBS.Sim.example is
       end if;
    end;
    --
-   procedure copy_sw_ad is
-   begin
-      Panel.lr_data := Panel.sr_ad;
-      Panel.lr_addr := Panel.sr_ad;
-   end;
    --
-   procedure copy_sw_ctl is
+   procedure copy_sw(self : in out simple) is
    begin
-      Panel.lr_ctl := Panel.sr_ctl;
-   end;
-   --
-   procedure copy_sw is
-   begin
-      copy_sw_ad;
-      copy_sw_ctl;
+      self.lr_data := self.sr_ad;
+      self.lr_addr := self.sr_ad;
+      self.lr_ctl := self.sr_ctl;
    end;
 
 end BBS.Sim.example;
