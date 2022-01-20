@@ -2,7 +2,7 @@ with Ada.Text_IO;
 with Ada.Unchecked_Conversion;
 package body Panel is
    --
-   --  Run the LED patterns
+   --  Run the panel interface and simulator control.
    --
    task body run is
       package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
@@ -33,29 +33,27 @@ package body Panel is
       loop
          i2c.read_addr_data(pvt_sr_ad, res);
          i2c.read_ctrl(pvt_sr_ctl, res);
-         simulate.all.set_sr_ad(pvt_sr_ad);
-         simulate.all.set_sr_ctrl(pvt_sw_ctrl);
+         CPU.all.set_sr_ad(pvt_sr_ad);
+         CPU.all.set_sr_ctrl(pvt_sw_ctrl);
          process_switch;
-         if ctl_starting then
-            simulate.all.start;
+         if pvt_starting then
+            CPU.all.start;
          end if;
          if sw_ctrl.run and sw_ctrl.start then
-            simulate.all.run;
+            CPU.all.run;
          else
             process_mode_ctrl(BBS.Sim.PROC_KERN, BBS.Sim.ADDR_INTR, sr_ctl);
             if pvt_deposit then
-               simulate.all.deposit;
+               CPU.all.deposit;
             elsif pvt_examine then
-               simulate.all.examine;
+               CPU.all.examine;
             end if;
          end if;
-         lr_addr := simulate.all.get_lr_addr;
-         lr_data := simulate.all.get_lr_data;
-         lr_ctrl := simulate.all.get_lr_ctrl;
+         lr_ctrl := CPU.all.get_lr_ctrl;
          if sw_ctrl.addr then
-            lr_ad := lr_addr;
+            lr_ad := CPU.all.get_lr_addr;
          else
-            lr_ad := lr_data;
+            lr_ad := CPU.all.get_lr_data;
          end if;
          i2c.set_addr_data(lr_ad, res);
          i2c.set_ctrl(lr_ctl, res);
@@ -114,12 +112,12 @@ package body Panel is
    --
    procedure set_pattern(p : Natural) is
    begin
-      simulate.all.set_mem(0, BBS.embed.uint32(p));
+      CPU.all.set_mem(0, BBS.embed.uint32(p));
    end;
    --
    function get_pattern return Natural is
    begin
-      return Natural(simulate.all.read_mem(0));
+      return Natural(CPU.all.read_mem(0));
    end;
    --
 end;

@@ -60,14 +60,14 @@ package BBS.Sim.example is
    --  Called to set a memory value
    --
    overriding
-   procedure set_mem(self : in out simple; mem_addr : BBS.embed.uint32;
-                     data : BBS.embed.uint32);
+   procedure set_mem(self : in out simple; mem_addr : addr_bus;
+                     data : data_bus);
    --
    --  Called to read a memory value
    --
    overriding
    function read_mem(self : in out simple; mem_addr : addr_bus) return
-     BBS.embed.uint32;
+     data_bus;
    --
    --  Called to get register name
    --
@@ -79,13 +79,13 @@ package BBS.Sim.example is
    --
    overriding
    function read_reg(self : in out simple; num : BBS.embed.uint32)
-                     return BBS.embed.uint32;
+                     return data_bus;
    --
    --  Called to set register value
    --
    overriding
    procedure set_reg(self : in out simple; num : BBS.embed.uint32;
-                     data : BBS.embed.uint32) is null;
+                     data : data_bus) is null;
 
 private
    --
@@ -114,7 +114,7 @@ private
                    ad_fib2,       --  Address/Data LED Fibonacci value 2
                    ctl_fib1,      --  Control LED Fibonacci value 1
                    ctl_fib2);     --  Control LED Fibonacci value 2
-   type reg_array is array (reg_id) of BBS.embed.uint32;
+   type reg_array is array (reg_id) of data_bus;
 
    type simple is new simulator with record
       reg : reg_array := (ad_fib1 => 1, ad_fib2 => 1, ctl_fib1 => 1,

@@ -107,8 +107,8 @@ package body BBS.Sim.example is
    --  Called to set a memory value
    --
    overriding
-   procedure set_mem(self : in out simple; mem_addr : BBS.embed.uint32;
-                     data : BBS.embed.uint32) is
+   procedure set_mem(self : in out simple; mem_addr : addr_bus;
+                     data : data_bus) is
       pragma Unreferenced(mem_addr);
    begin
       self.reg(pattern) := data;
@@ -118,7 +118,7 @@ package body BBS.Sim.example is
    --
    overriding
    function read_mem(self : in out simple; mem_addr : addr_bus) return
-     BBS.embed.uint32 is
+     data_bus is
       pragma Unreferenced(mem_addr);
    begin
       return self.reg(pattern);
@@ -142,7 +142,7 @@ package body BBS.Sim.example is
    --
    overriding
    function read_reg(self : in out simple; num : BBS.embed.uint32)
-                     return BBS.embed.uint32 is
+                     return data_bus is
    begin
       if num <= reg_id'Pos(reg_id'Last) then
          return self.reg(reg_id'Val(num));

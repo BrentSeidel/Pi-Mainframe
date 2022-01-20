@@ -2,7 +2,7 @@ package body BBS.Sim is
    --
    --  Simulator switches and lights
    --
-   function get_lr_data(self : in out simulator) return BBS.embed.uint32 is
+   function get_lr_data(self : in out simulator) return data_bus is
    begin
       return self.lr_data;
    end;

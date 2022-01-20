@@ -3,16 +3,19 @@
 //  Global variables
 //
 var reload_timer;
+var sim_name;
+var memory_size;
+var num_registers
 //
 //  Call this routine when the page is finished loading.  It sets a
 //  periodic task to update values every second.
 //
 function page_loaded()
 {
+  getCPUInfo();
   getAutoMan();
   getSimType();
   getPanelReg();
-  reload_timer = window.setInterval(update_values, 1000);
 }
 //
 //  Update values.  This is called periodically to update values that may
@@ -23,6 +26,47 @@ function update_values()
   getAutoMan();
   getSimType();
   getPanelReg();
+}
+//======================================
+//
+// Requests simulated CPU information from the server using AJAX.
+//
+function getCPUInfo()
+{
+  var xhttp = new XMLHttpRequest();
+
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      setCPUInfo(this);
+    }
+  };
+  xhttp.open("GET", "/xml/cpu-info", true);
+  xhttp.send();
+}
+//
+// Set the simulated CPU information.
+//
+function setCPUInfo(xml)
+{
+  var xmlDoc = xml.responseXML;
+  var temp;
+
+  sim_name = xmlDoc.getElementsByTagName("cpu-name")[0].childNodes[0].nodeValue;
+  memory_size = Number(xmlDoc.getElementsByTagName("cpu-mem")[0].childNodes[0].nodeValue);
+  num_registers = Number(xmlDoc.getElementsByTagName("cpu-reg")[0].childNodes[0].nodeValue);
+  temp = "Simulator name is " + sim_name + ".  ";
+  temp += "The number of registers is " + num_registers + ".  ";
+  temp += "The memory size is " + memory_size + ".";
+  document.getElementById("Sim").innerHTML = temp;
+  if (sim_name == "Example simulator")
+  {
+    reload_timer = window.setInterval(update_values, 1000);
+  }
+  else
+  {
+    window.location.href = "/Information";
+  }
 }
 //======================================
 //

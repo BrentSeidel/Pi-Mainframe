@@ -119,8 +119,8 @@ package BBS.Sim is
    --
    --  Called to set a memory value
    --
-   procedure set_mem(self : in out simulator; mem_addr : BBS.embed.uint32;
-                     data : BBS.embed.uint32) is abstract;
+   procedure set_mem(self : in out simulator; mem_addr : addr_bus;
+                     data : data_bus) is abstract;
    --
    --  Called to read a memory value
    --
@@ -135,16 +135,16 @@ package BBS.Sim is
    --  Called to get register value
    --
    function read_reg(self : in out simulator; num : BBS.embed.uint32)
-                     return BBS.embed.uint32 is abstract;
+                     return data_bus is abstract;
    --
    --  Called to set register value
    --
    procedure set_reg(self : in out simulator; num : BBS.embed.uint32;
-                     data : BBS.embed.uint32) is abstract;
+                     data : data_bus) is abstract;
    --
    --  Simulator switches and lights
    --
-   function get_lr_data(self : in out simulator) return BBS.embed.uint32;
+   function get_lr_data(self : in out simulator) return data_bus;
    function get_lr_addr(self : in out simulator) return addr_bus;
    function get_lr_ctrl(self : in out simulator) return ctrl_mode;
    procedure set_sr_ad(self : in out simulator; value : ad_bus);
@@ -154,8 +154,8 @@ private
    --
    --  Simulator object.
    --
-   --  Note that the types for lr_ad and sr_ad will have to change if processors
-   --  with word size longer than 32 bits are to be supported.
+   --  This just contains the switch and light registers for interfacing with
+   --  a control panel.  Each specific simulator will have to add its own data.
    --
    type simulator is abstract tagged record
       lr_addr : addr_bus;   --  LED register for address

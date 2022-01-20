@@ -76,9 +76,9 @@ package body web.xml is
    begin
       BBS.http.ok(s, "application/xml");
       String'Write(s, "<xml>");
-      String'Write(s, "<cpu-name>" & Panel.simulate.all.name & "</cpu-name>");
-      String'Write(s, "<cpu-reg>" & BBS.embed.uint32'Image(Panel.simulate.all.registers) & "</cpu-reg>");
-      String'Write(s, "<cpu-mem>" & BBS.embed.uint32'Image(Panel.simulate.all.mem_size) & "</cpu-mem>");
+      String'Write(s, "<cpu-name>" & Panel.CPU.all.name & "</cpu-name>");
+      String'Write(s, "<cpu-reg>" & BBS.embed.uint32'Image(Panel.CPU.all.registers) & "</cpu-reg>");
+      String'Write(s, "<cpu-mem>" & BBS.embed.uint32'Image(Panel.CPU.all.mem_size) & "</cpu-mem>");
       String'Write(s, "</xml>");
    end Get_CPU_info;
    --
@@ -100,9 +100,9 @@ package body web.xml is
          end;
       end if;
       String'Write(s, "<xml><reg-num>" & Natural'Image(value) & "</reg-num>");
-      String'Write(s, "<reg-name>" & Panel.simulate.all.reg_name(BBS.embed.uint32(value))
+      String'Write(s, "<reg-name>" & Panel.CPU.all.reg_name(BBS.embed.uint32(value))
                    & "</reg-name>");
-      String'Write(s, "<reg-value>" & BBS.embed.uint32'Image(Panel.simulate.all.read_reg(BBS.embed.uint32(value)))
+      String'Write(s, "<reg-value>" & BBS.embed.uint32'Image(Panel.CPU.all.read_reg(BBS.embed.uint32(value)))
                      & "</reg-value></xml>");
    end Get_CPU_reg;
    --

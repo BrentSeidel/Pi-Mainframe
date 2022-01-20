@@ -2,6 +2,7 @@ with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
 with BBS.Sim;
+with BBS.Sim.example;
 --
 --  This package contains information and code for the front panel of the simulator.
 --
@@ -10,9 +11,10 @@ package Panel is
    --  Public data for the simulation
    --
    --
-   --  Simulator
+   --  Simulator.  Change this to which ever simulator is being used.
    --
-   simulate : BBS.Sim.sim_access;
+   simulate : aliased BBS.Sim.example.simple;
+   CPU : BBS.Sim.sim_access := simulate'Access;
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
    --  interface and can only be changed when ctl_auto is True.
@@ -27,8 +29,6 @@ package Panel is
    --
    --  LED settings (LED registers)
    --
-   lr_data : BBS.embed.uint32 := 0;
-   lr_addr : BBS.embed.uint32 := 0;
    lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
    lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
    lr_ctrl : BBS.Sim.ctrl_mode := (atype => BBS.Sim.ADDR_DATA, mode => BBS.Sim.PROC_USER,
@@ -38,13 +38,6 @@ package Panel is
    --  Flag to exit simulator loop
    --
    exit_sim : Boolean := False;
-   --
-   --  Flags for control switch changes to True state.  Functions are used for
-   --  these so that the flags can only be written by this package.
-   --
-   function ctl_starting return Boolean;
-   function ctl_deposit  return Boolean;
-   function ctl_examine  return Boolean;
    --
    --  Note that the power LED is actually connected to the power rail and not
    --  under program control.
@@ -83,9 +76,6 @@ private
    pvt_deposit  : Boolean := False;  --  when ctl_dep changes to True
    pvt_examine  : Boolean := False;  --  when ctl_exam changes to True
    last_addr    : Boolean := False;  --  Last value of sw_ctrl.addr
-   function ctl_starting return Boolean is (pvt_starting);
-   function ctl_deposit  return Boolean is (pvt_deposit);
-   function ctl_examine  return Boolean is (pvt_examine);
    --
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
