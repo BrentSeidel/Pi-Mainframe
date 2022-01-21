@@ -1,4 +1,4 @@
-package body BBS.Sim is
+package body BBS.Sim_CPU is
    --
    --  Simulator switches and lights
    --
@@ -27,4 +27,4 @@ package body BBS.Sim is
       self.sr_ctl := value;
    end;
    --
-end BBS.Sim;
+end BBS.Sim_CPU;

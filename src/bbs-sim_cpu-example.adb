@@ -2,10 +2,13 @@ with BBS.embed;
 use type BBS.embed.uint16;
 use type BBS.embed.uint32;
 with Ada.Unchecked_Conversion;
-package body BBS.Sim.example is
+with Ada.Text_IO;
+package body BBS.Sim_CPU.example is
    --
    function uint16_to_ctrl is new Ada.Unchecked_Conversion(source => BBS.embed.uint16,
                                                            target => ctrl_mode);
+   --
+   package data_io is new Ada.Text_IO.Modular_IO(data_bus);
    --
    --  ----------------------------------------------------------------------
    --  Simulator control
@@ -148,6 +151,20 @@ package body BBS.Sim.example is
          return self.reg(reg_id'Val(num));
       else
          return 0;
+      end if;
+   end;
+   --
+   --  Called to get register value as a string (useful for flag registers)
+   --
+   function read_reg(self : in out simple; num : BBS.embed.uint32)
+                     return String is
+      value : String(1 .. 13);
+   begin
+      if num <= reg_id'Pos(reg_id'Last) then
+         data_io.Put(value, self.reg(reg_id'Val(num)), 16);
+         return value;
+      else
+         return "*invalid*";
       end if;
    end;
    --
@@ -300,4 +317,4 @@ package body BBS.Sim.example is
       self.lr_ctl := self.sr_ctl;
    end;
 
-end BBS.Sim.example;
+end BBS.Sim_CPU.example;

@@ -1,8 +1,8 @@
 with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
-with BBS.Sim;
-with BBS.Sim.example;
+with BBS.Sim_CPU;
+with BBS.Sim_CPU.example;
 --
 --  This package contains information and code for the front panel of the simulator.
 --
@@ -13,8 +13,8 @@ package Panel is
    --
    --  Simulator.  Change this to which ever simulator is being used.
    --
-   simulate : aliased BBS.Sim.example.simple;
-   CPU : BBS.Sim.sim_access := simulate'Access;
+   simulate : aliased BBS.Sim_CPU.example.simple;
+   CPU : BBS.Sim_CPU.sim_access := simulate'Access;
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
    --  interface and can only be changed when ctl_auto is True.
@@ -25,14 +25,15 @@ package Panel is
    --
    function sr_ad   return BBS.embed.uint32;  --  Address/Data switches
    function sr_ctl  return BBS.embed.uint16;  --  Control switches
-   function sw_ctrl return BBS.Sim.ctrl_mode;         --  Control switches
+   function sw_ctrl return BBS.Sim_CPU.ctrl_mode;         --  Control switches
    --
    --  LED settings (LED registers)
    --
    lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
    lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
-   lr_ctrl : BBS.Sim.ctrl_mode := (atype => BBS.Sim.ADDR_DATA, mode => BBS.Sim.PROC_USER,
-                                   others => False) with
+   lr_ctrl : BBS.Sim_CPU.ctrl_mode := (atype => BBS.Sim_CPU.ADDR_DATA,
+                                       mode => BBS.Sim_CPU.PROC_USER,
+                                       others => False) with
      Address => lr_ctl'Address;
    --
    --  Flag to exit simulator loop
@@ -61,11 +62,11 @@ private
    --
    pvt_sr_ad  : BBS.embed.uint32 := 0;          -- Address/Data switch register
    pvt_sr_ctl : aliased BBS.embed.uint16 := 0;  -- Control switch register
-   pvt_sw_ctrl : BBS.Sim.ctrl_mode with
+   pvt_sw_ctrl : BBS.Sim_CPU.ctrl_mode with
      Address => pvt_sr_ctl'Address;
    function sr_ad   return BBS.embed.uint32 is (pvt_sr_ad);
    function sr_ctl  return BBS.embed.uint16 is (pvt_sr_ctl);
-   function sw_ctrl return BBS.Sim.ctrl_mode is (pvt_sw_ctrl);
+   function sw_ctrl return BBS.Sim_CPU.ctrl_mode is (pvt_sw_ctrl);
    --
    --  Local switch flags for detecting switch changes
    --
@@ -86,5 +87,5 @@ private
    --
    --  Process the mode and control LEDs
    --
-   procedure process_mode_ctrl(m : BBS.Sim.proc_mode; a : BBS.Sim.addr_type; c : BBS.embed.uint16);
+   procedure process_mode_ctrl(m : BBS.Sim_CPU.proc_mode; a : BBS.Sim_CPU.addr_type; c : BBS.embed.uint16);
 end;

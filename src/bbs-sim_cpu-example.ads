@@ -1,7 +1,7 @@
 with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
-package BBS.Sim.example is
+package BBS.Sim_CPU.example is
    --
    --  The simple simulator object inheriting from Sim.simulator.
    --
@@ -75,11 +75,16 @@ package BBS.Sim.example is
    function reg_name(self : in out simple; num : BBS.embed.uint32)
                      return String;
    --
-   --  Called to get register value
+   --  Called to get register value as a number
    --
    overriding
    function read_reg(self : in out simple; num : BBS.embed.uint32)
                      return data_bus;
+   --
+   --  Called to get register value as a string (useful for flag registers)
+   --
+   function read_reg(self : in out simple; num : BBS.embed.uint32)
+                     return String;
    --
    --  Called to set register value
    --
@@ -138,4 +143,4 @@ private
    procedure scan32(self : in out simple);
    procedure fibonacci(self : in out simple);
    procedure copy_sw(self : in out simple);
-end BBS.Sim.example;
+end BBS.Sim_CPU.example;

@@ -1,5 +1,5 @@
 with BBS.embed;
-package BBS.Sim is
+package BBS.Sim_CPU is
    --
    --  This package describes an interaface that the panel can used to control
    --  a simulator.  Specifying this interface should allow easier implementation
@@ -132,10 +132,15 @@ package BBS.Sim is
    function reg_name(self : in out simulator; num : BBS.embed.uint32)
                      return String is abstract;
    --
-   --  Called to get register value
+   --  Called to get register value as a number
    --
    function read_reg(self : in out simulator; num : BBS.embed.uint32)
                      return data_bus is abstract;
+   --
+   --  Called to get register value as a string (useful for flag registers)
+   --
+   function read_reg(self : in out simulator; num : BBS.embed.uint32)
+                     return String is abstract;
    --
    --  Called to set register value
    --
@@ -164,4 +169,4 @@ private
       lr_ctl  : ctrl_mode;  --  LED registers for control/mode
       sr_ctl  : ctrl_mode;  --  Switch register for control/mode
    end record;
-end BBS.Sim;
+end BBS.Sim_CPU;
