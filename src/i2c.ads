@@ -28,8 +28,8 @@ package i2c is
    --
    --  Result type
    --    RES_FULL - Full results
-   --    RES_LSW  - Only least significan 16 bits provided (msw not installed)
-   --    RES_MSW  - Only most significan 16 bits provided (lsw not installed)
+   --    RES_LSW  - Only least significant 16 bits provided (msw not installed)
+   --    RES_MSW  - Only most significant 16 bits provided (lsw not installed)
    --    RES_NONE - No data provided (h/w not installed)
    --    RES_ERR  - I2C error occured
    --
