@@ -107,8 +107,10 @@ function displayRegValue(xml)
   var xmlDoc = xml.responseXML;
   var num = Number(xmlDoc.getElementsByTagName("reg-num")[0].childNodes[0].nodeValue);
   var name = xmlDoc.getElementsByTagName("reg-name")[0].childNodes[0].nodeValue
-  var value = Number(xmlDoc.getElementsByTagName("reg-value")[0].childNodes[0].nodeValue)
+//  var value = Number(xmlDoc.getElementsByTagName("reg-value")[0].childNodes[0].nodeValue)
+  var value = xmlDoc.getElementsByTagName("reg-value")[0].childNodes[0].nodeValue
 
   document.getElementById("Reg-Name-" + num).textContent = name;
-  document.getElementById("Reg-Value-" + num).textContent = value.toString(16);
+//  document.getElementById("Reg-Value-" + num).textContent = value.toString(16);
+  document.getElementById("Reg-Value-" + num).textContent = value;
 }

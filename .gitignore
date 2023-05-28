@@ -4,6 +4,12 @@
 # All files in the objects directory
 obj/*
 
+# All Gerber files
+Gerber
+
+# KiCAD Backups
+*-backups
+
 # The executable files
 test
 lamp

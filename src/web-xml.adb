@@ -102,7 +102,7 @@ package body web.xml is
       String'Write(s, "<xml><reg-num>" & Natural'Image(value) & "</reg-num>");
       String'Write(s, "<reg-name>" & Panel.CPU.all.reg_name(BBS.embed.uint32(value))
                    & "</reg-name>");
-      String'Write(s, "<reg-value>" & BBS.embed.uint32'Image(Panel.CPU.all.read_reg(BBS.embed.uint32(value)))
+      String'Write(s, "<reg-value>" & String'(Panel.CPU.all.read_reg(BBS.embed.uint32(value)))
                      & "</reg-value></xml>");
    end Get_CPU_reg;
    --

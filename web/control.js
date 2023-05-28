@@ -59,14 +59,14 @@ function setCPUInfo(xml)
   temp += "The number of registers is " + num_registers + ".  ";
   temp += "The memory size is " + memory_size + ".";
   document.getElementById("Sim").innerHTML = temp;
-  if (sim_name == "Example simulator")
-  {
-    reload_timer = window.setInterval(update_values, 1000);
-  }
-  else
-  {
-    window.location.href = "/Information";
-  }
+//  if (sim_name == "Example simulator")
+//  {
+//    reload_timer = window.setInterval(update_values, 1000);
+//  }
+//  else
+//  {
+//    window.location.href = "/Information";
+//  }
 }
 //======================================
 //
