@@ -117,6 +117,59 @@ module panel_tray()
   }
 }
 
+module IOBoard()
+{
+  difference()
+  {
+    color("red") cube([45, 100, 2]);
+    union()
+    {
+      translate([3.82, 3.82, -0.1]) cylinder(5, 2.418/2);
+      translate([40.640, 3.82, -0.1]) cylinder(5, 2.418/2);
+      translate([3.82, 95.250, -0.1]) cylinder(5, 2.418/2);
+      translate([40.640, 95.250, -0.1]) cylinder(5, 2.418/2);
+    }
+  }
+}
+
+module IOBoard_standoffs(h, r, f)
+{
+  union()
+  {
+    translate([3.82, 3.82, -0.1]) cylinder($fn=f, h=h, r=r);
+    translate([40.640, 3.82, -0.1]) cylinder($fn=f, h=h, r=r);
+    translate([3.82, 95.250, -0.1]) cylinder($fn=f, h=h, r=r);
+    translate([40.640, 95.250, -0.1]) cylinder($fn=f, h=h, r=r);
+  }
+}
+
+module IO_tray()
+{
+  screw_size = 3*screw_6_size()/4;
+  screw_hole = screw_6_size()/2;
+  difference()
+  {
+    union()
+    {
+      bbs_tray(10, 3, false);
+      translate([33, 50, 0]) IOBoard_standoffs(7, screw_size, 10);
+    }
+    union()
+    {
+      translate([33, 50, -1]) IOBoard_standoffs(10, screw_hole, 10);
+      translate([0, 9, -1]) minkowski()
+      {
+        cube([25, 191, 10]);
+        cylinder(r=1, h=10);
+      }
+      translate([42, 49, -1]) minkowski()
+      {
+        cube([26, 100, 10]);
+        cylinder(r=1, h=10);
+      }
+    }
+  }
+}
 
 rotate([0, 0, 90])
 union()
@@ -124,8 +177,9 @@ union()
 //  rpi_tray();
 //  color("red") translate([rpi_x, rpi_y, 10]) rotate([0, 0, 90]) bbs_rPi3();
 //  color("red") translate([q_proto_x, q_proto_y, 10]) rotate([0, 0, 90]) bbs_quarter_permaprotoboard();
-  panel_tray();
-//  color("red") translate([half_proto_x, half_proto_y, 10]) rotate([0, 0, 90]) bbs_half_permaprotoboard();
-//  color("red") translate([half_proto_x, half_proto_y+90, 10]) rotate([0, 0, 90]) bbs_half_permaprotoboard();
+  IO_tray();
+//  color("red") translate([33, 50, 10]) IOBoard();
+//  color("white") translate([half_proto_x, half_proto_y, 5]) rotate([0, 0, 90]) bbs_half_permaprotoboard();
+//  color("white") translate([half_proto_x, half_proto_y+90, 5]) rotate([0, 0, 90]) bbs_half_permaprotoboard();
 }
 

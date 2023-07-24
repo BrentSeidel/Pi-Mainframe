@@ -5,9 +5,9 @@
   (paper "A4")
 
   (title_block
-    (title "16 Switch, 16 LED I/O Board")
-    (date "9-Jul-2023")
-    (rev "-")
+    (title "32 GPIO Board")
+    (date "24-Jul-2023")
+    (rev "1")
   )
 
   (lib_symbols
@@ -1263,13 +1263,13 @@
   (symbol (lib_id "Connector_Generic:Conn_02x05_Odd_Even") (at 151.13 66.167 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 09540715-4246-4893-9fe6-c637f4836beb)
-    (property "Reference" "J9" (at 152.273 57.023 0)
+    (property "Reference" "J2" (at 152.273 57.023 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_02x05_Odd_Even" (at 152.4 58.547 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" (at 151.13 66.167 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Horizontal" (at 151.13 66.167 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 151.13 66.167 0)
@@ -1288,7 +1288,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J9") (unit 1)
+          (reference "J2") (unit 1)
         )
       )
     )
@@ -1633,7 +1633,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 81.28 62.23 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3ab3bb79-4dbf-4978-901c-840541b4e12c)
-    (property "Reference" "J8" (at 83.82 61.595 0)
+    (property "Reference" "J11" (at 83.82 61.595 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x03" (at 83.82 64.135 0)
@@ -1651,7 +1651,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J8") (unit 1)
+          (reference "J11") (unit 1)
         )
       )
     )
@@ -1924,31 +1924,6 @@
     )
   )
 
-  (symbol (lib_id "power:GND") (at 96.52 55.88 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 79ffa699-0b93-49da-b39d-78ffc8f46016)
-    (property "Reference" "#PWR03" (at 96.52 62.23 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 96.52 60.96 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 96.52 55.88 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 96.52 55.88 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 7b5dffc9-46ef-4063-8fae-8657ca8ac1be))
-    (instances
-      (project "IOBoard"
-        (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "#PWR03") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "power:GND") (at 154.94 143.764 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7b3f4fb9-5af0-45ad-b5fa-62193a7d3869)
@@ -2081,7 +2056,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 81.28 71.12 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9d7eceea-cfc3-4e84-8f3d-020775539f14)
-    (property "Reference" "J7" (at 83.82 70.485 0)
+    (property "Reference" "J9" (at 83.82 70.485 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x03" (at 83.82 73.025 0)
@@ -2099,7 +2074,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J7") (unit 1)
+          (reference "J9") (unit 1)
         )
       )
     )
@@ -2159,13 +2134,13 @@
   (symbol (lib_id "Connector_Generic:Conn_02x05_Odd_Even") (at 153.67 38.354 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a962c938-00d6-474c-a90a-bbc09779dd42)
-    (property "Reference" "J2" (at 154.94 28.194 0)
+    (property "Reference" "J3" (at 154.94 28.194 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_02x05_Odd_Even" (at 154.94 30.734 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" (at 153.67 38.354 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Horizontal" (at 153.67 38.354 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 153.67 38.354 0)
@@ -2184,7 +2159,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J2") (unit 1)
+          (reference "J3") (unit 1)
         )
       )
     )
@@ -2211,6 +2186,31 @@
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
           (reference "R3") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+3.3V") (at 96.52 55.88 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid b30e8f87-38f6-40e2-8e1b-28e20ad26434)
+    (property "Reference" "#PWR03" (at 96.52 59.69 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+3.3V" (at 96.52 52.07 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 96.52 55.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 96.52 55.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 3355914d-59a8-4a90-89ba-f31d6445775d))
+    (instances
+      (project "IOBoard"
+        (path "/6176cf7e-07e6-4752-9af2-56387280742c"
+          (reference "#PWR03") (unit 1)
         )
       )
     )
@@ -2269,13 +2269,13 @@
   (symbol (lib_id "Connector_Generic:Conn_02x05_Odd_Even") (at 153.924 111.506 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b71d78a9-f4c0-4d25-88a2-caa5b8d9dea9)
-    (property "Reference" "J10" (at 155.194 101.346 0)
+    (property "Reference" "J5" (at 155.194 101.346 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_02x05_Odd_Even" (at 155.194 103.886 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" (at 153.924 111.506 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Horizontal" (at 153.924 111.506 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 153.924 111.506 0)
@@ -2294,7 +2294,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J10") (unit 1)
+          (reference "J5") (unit 1)
         )
       )
     )
@@ -2404,6 +2404,31 @@
     )
   )
 
+  (symbol (lib_id "power:+3.3V") (at 96.52 127 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid c5f9d5bd-469b-4374-92f3-0c78e057f3df)
+    (property "Reference" "#PWR04" (at 96.52 130.81 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+3.3V" (at 96.52 123.19 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 96.52 127 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 96.52 127 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid f3029f70-45c8-43e9-9c1d-34f6ebeeec48))
+    (instances
+      (project "IOBoard"
+        (path "/6176cf7e-07e6-4752-9af2-56387280742c"
+          (reference "#PWR04") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "Device:R_US") (at 135.89 132.08 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c9942843-2207-4d65-b454-503826b77db7)
@@ -2459,13 +2484,13 @@
   (symbol (lib_id "Connector_Generic:Conn_02x05_Odd_Even") (at 153.924 134.747 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cdb49dfd-bae1-4b63-b5e9-eb79a273f6d2)
-    (property "Reference" "J11" (at 155.194 124.587 0)
+    (property "Reference" "J4" (at 155.194 124.587 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_02x05_Odd_Even" (at 155.194 127.127 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical" (at 153.924 134.747 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Horizontal" (at 153.924 134.747 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 153.924 134.747 0)
@@ -2484,32 +2509,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J11") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 96.52 127 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid ced26587-6965-4db0-8a4a-b76fa86fd95d)
-    (property "Reference" "#PWR04" (at 96.52 133.35 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 96.52 132.08 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 96.52 127 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 96.52 127 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 0c0c9325-a23d-4ae8-ad61-85c772f68f0f))
-    (instances
-      (project "IOBoard"
-        (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "#PWR04") (unit 1)
+          (reference "J4") (unit 1)
         )
       )
     )
@@ -2544,7 +2544,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 77.47 142.24 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d760468d-538c-4d13-bac3-b0a600fbfe52)
-    (property "Reference" "J4" (at 80.01 141.605 0)
+    (property "Reference" "J8" (at 80.01 141.605 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x03" (at 80.01 144.145 0)
@@ -2562,7 +2562,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J4") (unit 1)
+          (reference "J8") (unit 1)
         )
       )
     )
@@ -2596,7 +2596,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 77.47 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d9db39e8-6009-47d0-85eb-e8bcbe4dc5a5)
-    (property "Reference" "J6" (at 80.01 131.445 0)
+    (property "Reference" "J10" (at 80.01 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Conn_01x03" (at 80.01 133.985 0)
@@ -2614,7 +2614,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J6") (unit 1)
+          (reference "J10") (unit 1)
         )
       )
     )
@@ -2648,7 +2648,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 91.44 71.12 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ddbc6499-c5be-4dd7-b009-6089a6d4717c)
-    (property "Reference" "J5" (at 91.44 78.74 0)
+    (property "Reference" "J7" (at 91.44 78.74 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x03" (at 91.44 76.2 0)
@@ -2666,7 +2666,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J5") (unit 1)
+          (reference "J7") (unit 1)
         )
       )
     )
@@ -2752,7 +2752,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 85.09 142.24 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid fb4d1ef9-fb02-4318-93d7-173ecb14cf9f)
-    (property "Reference" "J3" (at 85.09 149.86 0)
+    (property "Reference" "J6" (at 85.09 149.86 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x03" (at 85.09 147.32 0)
@@ -2770,7 +2770,7 @@
     (instances
       (project "IOBoard"
         (path "/6176cf7e-07e6-4752-9af2-56387280742c"
-          (reference "J3") (unit 1)
+          (reference "J6") (unit 1)
         )
       )
     )
