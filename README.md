@@ -8,11 +8,24 @@ This project is an attempt to recreate the feel of old mainframe computers
 using a Raspberry Pi 3 and some other assorted parts that I had laying
 around.  The actual boxes and panels are 3D printed.
 
-This is still very much a work in progress and things will change.  I am
-currently in the process of creating a schematic and laying out a PCB for
-the I/O boards.  The current state is in the repository, but it isn't
+## Note
+This is still very much a work in progress and things will change.
+
+## IO Board PCB
+I am currently in the process of creating a schematic and laying out a PCB
+for the I/O boards.  The current state is in the repository, but it isn't
 finished yet.  Once I am satisfied and have PCBs made and tested, I will
 update the documentation.  This should simplify assembly.
+
+The first version of the PCB had an error in it.  It could be fixed by
+cutting traces and soldering in jumper wires.  Testing is not complete,
+but it seems to work.  The schematic has been updated and a new board
+is being layed out.
+
+This board also seems like it wold be useful for other projects, so some
+effort is being put into making it more generic.  Once I am happy with it,
+it will move into a repository for schematics and boards (yet to be
+created).
 
 ## Dependencies
 This depends on the following repositories:
