@@ -12,20 +12,11 @@ around.  The actual boxes and panels are 3D printed.
 This is still very much a work in progress and things will change.
 
 ## IO Board PCB
-I am currently in the process of creating a schematic and laying out a PCB
-for the I/O boards.  The current state is in the repository, but it isn't
-finished yet.  Once I am satisfied and have PCBs made and tested, I will
-update the documentation.  This should simplify assembly.
-
-The first version of the PCB had an error in it.  It could be fixed by
-cutting traces and soldering in jumper wires.  Testing is not complete,
-but it seems to work.  The schematic has been updated and a new board
-is being layed out.
-
-This board also seems like it wold be useful for other projects, so some
-effort is being put into making it more generic.  Once I am happy with it,
-it will move into a repository for schematics and boards (yet to be
-created).
+The I/O board PCB has been created and tested.  The schematics and PCB
+layout have been moved to the Circuits reporitory.  Documentation and
+assembly instructions for it will be created there.  The documentation
+here will be updated to reference that and show how it integrates into
+this project.
 
 ## Dependencies
 This depends on the following repositories:
@@ -34,6 +25,7 @@ This depends on the following repositories:
 * https://github.com/BrentSeidel/Ada-Web-Server.git
 * https://github.com/BrentSeidel/Things.git
 * https://github.com/BrentSeidel/Sim-CPU.git
+* https://github.com/BrentSeidel/Circuits/git
 
 If you are actually interested in simulating old computers, you can
 download and build simh from github at https://github.com/simh/simh.git
