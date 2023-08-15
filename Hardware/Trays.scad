@@ -77,6 +77,64 @@ module rpi_tray()
   }
 }
 
+module BreakoutBoard()
+{
+  difference()
+  {
+    color("red") cube([36.83, 24.13, 2]);
+    union()
+    {
+      translate([5.08, 5.08, -0.1]) cylinder(5, 2.418/2);
+      translate([31.75, 5.08, -0.1]) cylinder(5, 2.418/2);
+    }
+  }
+}
+
+module Breakout_standoffs(h, r, f)
+{
+  union()
+  {
+    translate([5.08, 5.08, -0.1]) cylinder($fn=f, h=h, r=r);
+    translate([31.75, 5.08, -0.1]) cylinder($fn=f, h=h, r=r);
+  }
+}
+breakout_x = 75;
+breakout_y = 120;
+module rpi_tray_new()
+{
+  screw_size = 3*screw_6_size()/4;
+  screw_hole = screw_6_size()/2;
+  difference()
+  {
+    union()
+    {
+      bbs_tray(10, 3, false);
+      translate([rpi_x, rpi_y, 3]) rotate([0, 0, 90]) rPi3_standoffs(5, screw_size, 12);
+      translate([breakout_x, breakout_y, 3]) rotate([0, 0, 90]) Breakout_standoffs(5, screw_size, 12);
+    }
+    union()
+    {
+      translate([rpi_x, rpi_y, -2]) rotate([0, 0, 90]) rPi3_standoffs(5 + 6, screw_hole, 12);
+      translate([breakout_x, breakout_y, -2]) rotate([0, 0, 90]) Breakout_standoffs(5 + 6, screw_hole, 12);
+      translate([10, 10, -1]) minkowski()
+      {
+        cube([60, 35, 10]);
+        cylinder(r=1, h=10);
+      }
+      translate([10, 60, -1]) minkowski()
+      {
+        cube([60, 45, 10]);
+        cylinder(r=1, h=10);
+      }
+      translate([10, 120, -1]) minkowski()
+      {
+        cube([50, 70, 10]);
+        cylinder(r=1, h=10);
+      }
+    }
+  }
+}
+
 half_proto_x = 55;
 half_proto_y = 10;
 module panel_tray()
@@ -117,32 +175,6 @@ module panel_tray()
   }
 }
 
-module IOBoard()
-{
-  difference()
-  {
-    color("red") cube([45, 100, 2]);
-    union()
-    {
-      translate([3.82, 3.82, -0.1]) cylinder(5, 2.418/2);
-      translate([40.640, 3.82, -0.1]) cylinder(5, 2.418/2);
-      translate([3.82, 95.250, -0.1]) cylinder(5, 2.418/2);
-      translate([40.640, 95.250, -0.1]) cylinder(5, 2.418/2);
-    }
-  }
-}
-
-module IOBoard_standoffs(h, r, f)
-{
-  union()
-  {
-    translate([3.82, 3.82, -0.1]) cylinder($fn=f, h=h, r=r);
-    translate([40.640, 3.82, -0.1]) cylinder($fn=f, h=h, r=r);
-    translate([3.82, 95.250, -0.1]) cylinder($fn=f, h=h, r=r);
-    translate([40.640, 95.250, -0.1]) cylinder($fn=f, h=h, r=r);
-  }
-}
-
 module IO_tray()
 {
   screw_size = 3*screw_6_size()/4;
@@ -152,11 +184,11 @@ module IO_tray()
     union()
     {
       bbs_tray(10, 3, false);
-      translate([33, 50, 0]) IOBoard_standoffs(7, screw_size, 10);
+      translate([77, 50, 0.1]) rotate([0, 0, 90]) bbs_GPIO_standoffs(7, screw_size, 10);
     }
     union()
     {
-      translate([33, 50, -1]) IOBoard_standoffs(10, screw_hole, 10);
+      translate([77, 50, 0]) rotate([0, 0, 90]) bbs_GPIO_standoffs(10, screw_hole, 10);
       translate([0, 9, -1]) minkowski()
       {
         cube([25, 191, 10]);
@@ -171,14 +203,14 @@ module IO_tray()
   }
 }
 
-rotate([0, 0, 90])
+//rotate([0, 0, 90])
 union()
 {
-//  rpi_tray();
+//  rpi_tray_new();
 //  color("red") translate([rpi_x, rpi_y, 10]) rotate([0, 0, 90]) bbs_rPi3();
-//  color("red") translate([q_proto_x, q_proto_y, 10]) rotate([0, 0, 90]) bbs_quarter_permaprotoboard();
+//  color("red") translate([breakout_x, breakout_y, 10]) rotate([0, 0, 90]) BreakoutBoard();
   IO_tray();
-//  color("red") translate([33, 50, 10]) IOBoard();
+  color("red") translate([77, 50, 10]) rotate([0, 0, 90]) bbs_GPIO();
 //  color("white") translate([half_proto_x, half_proto_y, 5]) rotate([0, 0, 90]) bbs_half_permaprotoboard();
 //  color("white") translate([half_proto_x, half_proto_y+90, 5]) rotate([0, 0, 90]) bbs_half_permaprotoboard();
 }
