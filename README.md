@@ -25,7 +25,7 @@ This depends on the following repositories:
 * https://github.com/BrentSeidel/Ada-Web-Server.git
 * https://github.com/BrentSeidel/Things.git
 * https://github.com/BrentSeidel/Sim-CPU.git
-* https://github.com/BrentSeidel/Circuits/git
+* https://github.com/BrentSeidel/Circuits.git
 
 If you are actually interested in simulating old computers, you can
 download and build simh from github at https://github.com/simh/simh.git
