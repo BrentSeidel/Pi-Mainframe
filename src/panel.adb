@@ -103,7 +103,6 @@ package body Panel is
       lr_ctl := c;
       lr_ctrl.ready := True;
       lr_ctrl.mode  := m;
-      lr_ctrl.blank := False;
       lr_ctrl.atype := a;
    end;
    --
