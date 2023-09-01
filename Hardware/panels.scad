@@ -47,11 +47,11 @@ module board_led()
 //
 //  Module for supporting the LED PCB
 //
-module board_support()
+module board_support(height)
 {
-  translate([0, 0, -3]) cube([5, 152, 3]);
-  translate([0, 0, -5]) cube([3, 152, 2]);
-  translate([0, 0, -6]) cube([4, 152, 1]);
+  translate([0, 0, -height]) cube([5, 152, height]);
+  translate([0, 0, -(height + 2)]) cube([3, 152, 2]);
+  translate([0, 0, -(height + 3)]) cube([4, 152, 1]);
 }
 //
 //  This panel has mounting for 8 switches and LEDs.  Numbers are embossed between the
@@ -61,19 +61,21 @@ module board_support()
 module new_panel_switch(start, board)
 {
   spacing = 20;
+  led_height = 5;
+  led_x = 40;
   union()
   {
+    if (board)
+    {
+      translate([led_x - 7, 185.5, -(led_height + 1.75)]) rotate([0, 0, -90]) board_led();
+    }
     difference()
     {
       union()
       {
         bbs_panel(10, 4);
-        translate([33, 185.5, -3]) rotate([0, 0, -90]) board_led_standoffs(4, 2.5, 12);
-        if (board)
-        {
-          translate([33, 185.5, -4.5]) rotate([0, 0, -90]) board_led();
-        }
-        translate([33, 33.5, 0]) board_support();
+        translate([led_x - 7, 185.5, -led_height]) rotate([0, 0, -90]) board_led_standoffs(led_height + 1, 2.5, 12);
+        translate([led_x - 10, 33.5, 0]) board_support(led_height);
       }
       union()
       {
@@ -91,7 +93,7 @@ module new_panel_switch(start, board)
         translate([60, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
               text("Addr/Data", halign="left", valign="center", size=7,
                 font=title_font);
-        translate([33, 185.5, -3.1]) rotate([0, 0, -90]) board_led_standoffs(6, 1.25, 12);
+        translate([led_x - 7, 185.5, -(led_height + 0.1)]) rotate([0, 0, -90]) board_led_standoffs(led_height + 6, 1.25, 12);
       }
     }
   }
@@ -147,9 +149,10 @@ module panel_nameplate(name)
 //
 //  This panel has various switches and LEDs for controls and status
 //
-module new_panel_control(board)
+
+module panel_control()
 {
-  spacing = 20;
+  spacing = (width-30)/8;
   led_x = 55;
   switch_x = 25;
   on_labels  = ["Run", "Start", "Auto", "Addr", "Dep", "Exam", "Rdy", "Power"];
@@ -158,15 +161,61 @@ module new_panel_control(board)
   {
     difference()
     {
+      bbs_panel(10, 4);
+      union()
+      {
+        for(a = [1:8])
+        {
+          y = width/2 - (4.5-a)*spacing;
+          //
+          //  No switch for Rdy LED.
+          //
+          if(a != 2)
+          {
+            translate([switch_x, y, -0.1]) bbs_spdt_switch_cutout(2.2);
+          }
+          if(a < 8)
+          {
+            translate([led_x + 3, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
+            translate([led_x - 4, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
+          }
+          translate([led_x, y, -0.1]) bbs_led_oval(2.2);
+          translate([switch_x + 11, y, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
+              text(on_labels[8 - a], halign="center", valign="baseline", size=6,
+                font=number_font);
+          translate([switch_x - 15, y, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
+              text(off_labels[8 - a], halign="center", valign="baseline", size=6,
+                font=number_font);
+        }
+        translate([70, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
+              text("Control", halign="left", valign="center", size=7,
+                font=title_font);
+      }
+    }
+  }
+}
+
+module new_panel_control(board)
+{
+  spacing = 20;
+  led_x = 55;
+  led_height = 5;
+  switch_x = 25;
+  on_labels  = ["Run", "Start", "Auto", "Addr", "Dep", "Exam", "Rdy", "Power"];
+  off_labels = ["Pause", "Stop", "Man", "Data", "", "", "", "Off"];
+  union()
+  {
+    if (board)
+    {
+      translate([led_x - 7, 185.5, -(led_height + 1.75)]) rotate([0, 0, -90]) board_led();
+    }
+    difference()
+    {
       union()
       {
         bbs_panel(10, 4);
-        translate([48, 185.5, -3]) rotate([0, 0, -90]) board_led_standoffs(4, 2.5, 12);
-        if (board)
-        {
-          translate([48, 185.5, -4.5]) rotate([0, 0, -90]) board_led();
-        }
-        translate([45, 33.5, 0]) board_support();
+        translate([led_x - 7, 185.5, -led_height]) rotate([0, 0, -90]) board_led_standoffs(led_height + 1, 2.5, 12);
+        translate([led_x - 10, 33.5, 0]) board_support(led_height);
       }
       union()
       {
@@ -191,49 +240,7 @@ module new_panel_control(board)
         translate([70, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
               text("Control", halign="left", valign="center", size=7,
                 font=title_font);
-        translate([48, 185.5, -3.1]) rotate([0, 0, -90]) board_led_standoffs(6, 1.25, 12);
-      }
-    }
-  }
-}
-
-module panel_control()
-{
-  spacing = (width-30)/8;
-  led_x = 55;
-  switch_x = 25;
-  on_labels  = ["Run", "Start", "Auto", "Addr", "Dep", "Exam", "Rdy", "Power"];
-  off_labels = ["Pause", "Stop", "Man", "Data", "", "", "", "Off"];
-  union()
-  {
-    difference()
-    {
-      bbs_panel(10, 4);
-      union()
-      {
-        for(a = [1:8])
-        {
-          y = width/2 - (4.5-a)*spacing;
-          if(a != 2)
-          {
-            translate([switch_x, y, -0.1]) bbs_spdt_switch_cutout(2.2);
-          }
-          if(a < 8)
-          {
-            translate([led_x + 3, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
-            translate([led_x - 4, y + spacing/2 - 2.5, -0.1]) cube([2, 5, 2.2]);
-          }
-          translate([led_x, y, -0.1]) bbs_led_oval(2.2);
-          translate([switch_x + 11, y, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
-              text(on_labels[8 - a], halign="center", valign="baseline", size=6,
-                font=number_font);
-          translate([switch_x - 15, y, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
-              text(off_labels[8 - a], halign="center", valign="baseline", size=6,
-                font=number_font);
-        }
-        translate([70, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
-              text("Control", halign="left", valign="center", size=7,
-                font=title_font);
+        translate([led_x - 7, 185.5, -(led_height + 0.1)]) rotate([0, 0, -90]) board_led_standoffs(led_height + 6, 1.25, 12);
       }
     }
   }
@@ -276,24 +283,27 @@ module panel_mode()
   }
 }
 
+
+
 module new_panel_mode(board)
 {
   spacing = 20;
   led_x = 30;
+  led_height = 5;
   led_labels  = ["User", "Sup", "Exec", "Kern", "I/O", "Inst", "Data", "Intr"];
   union()
   {
+    if (board)
+    {
+      translate([led_x - 7, 185.5, -(led_height + 1.75)]) rotate([0, 0, -90]) board_led();
+    }
     difference()
     {
       union()
       {
         bbs_panel(10, 3);
-        translate([23, 185.5, -3]) rotate([0, 0, -90]) board_led_standoffs(4, 2.5, 12);
-        if (board)
-        {
-          translate([23, 185.5, -4.5]) rotate([0, 0, -90]) board_led();
-        }
-        translate([20, 33.5, 0]) board_support();
+        translate([led_x - 7, 185.5, -led_height]) rotate([0, 0, -90]) board_led_standoffs(led_height + 1, 2.5, 12);
+        translate([led_x - 10, 33.5, 0]) board_support(led_height);
       }
       union()
       {
@@ -308,7 +318,7 @@ module new_panel_mode(board)
         translate([led_x + 15, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
               text("Modes", halign="left", valign="center", size=7,
                 font=title_font);
-        translate([23, 185.5, -3.1]) rotate([0, 0, -90]) board_led_standoffs(6, 1.25, 12);
+        translate([led_x - 7, 185.5, -(led_height + 0.1)]) rotate([0, 0, -90]) board_led_standoffs(led_height + 6, 1.25, 12);
       }
     }
   }
@@ -342,11 +352,11 @@ module panel_power()
 rotate([0, 0, 90])
 {
 //  translate([00, 0, 0]) new_panel_mode(true);
-  translate([00, 0, 0]) new_panel_control(true);
-//  translate([00, 0, 0]) new_panel_switch(0, true);
-//  translate([90, 0, 0]) panel_switch(8);
-//  translate([90, 0, 0]) panel_switch(16);
-//  translate([00, 0, 0]) panel_switch(24);
+  translate([00, 0, 0]) new_panel_control(false);
+//  translate([00, 0, 0]) new_panel_switch(0, false);
+//  translate([00, 0, 0]) new_panel_switch(8, false);
+//  translate([00, 0, 0]) new_panel_switch(16, false);
+//  translate([00, 0, 0]) new_panel_switch(24, false);
 //  translate([100, 0, 0]) panel_nameplate("RPi-3/1 Mainframe");
 //  translate([00, 0, 0]) panel_power();
 }
