@@ -302,7 +302,7 @@ The I2C Bus Cable is a 10 conductor ribbon cable with crimp-on connectors.  Usin
 
 \begin{table}
   \label{tbl:I2C-Pins}
-  \caption{I2C Connectior Pinout}
+  \caption{I2C Connector Pinout}
   \centering
   \begin{tabular}{|r|l|}
     \hline
@@ -325,6 +325,37 @@ The I2C Bus Cable is a 10 conductor ribbon cable with crimp-on connectors.  Usin
 \clearpage
 \subsection{Panel LEDs}
 \label{subsec:PanelLED}
+The LED PCB is shown in Figure \ref{fig:LEDPCB}.  The connector is installed on the opposite side of the board from the LEDs as shown in Figure \ref{fig:LEDConnector}.  This is due to space constraints.  The LEDs are installed as shown in Figure \ref{fig:LEDLED}.  Note that the short leg of the LED goes to ground.  Once the connector is soldered, the LEDs can be inserted and hooked up to an I/O board for testing prior to soldering the LEDs.  The final assembled board after trimming the LED legs is shown in Figure \ref{fig:LEDFinal}.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LED-Board.jpg}
+  \caption{PCB for LEDs}
+  \label{fig:LEDPCB}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LED-Connector.jpg}
+  \caption{LED PCB With Connector Installed}
+  \label{fig:LEDConnector}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LED-LED.jpg}
+  \caption{Installing LEDs in the LED PCB}
+  \label{fig:LEDLED}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/LED-Final.jpg}
+  \caption{Completed LED PCB}
+  \label{fig:LEDFinal}
+\end{figure}
+
+Once the LED PCB is assembled, it can be installed in a panel.  Details are TBD.
 
 \subsection{Panel Switches}
 My implementation uses SPST switches where the center connector is common.  When the switch is in the up position, the center and lower connector are connected.  When the switch is in the down position, the center and upper connector are connected.  The MCP23017s have an optional pullup for each input, thus the switches can be used in an open-ground configuration.  The top connectors are tied together and connected to ground.  The center connectors are connected to the individual input pins.
