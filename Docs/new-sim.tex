@@ -355,40 +355,51 @@ The LED PCB is shown in Figure \ref{fig:LEDPCB}.  The connector is installed on 
   \label{fig:LEDFinal}
 \end{figure}
 
-Once the LED PCB is assembled, it can be installed in a panel.  Details are TBD.
+Once the LED PCB is assembled, it is be installed in a panel.  Depending on how accurate the soldering is, some adjustment may need to be done to get the LEDs to go into the holes in the panel.  Once they go, the bottom side of the PCB should be snapped into the groove in the support and screws placed in the top corners.  See Figures \ref{fig:PanelFront} and \ref{fig:PanelBack} for front and back views.
 
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Panel-Front.jpg}
+  \caption{Front of Panel with LEDs Installed}
+  \label{fig:PanelFront}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/Panel-Back.jpg}
+  \caption{Back of Panel with LED PCB Installed}
+  \label{fig:PanelBack}
+\end{figure}
+
+\clearpage
 \subsection{Panel Switches}
-My implementation uses SPST switches where the center connector is common.  When the switch is in the up position, the center and lower connector are connected.  When the switch is in the down position, the center and upper connector are connected.  The MCP23017s have an optional pullup for each input, thus the switches can be used in an open-ground configuration.  The top connectors are tied together and connected to ground.  The center connectors are connected to the individual input pins.
+My implementation uses SPST switches where the center connector is common.  When the switch is in the up position, the center and lower connector are connected.  When the switch is in the down position, the center and upper connector are connected.  The MCP23017s have an optional pull-up for each input, thus the switches can be used in an open-ground configuration.  The top connectors are tied together and connected to ground.  The center connectors are connected to the individual input pins.
 \begin{itemize}
-  \item Install the switches as shown in Figure \ref{fig:Switch1}.  This example shows a control panel that only has six switches.
-  \item Install the wiring for the switches as shown in Figure \ref{fig:Switch2}.  Since the control panel has only six switches, one of the cable pairs is unused.
-  \item Finally, install the LEDs in the panel as described in Section \ref{subsec:PanelLED} and shown in Figure \ref{fig:Switch3}.
+  \item Install the switches as shown in Figure \ref{fig:SwitchInstalled}.
+  \item Install the wiring for the switches as shown in Figure \ref{fig:SwitchWired}.  The wiring is shown going to a breakout board.  This allows a ribbon cable to be used to connect to the I/O board.  Alternating blue and white wires are used to make it a little easier to follow.  The ground wire from the breakout board is green on the far right.
 \end{itemize}
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.9\textwidth]{../Pict/Switch1.jpg}
+  \includegraphics[width=0.9\textwidth]{../Pict/Switch-Installed.jpg}
   \caption{Control Panel Switches Showing Switches Installed}
-  \label{fig:Switch1}
+  \label{fig:SwitchInstalled}
 \end{figure}
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.9\textwidth]{../Pict/Switch2.jpg}
+  \includegraphics[width=0.9\textwidth]{../Pict/Switch-Wired.jpg}
   \caption{Control Panel Switches Showing Wiring}
-  \label{fig:Switch2}
-\end{figure}
-
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=0.9\textwidth]{../Pict/Switch3.jpg}
-  \caption{Control Panel with Switches and LEDs Installed and Wired}
-  \label{fig:Switch3}
+  \label{fig:SwitchWired}
 \end{figure}
 
 \section{Power}
 You can go with just plugging a USB power adapter into the micro-USB connector on the Raspberry PI, or you can get fancier.  There is a model for a power panel that has cutouts for micro-USB and a USB-B panel mount connectors.  Adafruit offers a number of panel mount USB to various USB adapters.  You can just use one of these.  If you want to get fancier, you can cut open the USB cable and insert the power switch in series with the power conductor.  At this point, you are on your own.  Be careful!
 
+\section{Final Assembly}
+Once all of the sub-assemblies are complete, it is time to connect everything together.  It will probably be easiest to start from the bottom and work you way up to the top in assembly.
+
+Since pin 1 of the I/O connectors is on the left side of each connector on the I/O board and LED or switch 1 is on the right side of the panels, the ribbon cables will need a 180$\degree$ twist to them.  When making the I/O cables, put the connector at one end of the cable facing down and the connector at the other end facing up.  On the other hand, the I2C bus cable should have all connectors facing the same direction.
 %----------------------------------------------------------
 \chapter{Software}
 \section{Overview}
