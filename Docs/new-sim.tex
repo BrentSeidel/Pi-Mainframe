@@ -185,8 +185,8 @@ Once you've decided on your system size, then you need to figure out how to arra
 Once your arrangement is finished, then you can go ahead and figure out how long your cables need to be.  After you have the cables from the panels to the controllers finished, it becomes much harder to move things around.  Ask me how I know.
 
 \begin{table}
-  \label{tbl:Basic}
   \caption{Example 16 Bit Processor Layout}
+  \label{tbl:Basic}
   \centering
   \begin{tabular}{|l|l|}
     \hline
@@ -202,8 +202,8 @@ Once your arrangement is finished, then you can go ahead and figure out how long
 \end{table}
 
 \begin{table}
-  \label{tbl:Improved}
   \caption{Improved 16 Bit Processor Layout}
+  \label{tbl:Improved}
   \centering
   \begin{tabular}{|l|l|}
     \hline
@@ -286,8 +286,8 @@ Since the power LED is meant to be on whenever power is applied, a modification 
 The I2C addresses and connectors used are in Table \ref{tbl:i2c}.
 
 \begin{table}
-  \label{tbl:i2c}
   \caption{I2C Addresses for Discrete I/O Boards}
+  \label{tbl:i2c}
   \centering
   \begin{tabular}{|l|l|}
     \hline
@@ -304,32 +304,6 @@ The I2C addresses and connectors used are in Table \ref{tbl:i2c}.
   \end{tabular}
 \end{table}
 
-\subsection{I2C Bus Cable}
-The I2C Bus Cable is a 10 conductor ribbon cable with crimp-on connectors.  Using this eliminates a lot of tedious soldering that the previous version required.  The pinout for this cable is shown in Table \ref{tbl:I2C-Pins}.
-
-\begin{table}
-  \label{tbl:I2C-Pins}
-  \caption{I2C Connector Pinout}
-  \centering
-  \begin{tabular}{|r|l|}
-    \hline
-    Pin & Description\\
-    \hline
-    1 & No Connection\\
-    2 & Ground\\
-    3 & No Connection\\
-    4 & SDA\\
-    5 & No Connection\\
-    6 & Vdd\\
-    7 & No Connection\\
-    8 & SCK\\
-    9 & No Connection\\
-    10 & Ground\\
-    \hline
-  \end{tabular}
-\end{table}
-
-\clearpage
 \subsection{Panel LEDs}
 \label{subsec:PanelLED}
 The LED PCB is shown in Figure \ref{fig:LEDPCB}.  The connector is installed on the opposite side of the board from the LEDs as shown in Figure \ref{fig:LEDConnector}.  This is due to space constraints.  The LEDs are installed as shown in Figure \ref{fig:LEDLED}.  Note that the short leg of the LED goes to ground.  Once the connector is soldered, the LEDs can be inserted and hooked up to an I/O board for testing prior to soldering the LEDs.  The final assembled board after trimming the LED legs is shown in Figure \ref{fig:LEDFinal}.
@@ -400,6 +374,31 @@ My implementation uses SPST switches where the center connector is common.  When
   \label{fig:SwitchWired}
 \end{figure}
 
+\subsection{I2C Bus Cable}
+The I2C Bus Cable is a 10 conductor ribbon cable with crimp-on connectors.  Using this eliminates a lot of tedious soldering that the previous version required.  The pinout for this cable is shown in Table \ref{tbl:I2C-Pins}.
+
+\begin{table}
+  \caption{I2C Connector Pinout}
+  \label{tbl:I2C-Pins}
+  \centering
+  \begin{tabular}{|r|l|}
+    \hline
+    Pin & Description\\
+    \hline
+    1 & No Connection\\
+    2 & Ground\\
+    3 & No Connection\\
+    4 & SDA\\
+    5 & No Connection\\
+    6 & Vdd\\
+    7 & No Connection\\
+    8 & SCK\\
+    9 & No Connection\\
+    10 & Ground\\
+    \hline
+  \end{tabular}
+\end{table}
+
 \section{Power}
 You can go with just plugging a USB power adapter into the micro-USB connector on the Raspberry PI, or you can get fancier.  There is a model for a power panel that has cutouts for micro-USB and a USB-B panel mount connectors.  Adafruit offers a number of panel mount USB to various USB adapters.  You can just use one of these.  If you want to get fancier, you can cut open the USB cable and insert the power switch in series with the power conductor.  At this point, you are on your own.  Be careful!
 
@@ -408,13 +407,14 @@ Once all of the sub-assemblies are complete, it is time to connect everything to
 
 Since pin 1 of the I/O connectors is on the left side of each connector on the I/O board and LED or switch 1 is on the right side of the panels, the ribbon cables will need a 180$\degree$ twist to them.  When making the I/O cables, put the connector at one end of the cable facing down and the connector at the other end facing up as shown in Figure \ref{fig:GPIOCable}.  On the other hand, the I2C bus cable should have all connectors facing the same direction.
 
-
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=0.9\textwidth]{../Pict/GPIO-Cable.jpg}
   \caption{Example Short GPIO Cables}
   \label{fig:GPIOCable}
 \end{figure}
+
+Since there are many options in arranging the various racks, trays, and panels, the lengths of the cables need to be determined on an individual basis.
 
 %----------------------------------------------------------
 \chapter{Software}
@@ -424,8 +424,8 @@ Currently, the software has two main interfaces.  The first is the switches and 
 \section{Simulation}
 
 \begin{table}
-  \label{tbl:Simulations}
   \caption{Simulations Available}
+  \label{tbl:Simulations}
   \centering
   \begin{tabular}{|r|l|}
     \hline
@@ -472,7 +472,7 @@ Unless you wish to reset the simulation values, you should always leave the \swi
 The web interface is available on port 31415 (configurable in web.adb).  It uses plain, unencrypted HTTP.
 
 \section{Other Software}
-To enhance the experience, you can install some old computer emulation software (such as simh, available at https://github.com/simh/simh).  Note that this will run completely independent from the lights and switch in this project.
+To enhance the experience, you can install some old computer emulation software (such as simh, available at \url{https://github.com/simh/simh}).  Note that this will run completely independent from the lights and switch in this project.
 
 \end{document}
 
