@@ -274,7 +274,14 @@ Once the breakout board is assembled, attach it and the Raspberry Pi to the proc
 \subsection{Panel I/O Tray}
 The Panel I/O Tray holds one Discrete I/O Board.  The discrete I/O boards offer 32 bits of GPIO.  Each can be configured as an input or an output.  Assembly instructions for this board are provided in the Circuits repository along with the schematics and PCB layout.
 
-Since the power LED is meant to be on whenever power is applied, a modification needs to be made to the discrete I/O board for the mode and control panels.  This means that the SMD resistor for the power LED needs to be mounted so that it doesn't connect to the MCP23017.  It instead needs a jumper from power connected to it as shown in Figure TBD.
+Since the power LED is meant to be on whenever power is applied, a modification needs to be made to the discrete I/O board for the mode and control panels.  This means that the SMD resistor for the power LED needs to be mounted so that it doesn't connect to the MCP23017.  It instead needs a jumper from power connected to it as shown in Figure \ref{fig:GPIOCtrl}.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/GPIO-Control.jpg}
+  \caption{GPIO Board for Mode and Control Panel.  Note jumper to SMD resistor on top left for power indication.}
+  \label{fig:GPIOCtrl}
+\end{figure}
 
 The I2C addresses and connectors used are in Table \ref{tbl:i2c}.
 
@@ -399,7 +406,16 @@ You can go with just plugging a USB power adapter into the micro-USB connector o
 \section{Final Assembly}
 Once all of the sub-assemblies are complete, it is time to connect everything together.  It will probably be easiest to start from the bottom and work you way up to the top in assembly.
 
-Since pin 1 of the I/O connectors is on the left side of each connector on the I/O board and LED or switch 1 is on the right side of the panels, the ribbon cables will need a 180$\degree$ twist to them.  When making the I/O cables, put the connector at one end of the cable facing down and the connector at the other end facing up.  On the other hand, the I2C bus cable should have all connectors facing the same direction.
+Since pin 1 of the I/O connectors is on the left side of each connector on the I/O board and LED or switch 1 is on the right side of the panels, the ribbon cables will need a 180$\degree$ twist to them.  When making the I/O cables, put the connector at one end of the cable facing down and the connector at the other end facing up as shown in Figure \ref{fig:GPIOCable}.  On the other hand, the I2C bus cable should have all connectors facing the same direction.
+
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Pict/GPIO-Cable.jpg}
+  \caption{Example Short GPIO Cables}
+  \label{fig:GPIOCable}
+\end{figure}
+
 %----------------------------------------------------------
 \chapter{Software}
 \section{Overview}

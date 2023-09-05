@@ -11,27 +11,30 @@ around.  The actual boxes and panels are 3D printed.
 ## Note
 This is still very much a work in progress and things will change.
 
+This project requires 3D printing, making PCBs, soldering, and building
+software from source.
+
 ## PCBs
-Some printed circuit boards are in various stages of development that
-should make assembly of this project much easier.  Updates will be made
-as development progresses.
+Three printed circuit boards have been designed to eliminate some of the
+tedious soldering.  Using the PCBs make assembly much easier and the
+resulting project much lesss of a mess of wires.
 
 ### IO Board PCB
 The I/O board PCB has been created and tested.  The schematics and PCB
 layout have been moved to the Circuits reporitory.  Documentation and
-assembly instructions for it have been created there.  The documentation
-here will be updated to reference that and show how it integrates into
-this project.
+assembly instructions for it have been created there.
 
 ### Breakout PCB
 A breakout PCB has been developed for breaking out the 10 conductor
 ribbon cables that are being used for the I2C bus, and other uses.  It
 is also in the Circuits repository.
 
-### LED PCB
-A PCB is in development for holding the LEDs.  This requires some redesign
-to the panels.  However, once this change is completed, assembly and testing
-should be much easier.
+### LED PCB\
+A PCB has been developed for holding the LEDs.  This required some redesign
+to the panels.  However it eliminates the soldering of wires directly to
+the LED leads.  The LED PCB can also be fairly easily added to and
+removed from panels should you wish to, for example, use LEDs of different
+colors.
 
 ## Dependencies
 This depends on the following repositories:
