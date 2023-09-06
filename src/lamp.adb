@@ -89,6 +89,9 @@ begin
       i2c.MCP23017_info(i2c.LED_CTRL).set_dir(16#0000#, err);
       Ada.Text_IO.Put_Line("LED mode and control configured");
    end if;
+   --
+   --  Select pattern for testing
+   --
    if false then
      mirror;
    else

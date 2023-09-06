@@ -2,7 +2,7 @@ with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
 with BBS.Sim_CPU;
---with BBS.Sim_CPU.example;
+with BBS.Sim_CPU.example;
 with BBS.Sim_CPU.i8080;
 --
 --  This package contains information and code for the front panel of the simulator.
@@ -14,9 +14,10 @@ package Panel is
    --
    --  Simulator.  Change this to which ever simulator is being used.
    --
---   simulate : aliased BBS.Sim_CPU.example.simple;
-   simulate : aliased BBS.Sim_CPU.i8080.i8080;
-   CPU : BBS.Sim_CPU.sim_access := simulate'Access;
+   sim_example : aliased BBS.Sim_CPU.example.simple;
+   sim_8080 : aliased BBS.Sim_CPU.i8080.i8080;
+   CPU : BBS.Sim_CPU.sim_access := sim_example'Access;
+--   CPU : BBS.Sim_CPU.sim_access := sim_8080'Access;
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
    --  interface and can only be changed when ctl_auto is True.
@@ -82,6 +83,11 @@ private
    --
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
+   --
+   --  Initializations for different simulations
+   --
+   procedure init_sim_example;
+   procedure init_sim_8080;
    --
    --  Process the control switches and set flags as appropriate
    --
