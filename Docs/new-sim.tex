@@ -180,11 +180,9 @@ This is a display only panel to show the processor and memory access modes.  It 
 \subsection{Planning}
 The first decision is if you want to simulate a 16 bit or 32 bit (or something else) system.  Each panel can hold up to 8 LEDs and switches.  Each MCP23017 can control 16 LEDs or switches, so 2 MCP23017s can control 2 panels.  Each rack has space for 1 panel and two circuit trays.  If you attach two racks side by side, they will approximately fit in a 19 inch rack (as I don't have a standard 19 inch rack, you will probably have to design and print some sort of adapter).
 
-Once you've decided on your system size, then you need to figure out how to arrange things.  See Table \ref{tbl:Basic} for an example arrangement.  Upon assembling this system, I discovered a drawback--the top of the Control Panel Controller interferes with the cable connecting the controllers to the processor.  An improved arrangement is in Table \ref{tbl:Improved}.
+Once you've decided on your system size, then you need to figure out how to arrange things.  See Table \ref{tbl:Basic} for an example arrangement.  Once this is finished, then you can go ahead and figure out how long your cables need to be.
 
-Once your arrangement is finished, then you can go ahead and figure out how long your cables need to be.  After you have the cables from the panels to the controllers finished, it becomes much harder to move things around.  Ask me how I know.
-
-\begin{table}
+\begin{table}[ht!]
   \caption{Example 16 Bit Processor Layout}
   \label{tbl:Basic}
   \centering
@@ -192,23 +190,6 @@ Once your arrangement is finished, then you can go ahead and figure out how long
     \hline
     Processor & empty\\
     Address Data Panel Controller & empty\\
-    Address/Data 8-15 Panel & Address/Data 0-7 Panel\\
-    \hline
-    empty & empty\\
-    Control Panel Controller & empty\\
-    Mode Panel & Control Panel\\
-    \hline
-  \end{tabular}
-\end{table}
-
-\begin{table}
-  \caption{Improved 16 Bit Processor Layout}
-  \label{tbl:Improved}
-  \centering
-  \begin{tabular}{|l|l|}
-    \hline
-    Processor & empty\\
-    empty & Address Data Panel Controller\\
     Address/Data 8-15 Panel & Address/Data 0-7 Panel\\
     \hline
     empty & empty\\
@@ -377,7 +358,7 @@ My implementation uses SPST switches where the center connector is common.  When
 \subsection{I2C Bus Cable}
 The I2C Bus Cable is a 10 conductor ribbon cable with crimp-on connectors.  Using this eliminates a lot of tedious soldering that the previous version required.  The pinout for this cable is shown in Table \ref{tbl:I2C-Pins}.
 
-\begin{table}
+\begin{table}[ht!]
   \caption{I2C Connector Pinout}
   \label{tbl:I2C-Pins}
   \centering
