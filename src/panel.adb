@@ -28,6 +28,11 @@ package body Panel is
          Ada.Text_IO.Put_Line("LED mode and control configured");
       end if;
       --
+      --  Perform any needed initializations for simulators
+      --
+      init_sim_example;
+      init_sim_8080;
+      --
       --  Processing loop
       --
       loop
@@ -70,6 +75,19 @@ package body Panel is
    end run;
    --
    --  --------------------------------------------------------------------
+   --
+   --  Initializations for different simulations
+   --
+   procedure init_sim_example is
+   begin
+     null;  -- No specific initialization needed
+   end;
+   --
+   procedure init_sim_8080 is
+   begin
+     sim_8080.init;
+     sim_8080.start(0);
+   end;
    --
    --  Process the control switches that have action based on a transition to
    --  the True state.
