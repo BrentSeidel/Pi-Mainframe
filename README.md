@@ -13,7 +13,7 @@ modules can be attached in different ways.
 ![System Front](./Pict/System-Front.JPG)
 
 Back of system
-![System Back)(./Pict/System-Rear.JPG)
+![System Back](./Pict/System-Rear.JPG)
 
 ## Note
 This is still very much a work in progress and things will change.
