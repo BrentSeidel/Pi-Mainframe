@@ -21,6 +21,21 @@ This is still very much a work in progress and things will change.
 This project requires 3D printing, making PCBs, soldering, and building
 software from source.
 
+## Power
+I originally used a random micro USB power suppoly for the Pi 3 that is
+running the simulation.  It would complain about low voltage and
+occasionally reboot.  I just replaced it with the official Raspberry Pi
+power supply and it is not complaining about low voltage.  Time will
+tell if it is more stable.
+
+Ultimately, there will be limits to how much power you can get out of
+the Raspberry Pi.  There are ways to reduce the power needed.  The first
+thing that I would try would be to increase the value of the resistors
+for the LEDs.  This would also reduce the brightness so you may wish to
+do this as well, if the LEDs are too bright.  A little experimentation
+will be needed to determine the proper value.  From a BOM viewpoint,
+using the same resistors for both the switches and LEDs would be a win.
+
 ## PCBs
 Three printed circuit boards have been designed to eliminate some of the
 tedious soldering.  Using the PCBs make assembly much easier and the
