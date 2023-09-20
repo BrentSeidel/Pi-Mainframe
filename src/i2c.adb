@@ -145,21 +145,21 @@ package body i2c is
    procedure set_ctrl(d : BBS.embed.uint16; res : out result) is
       err : BBS.embed.i2c.err_code;
    begin
-      if last_ctrl_led /= d then
-         if MCP23017_found(LED_CTRL) then
-            MCP23017_info(LED_CTRL).set_data(d, err);
-            if err /= BBS.embed.i2c.none then
-               res := RES_ERR;
-            else
-               res := RES_FULL;
-            end if;
+     if MCP23017_found(LED_CTRL) then
+       if last_ctrl_led /= d then
+         MCP23017_info(LED_CTRL).set_data(d, err);
+         if err /= BBS.embed.i2c.none then
+           res := RES_ERR;
          else
-            res := RES_NONE;
+           res := RES_FULL;
          end if;
-         last_ctrl_led := d;
-      else
+       else
          res := RES_FULL;
-      end if;
+       end if;
+      last_ctrl_led := d;
+     else
+       res := RES_NONE;
+     end if;
    end;
    --
 end;

@@ -7,8 +7,8 @@ with i2c;
 with Panel;
 with web;
 --
---  The main routine does some initializatio and then starts the simulato and
---  web server.
+--  The main routine does some initialization and then starts the
+--  simulation ands web server.
 --
 procedure Test is
    package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
