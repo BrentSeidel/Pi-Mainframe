@@ -51,7 +51,7 @@ A breakout PCB has been developed for breaking out the 10 conductor
 ribbon cables that are being used for the I2C bus, and other uses.  It
 is also in the Circuits repository.
 
-### LED PCB\
+### LED PCB
 A PCB has been developed for holding the LEDs.  This required some redesign
 to the panels.  However it eliminates the soldering of wires directly to
 the LED leads.  The LED PCB can also be fairly easily added to and
