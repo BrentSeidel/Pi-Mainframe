@@ -334,7 +334,7 @@ module panel_power()
       translate([15, 40, -0.1]) rotate([0, 0, 90]) bbs_usb_b_cutout(4);
       translate([15, 80, -0.1]) rotate([0, 0, 90]) bbs_micro_usb_cutout(4);
       translate([34, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
-              text("Do not engergize both", halign="left", valign="center",
+              text("Do not energize both", halign="left", valign="center",
               size=7, font=title_font);
       translate([24, 200, 1.5]) linear_extrude(height = 0.6) rotate([0, 0, -90])
               text("connectors simultaneously", halign="left", valign="center",
@@ -352,11 +352,11 @@ module panel_power()
 rotate([0, 0, 90])
 {
 //  translate([00, 0, 0]) new_panel_mode(true);
-  translate([00, 0, 0]) new_panel_control(false);
+//  translate([00, 0, 0]) new_panel_control(false);
 //  translate([00, 0, 0]) new_panel_switch(0, false);
 //  translate([00, 0, 0]) new_panel_switch(8, false);
 //  translate([00, 0, 0]) new_panel_switch(16, false);
 //  translate([00, 0, 0]) new_panel_switch(24, false);
 //  translate([100, 0, 0]) panel_nameplate("RPi-3/1 Mainframe");
-//  translate([00, 0, 0]) panel_power();
+  translate([00, 0, 0]) panel_power();
 }
