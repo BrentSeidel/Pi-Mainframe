@@ -7,6 +7,10 @@ package body Panel is
    task body run is
       package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
    begin
+      --
+      --  Wait for I2C initialization, MCP23017 detection and other
+      --  initializations in the main thread before starting.
+      --
       accept Start;
       --
       --  Configure MCP23017 devices
@@ -80,7 +84,7 @@ package body Panel is
    --
    procedure init_sim_example is
    begin
-     null;  -- No specific initialization needed
+     sim_example.start;
    end;
    --
    procedure init_sim_8080 is

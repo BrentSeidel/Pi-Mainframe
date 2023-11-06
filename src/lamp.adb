@@ -31,8 +31,10 @@ procedure Lamp is
      --
      i2c.read_addr_data(ad_data, res);
      Ada.Text_IO.Put_Line("Read Addr/Data switches result is " & i2c.result'Image(res));
+     Ada.Text_IO.Put_Line("  Addr/Data switch value is " & ad_data'Image);
      i2c.read_ctrl(ctl_data, res);
      Ada.Text_IO.Put_Line("Read control switches result is " & i2c.result'Image(res));
+     Ada.Text_IO.Put_Line("  Control switch value is " & ctl_data'Image);
      --
      --  Set the LEDs to the switch values and wait for 5 seconds
      --
@@ -92,7 +94,7 @@ begin
    --
    --  Select pattern for testing
    --
-   if false then
+   if True then
      mirror;
    else
      sweep;
