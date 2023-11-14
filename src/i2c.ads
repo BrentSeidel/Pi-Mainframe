@@ -59,6 +59,6 @@ private
    --  LEDs to their current state.
    --
    last_ctrl_led : BBS.embed.uint16 := 0;
-   last_msw_led  : BBS.embed.uint16 := 0;
+   last_msw_led  : BBS.embed.uint16 := 1;  --  This will cause the MSW to be cleared on 16 bit systems
    last_lsw_led  : BBS.embed.uint16 := 0;
 end;

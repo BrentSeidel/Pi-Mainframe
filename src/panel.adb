@@ -31,6 +31,8 @@ package body Panel is
          i2c.MCP23017_info(i2c.LED_CTRL).set_dir(16#0000#, err);
          Ada.Text_IO.Put_Line("LED mode and control configured");
       end if;
+      i2c.set_addr_data(lr_ad, res);
+      i2c.set_ctrl(lr_ctl, res);
       --
       --  Perform any needed initializations for simulators
       --
@@ -51,7 +53,7 @@ package body Panel is
          if sw_ctrl.run and sw_ctrl.start then
             CPU.all.run;
          else
-            process_mode_ctrl(BBS.Sim_CPU.PROC_KERN, BBS.Sim_CPU.ADDR_INTR, sr_ctl);
+--            process_mode_ctrl(BBS.Sim_CPU.PROC_KERN, BBS.Sim_CPU.ADDR_INST, sr_ctl);
             if pvt_deposit then
                CPU.all.deposit;
             elsif pvt_examine then
@@ -90,6 +92,14 @@ package body Panel is
    procedure init_sim_8080 is
    begin
      sim_8080.init;
+     sim_8080.attach_io(tel'Access, 0, BBS.Sim_CPU.BUS_IO);
+     tel.init(tel'Access, 2171);
+     sim_8080.attach_io(fd'Access, 3, BBS.Sim_CPU.BUS_IO);
+     fd.setOwner(sim_8080'Access);
+     fd.open(0, floppy_ctrl.floppy8_geom, "drv0.img");
+     fd.open(1, floppy_ctrl.floppy8_geom, "drv1.img");
+     fd.open(2, floppy_ctrl.floppy8_geom, "drv2.img");
+     fd.open(3, floppy_ctrl.floppy8_geom, "drv3.img");
      sim_8080.start(0);
    end;
    --

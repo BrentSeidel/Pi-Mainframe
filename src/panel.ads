@@ -4,6 +4,9 @@ with i2c;
 with BBS.Sim_CPU;
 with BBS.Sim_CPU.example;
 with BBS.Sim_CPU.i8080;
+with BBS.Sim_CPU.serial;
+with BBS.Sim_CPU.serial.telnet;
+with BBS.Sim_CPU.disk;
 --
 --  This package contains information and code for the front panel of the simulator.
 --
@@ -16,8 +19,18 @@ package Panel is
    --
    sim_example : aliased BBS.Sim_CPU.example.simple;
    sim_8080 : aliased BBS.Sim_CPU.i8080.i8080;
-   CPU : BBS.Sim_CPU.sim_access := sim_example'Access;
---   CPU : BBS.Sim_CPU.sim_access := sim_8080'Access;
+--   CPU : BBS.Sim_CPU.sim_access := sim_example'Access;
+   CPU : BBS.Sim_CPU.sim_access := sim_8080'Access;
+   --
+   --  Instantiate disk controller
+   --
+  package floppy_ctrl is new BBS.Sim_CPU.disk(sector_size => 128, max_drives => 16);
+   --
+   --  Devices for 8080 simulator
+   --
+   tel   : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
+   fd    : aliased floppy_ctrl.disk_ctrl;
+   --
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
    --  interface and can only be changed when ctl_auto is True.
