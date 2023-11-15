@@ -61,6 +61,17 @@ package body Panel is
             end if;
          end if;
          lr_ctrl := CPU.all.get_lr_ctrl;
+         lr_ctrl.ready := True;
+         if CPU.all.halted then
+            lr_ctrl.run   := False;
+            lr_ctrl.start := False;
+         else
+            lr_ctrl.run   := sw_ctrl.run;
+            lr_ctrl.start := sw_ctrl.start;
+         end if;
+         lr_ctrl.exam := sw_ctrl.exam;
+         lr_ctrl.dep  := sw_ctrl.dep;
+         lr_ctrl.addr := sw_ctrl.addr;
          if sw_ctrl.addr then
             lr_ad := CPU.all.get_lr_addr;
          else
