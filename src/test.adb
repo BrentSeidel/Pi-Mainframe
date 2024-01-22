@@ -1,5 +1,6 @@
 with Ada.Exceptions;
 with Ada.Text_IO;
+with BBS;
 with BBS.embed;
 with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
@@ -12,7 +13,7 @@ with web;
 --
 procedure Test is
    package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
-   data : BBS.embed.uint16;
+   data : BBS.uint16;
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
 begin

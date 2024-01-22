@@ -1,8 +1,7 @@
-with "../Sim-CPU/simcpus.gpr";
+with "../Sim-CPU/BBS_SimCPU.gpr";
 with "../Ada-Web-Server/web_lib.gpr";
-with "../BBS-Ada/bbs.gpr";
-with "../Ada-Lisp/bbs_lisp.gpr";
-with "../Ada-Lisp-Embedded/ada_lisp_embedded_rpi.gpr";
+with "../BBS-Ada/BBS.gpr";
+with "../BBS-BBB-Ada/BBS_embedLinux.gpr";
 
 project Testing is
 

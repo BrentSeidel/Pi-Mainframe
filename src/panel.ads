@@ -1,3 +1,4 @@
+with BBS;
 with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
@@ -39,14 +40,14 @@ package Panel is
    --
    --  Switch settings (switch registers).  These are read only
    --
-   function sr_ad   return BBS.embed.uint32;  --  Address/Data switches
-   function sr_ctl  return BBS.embed.uint16;  --  Control switches
+   function sr_ad   return BBS.uint32;  --  Address/Data switches
+   function sr_ctl  return BBS.uint16;  --  Control switches
    function sw_ctrl return BBS.Sim_CPU.ctrl_mode;         --  Control switches
    --
    --  LED settings (LED registers)
    --
-   lr_ad  : BBS.embed.uint32 := 0;          -- Address/Data LED register
-   lr_ctl : aliased BBS.embed.uint16 := 0;  -- Control/Mode LED register
+   lr_ad  : BBS.uint32 := 0;          -- Address/Data LED register
+   lr_ctl : aliased BBS.uint16 := 0;  -- Control/Mode LED register
    lr_ctrl : BBS.Sim_CPU.ctrl_mode := (atype => BBS.Sim_CPU.ADDR_DATA,
                                        mode => BBS.Sim_CPU.PROC_USER,
                                        others => False) with
@@ -76,12 +77,12 @@ private
    --
    --  Switch settings (switch registers).  These are read only
    --
-   pvt_sr_ad  : BBS.embed.uint32 := 0;          -- Address/Data switch register
-   pvt_sr_ctl : aliased BBS.embed.uint16 := 0;  -- Control switch register
+   pvt_sr_ad  : BBS.uint32 := 0;          -- Address/Data switch register
+   pvt_sr_ctl : aliased BBS.uint16 := 0;  -- Control switch register
    pvt_sw_ctrl : BBS.Sim_CPU.ctrl_mode with
      Address => pvt_sr_ctl'Address;
-   function sr_ad   return BBS.embed.uint32 is (pvt_sr_ad);
-   function sr_ctl  return BBS.embed.uint16 is (pvt_sr_ctl);
+   function sr_ad   return BBS.uint32 is (pvt_sr_ad);
+   function sr_ctl  return BBS.uint16 is (pvt_sr_ctl);
    function sw_ctrl return BBS.Sim_CPU.ctrl_mode is (pvt_sw_ctrl);
    --
    --  Local switch flags for detecting switch changes
@@ -108,5 +109,5 @@ private
    --
    --  Process the mode and control LEDs
    --
-   procedure process_mode_ctrl(m : BBS.Sim_CPU.proc_mode; a : BBS.Sim_CPU.addr_type; c : BBS.embed.uint16);
+   procedure process_mode_ctrl(m : BBS.Sim_CPU.proc_mode; a : BBS.Sim_CPU.addr_type; c : BBS.uint16);
 end;

@@ -141,7 +141,7 @@ package body Panel is
    --
    --  Process the mode and control LEDs
    --
-   procedure process_mode_ctrl(m : BBS.Sim_CPU.proc_mode; a : BBS.Sim_CPU.addr_type; c : BBS.embed.uint16) is
+   procedure process_mode_ctrl(m : BBS.Sim_CPU.proc_mode; a : BBS.Sim_CPU.addr_type; c : BBS.uint16) is
    begin
       lr_ctl := c;
       lr_ctrl.ready := True;
@@ -154,7 +154,7 @@ package body Panel is
    --
    procedure set_pattern(p : Natural) is
    begin
-      CPU.all.set_mem(0, BBS.embed.uint32(p));
+      CPU.all.set_mem(0, BBS.uint32(p));
    end;
    --
    function get_pattern return Natural is

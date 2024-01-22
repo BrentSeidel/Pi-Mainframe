@@ -19,7 +19,8 @@ Back of system
 This is still very much a work in progress and things will change.
 
 This project requires 3D printing, making PCBs, soldering, and building
-software from source.
+software from source.  It might be a good project for an undergraduate
+engineering program.
 
 ## Power
 I originally used a random micro USB power suppoly for the Pi 3 that is
@@ -39,7 +40,7 @@ using the same resistors for both the switches and LEDs would be a win.
 ## PCBs
 Three printed circuit boards have been designed to eliminate some of the
 tedious soldering.  Using the PCBs make assembly much easier and the
-resulting project much lesss of a mess of wires.
+resulting project much less of a mess of wires.
 
 ### IO Board PCB
 The I/O board PCB has been created and tested.  The schematics and PCB

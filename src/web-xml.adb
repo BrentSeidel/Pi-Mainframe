@@ -1,4 +1,4 @@
-with BBS.embed;
+with BBS;
 with BBS.http;
 with BBS.internal;
 with Panel;
@@ -59,10 +59,10 @@ package body web.xml is
    begin
       BBS.http.ok(s, "application/xml");
       String'Write(s, "<xml>");
-      String'Write(s, "<lr-ad>" & BBS.embed.uint32'Image(Panel.lr_ad) & "</lr-ad>");
-      String'Write(s, "<lr-ctl>" & BBS.embed.uint16'Image(Panel.lr_ctl) & "</lr-ctl>");
-      String'Write(s, "<sr-ad>" & BBS.embed.uint32'Image(Panel.sr_ad) & "</sr-ad>");
-      String'Write(s, "<sr-ctl>" & BBS.embed.uint16'Image(Panel.sr_ctl) & "</sr-ctl>");
+      String'Write(s, "<lr-ad>" & BBS.uint32'Image(Panel.lr_ad) & "</lr-ad>");
+      String'Write(s, "<lr-ctl>" & BBS.uint16'Image(Panel.lr_ctl) & "</lr-ctl>");
+      String'Write(s, "<sr-ad>" & BBS.uint32'Image(Panel.sr_ad) & "</sr-ad>");
+      String'Write(s, "<sr-ctl>" & BBS.uint16'Image(Panel.sr_ctl) & "</sr-ctl>");
       String'Write(s, "</xml>");
    end sw_led_reg;
    --
@@ -77,8 +77,8 @@ package body web.xml is
       BBS.http.ok(s, "application/xml");
       String'Write(s, "<xml>");
       String'Write(s, "<cpu-name>" & Panel.CPU.all.name & "</cpu-name>");
-      String'Write(s, "<cpu-reg>" & BBS.embed.uint32'Image(Panel.CPU.all.registers) & "</cpu-reg>");
-      String'Write(s, "<cpu-mem>" & BBS.embed.uint32'Image(Panel.CPU.all.mem_size) & "</cpu-mem>");
+      String'Write(s, "<cpu-reg>" & BBS.uint32'Image(Panel.CPU.all.registers) & "</cpu-reg>");
+      String'Write(s, "<cpu-mem>" & BBS.uint32'Image(Panel.CPU.all.mem_size) & "</cpu-mem>");
       String'Write(s, "</xml>");
    end Get_CPU_info;
    --
@@ -100,9 +100,9 @@ package body web.xml is
          end;
       end if;
       String'Write(s, "<xml><reg-num>" & Natural'Image(value) & "</reg-num>");
-      String'Write(s, "<reg-name>" & Panel.CPU.all.reg_name(BBS.embed.uint32(value))
+      String'Write(s, "<reg-name>" & Panel.CPU.all.reg_name(BBS.uint32(value))
                    & "</reg-name>");
-      String'Write(s, "<reg-value>" & String'(Panel.CPU.all.read_reg(BBS.embed.uint32(value)))
+      String'Write(s, "<reg-value>" & String'(Panel.CPU.all.read_reg(BBS.uint32(value)))
                      & "</reg-value></xml>");
    end Get_CPU_reg;
    --

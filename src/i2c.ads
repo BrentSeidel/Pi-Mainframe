@@ -1,3 +1,4 @@
+with BBS;
 with BBS.embed.i2c.linux;
 with BBS.embed.i2c.MCP23017;
 package i2c is
@@ -41,10 +42,10 @@ package i2c is
    --
    --  Read switches and write LEDs
    --
-   procedure set_addr_data(d : BBS.embed.uint32; res : out result);
-   procedure read_addr_data(d : out BBS.embed.uint32; res : out result);
-   procedure set_ctrl(d : BBS.embed.uint16; res : out result);
-   procedure read_ctrl(d : out BBS.embed.uint16; res : out result);
+   procedure set_addr_data(d : BBS.uint32; res : out result);
+   procedure read_addr_data(d : out BBS.uint32; res : out result);
+   procedure set_ctrl(d : BBS.uint16; res : out result);
+   procedure read_ctrl(d : out BBS.uint16; res : out result);
    --
 private
    --
@@ -58,7 +59,7 @@ private
    --  Last LED values.  This is used to avoid an I2C bus request to set the
    --  LEDs to their current state.
    --
-   last_ctrl_led : BBS.embed.uint16 := 0;
-   last_msw_led  : BBS.embed.uint16 := 1;  --  This will cause the MSW to be cleared on 16 bit systems
-   last_lsw_led  : BBS.embed.uint16 := 0;
+   last_ctrl_led : BBS.uint16 := 0;
+   last_msw_led  : BBS.uint16 := 1;  --  This will cause the MSW to be cleared on 16 bit systems
+   last_lsw_led  : BBS.uint16 := 0;
 end;
