@@ -37,6 +37,7 @@ package body Panel is
       --
       init_sim_example;
       init_sim_8080;
+      init_sim_68000;
       --
       --  Processing loop
       --

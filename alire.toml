@@ -1,0 +1,11 @@
+name = "pimainframe"
+description = "Simulated Mainframe Computer based on Raspberry Pi"
+version = "0.1.0-dev"
+
+project-files = ["Testing.gpr", "Lamp.gpr"]
+
+authors = ["Brent Seidel"]
+maintainers = ["Brent Seidel <brentseidel@mac.com>"]
+maintainers-logins = ["BrentSeidel"]
+
+executables = ["pimainframe"]
