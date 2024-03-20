@@ -1,5 +1,4 @@
 with Ada.Text_IO;
-with Ada.Unchecked_Conversion;
 package body Panel is
    --
    --  Run the panel interface and simulator control.
@@ -112,6 +111,29 @@ package body Panel is
      fd.open(2, floppy_ctrl.floppy8_geom, "drv2.img");
      fd.open(3, floppy_ctrl.floppy8_geom, "drv3.img");
      sim_8080.start(0);
+   end;
+   --
+   procedure init_sim_68000 is
+   begin
+      sim_68000.init;
+      clock.setOwner(CPU);
+      clock.init(clock'Access);
+      clock.setException(256+64);
+      sim_68000.attach_io(tel0'Access, 16#402#, BBS.Sim_CPU.BUS_MEMORY);
+      tel0.setOwner(CPU);
+      tel0.init(tel0'Access, 2171);
+      tel0.setException(2*256+65);
+      sim_68000.attach_io(tel1'Access, 16#404#, BBS.Sim_CPU.BUS_MEMORY);
+      tel1.setOwner(CPU);
+      tel1.init(tel1'Access, 2172);
+      tel1.setException(2*256+66);
+      sim_68000.attach_io(tel2'Access, 16#406#, BBS.Sim_CPU.BUS_MEMORY);
+      tel2.setOwner(CPU);
+      tel2.init(tel2'Access, 2173);
+      tel2.setException(2*256+67);
+      sim_68000.load("Tasks.S");
+      sim_68000.load("OS68k.S");
+      sim_68000.start(16#2000#);
    end;
    --
    --  Process the control switches that have action based on a transition to

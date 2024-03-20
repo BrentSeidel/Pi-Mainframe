@@ -1,7 +1,7 @@
 with Ada.Text_IO;
-with BBS.embed;
-use type BBS.embed.uint16;
-use type BBS.embed.uint32;
+with BBS;
+use type BBS.uint16;
+use type BBS.uint32;
 with BBS.embed.i2c;
 with i2c;
 
@@ -9,8 +9,8 @@ with i2c;
 --  This is a routine to test the simulator LEDs and switches.
 --
 procedure Lamp is
-   ad_data  : BBS.embed.uint32;
-   ctl_data : BBS.embed.uint16;
+   ad_data  : BBS.uint32;
+   ctl_data : BBS.uint16;
    res      : i2c.result;
    err      : BBS.embed.i2c.err_code;
    --
@@ -55,9 +55,9 @@ procedure Lamp is
    --  Sweep LEDs
    --
    procedure sweep is
-     addr_lsw : BBS.embed.uint32 := 1;
-     addr_msw : BBS.embed.uint32 := 1;
-     mode_ctl : BBS.embed.uint16 := 1;
+     addr_lsw : BBS.uint32 := 1;
+     addr_msw : BBS.uint32 := 1;
+     mode_ctl : BBS.uint16 := 1;
    begin
      loop
        i2c.set_addr_data(addr_msw * 16#0001_0000# + addr_lsw, res);

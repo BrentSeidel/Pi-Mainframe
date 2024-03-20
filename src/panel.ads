@@ -1,10 +1,13 @@
 with BBS;
+use type BBS.uint32;
 with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
 with BBS.Sim_CPU;
 with BBS.Sim_CPU.example;
 with BBS.Sim_CPU.i8080;
+with BBS.Sim_CPU.m68000;
+with BBS.Sim_CPU.Clock;
 with BBS.Sim_CPU.serial;
 with BBS.Sim_CPU.serial.telnet;
 with BBS.Sim_CPU.disk;
@@ -20,17 +23,23 @@ package Panel is
    --
    sim_example : aliased BBS.Sim_CPU.example.simple;
    sim_8080 : aliased BBS.Sim_CPU.i8080.i8080;
+   sim_68000 : aliased BBS.Sim_CPU.m68000.m68000;
 --   CPU : BBS.Sim_CPU.sim_access := sim_example'Access;
-   CPU : BBS.Sim_CPU.sim_access := sim_8080'Access;
+--   CPU : BBS.Sim_CPU.sim_access := sim_8080'Access;
+   CPU : BBS.Sim_CPU.sim_access := sim_68000'Access;
    --
    --  Instantiate disk controller
    --
   package floppy_ctrl is new BBS.Sim_CPU.disk(sector_size => 128, max_drives => 16);
    --
-   --  Devices for 8080 simulator
+   --  Devices for processor simulator
    --
    tel   : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
+   tel0   : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
+   tel1   : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
+   tel2   : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
    fd    : aliased floppy_ctrl.disk_ctrl;
+   clock  : aliased BBS.Sim_CPU.Clock.clock_device;
    --
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web
@@ -102,6 +111,7 @@ private
    --
    procedure init_sim_example;
    procedure init_sim_8080;
+   procedure init_sim_68000;
    --
    --  Process the control switches and set flags as appropriate
    --
