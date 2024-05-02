@@ -35,9 +35,9 @@ package body Panel is
       --
       --  Perform any needed initializations for simulators
       --
-      init_sim_example;
-      init_sim_8080;
-      init_sim_68000;
+--      init_sim_example;
+--      init_sim_8080;
+--      init_sim_68000;
       --
       --  Processing loop
       --
