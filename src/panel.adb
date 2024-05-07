@@ -33,12 +33,6 @@ package body Panel is
       i2c.set_addr_data(lr_ad, res);
       i2c.set_ctrl(lr_ctl, res);
       --
-      --  Perform any needed initializations for simulators
-      --
---      init_sim_example;
---      init_sim_8080;
---      init_sim_68000;
-      --
       --  Processing loop
       --
       loop
@@ -117,6 +111,7 @@ package body Panel is
    procedure init_sim_68000 is
    begin
       sim_68000.init;
+      sim_68000.attach_io(clock'Access, 16#400#, BBS.Sim_CPU.BUS_MEMORY);
       clock.setOwner(CPU);
       clock.init(clock'Access);
       clock.setException(256+64);
@@ -132,6 +127,10 @@ package body Panel is
       tel2.setOwner(CPU);
       tel2.init(tel2'Access, 2173);
       tel2.setException(2*256+67);
+      sim_68000.attach_io(mux'Access, 16#408#, BBS.Sim_CPU.BUS_MEMORY);
+      mux.setOwner(CPU);
+      mux.init(mux'Access, 3141);
+      mux.setException(2*256+68);
       sim_68000.load("Tasks.S");
       sim_68000.load("OS68k.S");
       sim_68000.start(16#2000#);
