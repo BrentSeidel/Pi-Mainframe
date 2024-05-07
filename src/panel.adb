@@ -113,6 +113,7 @@ package body Panel is
       sim_68000.init;
       sim_68000.attach_io(clock'Access, 16#400#, BBS.Sim_CPU.BUS_MEMORY);
       clock.setOwner(CPU);
+      BBS.Sim_CPU.Clock.setBaseRate(1.0);
       clock.init(clock'Access);
       clock.setException(256+64);
       sim_68000.attach_io(tel0'Access, 16#402#, BBS.Sim_CPU.BUS_MEMORY);
