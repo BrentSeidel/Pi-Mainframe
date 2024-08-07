@@ -1,5 +1,5 @@
-with "../Sim-CPU/BBS_SimCPU.gpr";
-with "../Ada-Web-Server/web_lib.gpr";
+with "../Sim-CPU/bbs_simcpu_noalr.gpr";
+with "../Ada-Web-Server/bbs_webif_noalr.gpr";
 with "../BBS-Ada/bbs.gpr";
 with "../BBS-BBB-Ada/BBS_embedLinux.gpr";
 

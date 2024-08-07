@@ -1,7 +1,7 @@
-with "../Ada-Web-Server/web_lib.gpr";
+with "../Ada-Web-Server/bbs_webif_noalr.gpr";
 with "../BBS-Ada/bbs.gpr";
-with "../Ada-Lisp/bbs_lisp.gpr";
-with "../Ada-Lisp-Embedded/ada_lisp_embedded_rpi.gpr";
+with "../BBS-BBB-Ada/BBS_embedLinux.gpr";
+--with "../Ada-Lisp-Embedded/ada_lisp_embedded_rpi.gpr";
 
 project Lamp is
 

@@ -7,10 +7,11 @@ with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
 with i2c;
 with Panel;
-with web;
+with BBS.web;
+with BBS.web.server;
 --
 --  The main routine does some initialization and then starts the
---  simulation ands web server.
+--  simulation and web server.
 --
 procedure Test is
    package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
@@ -18,6 +19,7 @@ procedure Test is
    err  : BBS.embed.i2c.err_code;
    res  : i2c.result;
    selection : Integer := 0;
+   internal_map : BBS.web.proc_tables.Map;
 begin
    Ada.Text_IO.Put_Line("Raspberry Pi based mainframe simulator");
    loop
@@ -72,7 +74,7 @@ begin
          null;
    end case;
    Panel.run.Start;
-   web.start_server;
+   BBS.web.server.server(internal_map, "web/config.txt", 31415);
 exception
    when error : others =>
       --
