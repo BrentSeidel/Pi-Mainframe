@@ -1,13 +1,13 @@
-with "../Ada-Web-Server/bbs_webif_noalr.gpr";
-with "../BBS-Ada/bbs.gpr";
-with "../BBS-BBB-Ada/src-common/bbs_embed_common.gpr";
-with "../BBS-BBB-Ada/src-linux/bbs_embed_linux.gpr";
+with "../../Ada-Web-Server/bbs_webif_noalr.gpr";
+with "../../BBS-Ada/bbs.gpr";
+with "../../BBS-BBB-Ada/src-common/bbs_embed_common_noalr.gpr";
+with "../../BBS-BBB-Ada/src-linux/bbs_embed_linux_noalr.gpr";
 
-project Lamp is
+project lamp_test is
 
-   for Source_Dirs use ("src");
+   for Source_Dirs use (".", "../src");
    for Object_Dir use "obj";
-   for Main use ("lamp.adb");
+   for Main use ("lamp_test.adb");
    for Exec_Dir use ".";
 
    package Builder is
@@ -30,5 +30,5 @@ project Lamp is
       for Switches use ("--level=0", "--codepeer=on", "-j4");
    end Prove;
 
-end Lamp;
+end lamp_test;
 

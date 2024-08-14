@@ -13,7 +13,7 @@ with BBS.web.server;
 --  The main routine does some initialization and then starts the
 --  simulation and web server.
 --
-procedure Test is
+procedure blinkenlights is
    package Hex_IO is new Ada.Text_IO.Integer_IO(Integer);
    data : BBS.uint16;
    err  : BBS.embed.i2c.err_code;
@@ -85,4 +85,4 @@ exception
       Ada.Text_IO.Put_Line("Unexpected exeption in simulator: " &
                              Ada.Exceptions.Exception_Information(error));
       raise;
-end Test;
+end blinkenlights;

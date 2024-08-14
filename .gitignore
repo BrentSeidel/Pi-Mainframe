@@ -3,6 +3,7 @@
 
 # All files in the objects directory
 obj/*
+*/obj/*
 
 # All Gerber files
 Gerber
@@ -11,8 +12,8 @@ Gerber
 *-backups
 
 # The executable files
-test
-lamp
+blinkenlights
+lamp-test/lamp_test
 
 # Ada Library Information
 *.ali

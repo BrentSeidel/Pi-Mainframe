@@ -8,7 +8,7 @@ with i2c;
 --
 --  This is a routine to test the simulator LEDs and switches.
 --
-procedure Lamp is
+procedure lamp_test is
    ad_data  : BBS.uint32;
    ctl_data : BBS.uint16;
    res      : i2c.result;
@@ -99,4 +99,4 @@ begin
    else
      sweep;
    end if;
-end Lamp;
+end lamp_test;

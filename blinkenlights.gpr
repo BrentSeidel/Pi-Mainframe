@@ -1,15 +1,14 @@
 with "../Sim-CPU/bbs_simcpu_noalr.gpr";
 with "../Ada-Web-Server/bbs_webif_noalr.gpr";
 with "../BBS-Ada/bbs.gpr";
-with "../BBS-BBB-Ada/src-common/bbs_embed_common.gpr";
-with "../BBS-BBB-Ada/src-linux/bbs_embed_linux.gpr";
---with "../BBS-BBB-Ada/BBS_embedLinux.gpr";
+with "../BBS-BBB-Ada/src-common/bbs_embed_common_noalr.gpr";
+with "../BBS-BBB-Ada/src-linux/bbs_embed_linux_noalr.gpr";
 
-project Testing is
+project blinkenlights is
 
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
-   for Main use ("test.adb");
+   for Main use ("blinkenlights.adb");
    for Exec_Dir use ".";
 
    package Builder is
@@ -32,5 +31,5 @@ project Testing is
       for Switches use ("--level=0", "--codepeer=on", "-j4");
    end Prove;
 
-end Testing;
+end blinkenlights;
 
