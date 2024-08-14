@@ -1,6 +1,6 @@
 name = "blinkenlights"
 description = "Project to blink LEDs in interesting patterns"
-version = "0.1.0-dev"
+version = "0.1.0"
 
 long-description = """
 This is a complex project involving 3D printing and soldering as well as
