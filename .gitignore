@@ -5,6 +5,10 @@
 obj/*
 */obj/*
 
+# Alire files
+alire/*
+config/*
+
 # All Gerber files
 Gerber
 

@@ -1,4 +1,8 @@
-with "config/blinkenlights_config.gpr";
+with "../Sim-CPU/bbs_simcpu_noalr.gpr";
+with "../Ada-Web-Server/bbs_webif_noalr.gpr";
+with "../BBS-Ada/bbs.gpr";
+with "../BBS-BBB-Ada/src-common/bbs_embed_common_noalr.gpr";
+with "../BBS-BBB-Ada/src-linux/bbs_embed_linux_noalr.gpr";
 
 project blinkenlights is
 
