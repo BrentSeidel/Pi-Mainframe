@@ -26,9 +26,10 @@ simulator usage.
 There is also a web server that can be used to select the CPU variant.
 This is most useful with the example simulator to select the light pattern.
 
-This project run on a Raspberry Pi.  It will build on most Unix or Unix-like
-systems, but unless the hardware interface matches the Raspberry Pi, it
-won't run.  You are welcome to try porting it to other systems, if you like.
+This project runs on a Raspberry Pi 2 (or later).  It will build on most
+Unix or Unix-like systems, but unless the hardware interface matches the
+Raspberry Pi, it won't run.  You are welcome to try porting it to other
+systems, if you like.
 """
 
 authors = ["Brent Seidel"]

@@ -1,6 +1,10 @@
 # Pi-Mainframe
 Simulated mainframe computer based on a Raspberry Pi
 
+[![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/blinkenlights.json)]
+(https://alire.ada.dev/crates/blinkenlights.html)
+
+
 When I was a young lad, computers had complicated panels filled with
 switches and lights.  Sadly, these disappeared as I got older.
 
@@ -23,7 +27,7 @@ software from source.  It might be a good project for an undergraduate
 engineering program.
 
 ## Power
-I originally used a random micro USB power suppoly for the Pi 3 that is
+I originally used a random micro USB power supply for the Pi 3 that is
 running the simulation.  It would complain about low voltage and
 occasionally reboot.  I just replaced it with the official Raspberry Pi
 power supply and it is not complaining about low voltage.  Time will
