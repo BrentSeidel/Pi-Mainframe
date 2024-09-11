@@ -16,8 +16,6 @@ package body i2c is
    --
    procedure init_i2c is
       err  : BBS.embed.i2c.err_code;
-      temp : BBS.uint8;
-      pragma Unreferenced(temp);
       addr : BBS.embed.addr7;
       i2c_bus : constant BBS.embed.i2c.i2c_interface := BBS.embed.i2c.i2c_interface(i2c_ptr);
       function MCP23017_addr is new Ada.Unchecked_Conversion(Source => MCP23017_use,
@@ -29,8 +27,7 @@ package body i2c is
       --
       for i in MCP23017_use loop
          addr := MCP23017_addr(i);
-         temp := i2c_rec.read(addr, BBS.embed.i2c.MCP23017.IOCON, err);
-         if err = BBS.embed.i2c.NONE then
+         if BBS.embed.i2c.MCP23017.present(i2c_bus, addr) then
             MCP23017_info(i).configure(i2c_bus, addr, err);
             MCP23017_found(i) := True;
             Ada.Text_IO.put_line("MCP23017(" & MCP23017_use'Image(i) &
@@ -47,8 +44,7 @@ package body i2c is
             end if;
          else
             Ada.Text_IO.put_line("MCP23017(" & MCP23017_use'Image(i) &
-                ") Not found at address " & Integer'image(Integer(addr))
-                & " - " & BBS.embed.i2c.err_code'Image(err));
+                ") Not found at address " & Integer'image(Integer(addr)));
             MCP23017_found(i) := False;
          end if;
       end loop;

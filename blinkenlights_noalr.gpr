@@ -4,7 +4,7 @@ with "../BBS-Ada/bbs.gpr";
 with "../BBS-BBB-Ada/src-common/bbs_embed_common_noalr.gpr";
 with "../BBS-BBB-Ada/src-linux/bbs_embed_linux_noalr.gpr";
 
-project blinkenlights is
+project blinkenlights_noalr is
 
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
@@ -31,5 +31,5 @@ project blinkenlights is
       for Switches use ("--level=0", "--codepeer=on", "-j4");
    end Prove;
 
-end blinkenlights;
+end blinkenlights_noalr;
 
