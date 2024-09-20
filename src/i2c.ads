@@ -1,10 +1,10 @@
 with BBS;
 with BBS.embed.i2c.linux;
 with BBS.embed.i2c.MCP23017;
+with BBS.embed.i2c.devices;
 package i2c is
    --
    --  Info for I2C devices
-   --
    --
    --  Define type for the valid addresses for MCP23017 and their assigned uses.
    --  This documents the device addresses and is the only place they need to be
@@ -12,20 +12,20 @@ package i2c is
    --
    type MCP23017_use is (LED_LSW, SW_LSW, LED_MSW, SW_MSW, LED_CTRL, SW_CTRL,
                          SPARE_1, SPARE_2);
-   for MCP23017_use use (LED_LSW  => BBS.embed.i2c.MCP23017.addr_0,
-                         SW_LSW   => BBS.embed.i2c.MCP23017.addr_1,
-                         LED_MSW  => BBS.embed.i2c.MCP23017.addr_2,
-                         SW_MSW   => BBS.embed.i2c.MCP23017.addr_3,
-                         LED_CTRL => BBS.embed.i2c.MCP23017.addr_4,
-                         SW_CTRL  => BBS.embed.i2c.MCP23017.addr_5,
-                         SPARE_1  => BBS.embed.i2c.MCP23017.addr_6,
-                         SPARE_2  => BBS.embed.i2c.MCP23017.addr_7);
+   for MCP23017_use use (LED_LSW  => BBS.embed.i2c.devices.addr_MCP23008_1,
+                         SW_LSW   => BBS.embed.i2c.devices.addr_MCP23008_2,
+                         LED_MSW  => BBS.embed.i2c.devices.addr_MCP23008_3,
+                         SW_MSW   => BBS.embed.i2c.devices.addr_MCP23008_4,
+                         LED_CTRL => BBS.embed.i2c.devices.addr_MCP23008_5,
+                         SW_CTRL  => BBS.embed.i2c.devices.addr_MCP23008_6,
+                         SPARE_1  => BBS.embed.i2c.devices.addr_MCP23008_7,
+                         SPARE_2  => BBS.embed.i2c.devices.addr_MCP23008_8);
    for MCP23017_use'Size use 7;
    --
    --  Control data for MCP23017 devices
    --
-   MCP23017_found  : array (MCP23017_use) of boolean;
-   MCP23017_info : array (MCP23017_use) of aliased BBS.embed.i2c.MCP23017.MCP23017_record;
+   MCP23017_found : array (MCP23017_use) of boolean;
+   MCP23017_info  : array (MCP23017_use) of aliased BBS.embed.i2c.MCP23017.MCP23017_record;
    --
    --  Result type
    --    RES_FULL - Full results
