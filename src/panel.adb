@@ -98,13 +98,15 @@ package body Panel is
    begin
      sim_8080.init;
      sim_8080.attach_io(tel'Access, 0, BBS.Sim_CPU.BUS_IO);
+     tel.setOwner(cpu);
      tel.init(tel'Access, 2171);
-     sim_8080.attach_io(fd'Access, 3, BBS.Sim_CPU.BUS_IO);
+     sim_8080.attach_io(fd'Access, 4, BBS.Sim_CPU.BUS_IO);
      fd.setOwner(sim_8080'Access);
-     fd.open(0, floppy_ctrl.floppy8_geom, "drv0.img");
-     fd.open(1, floppy_ctrl.floppy8_geom, "drv1.img");
-     fd.open(2, floppy_ctrl.floppy8_geom, "drv2.img");
-     fd.open(3, floppy_ctrl.floppy8_geom, "drv3.img");
+     fd.open(0, floppy_ctrl.hd_geom, "test.img");
+     fd.open(1, floppy_ctrl.floppy8_geom, "user.img");
+     fd.open(2, floppy_ctrl.floppy8_geom, "fortran.img");
+     fd.open(3, floppy_ctrl.floppy8_geom, "mbasic.img");
+     sim_8080.load("boot.ihx");
      sim_8080.start(0);
    end;
    --

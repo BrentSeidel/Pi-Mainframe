@@ -25,7 +25,7 @@ begin
    loop
       Ada.Text_IO.Put_Line("Available simulators are:");
       Ada.Text_IO.Put_Line("1. Blinkenlights");
-      Ada.Text_IO.Put_Line("2. Intel 8080/8085");
+      Ada.Text_IO.Put_Line("2. Zilog Z-80");
       Ada.Text_IO.Put_Line("3. Motorola 68000");
       Ada.Text_IO.Put("Selection: ");
       Ada.Integer_Text_IO.Get(selection, 0);
@@ -64,8 +64,9 @@ begin
          Ada.Text_IO.Put_Line("Blinkenlights selected.");
       when 2 =>
          Panel.CPU := Panel.sim_8080'Access;
+         Panel.sim_8080.variant(2);
          Panel.init_sim_8080;
-         Ada.Text_IO.Put_Line("Intel 8080 selected.");
+         Ada.Text_IO.Put_Line("Zilog Z-80 selected.");
       when 3 =>
          Panel.CPU := Panel.sim_68000'Access;
          Panel.init_sim_68000;

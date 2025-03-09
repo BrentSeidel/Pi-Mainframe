@@ -1,6 +1,6 @@
 name = "blinkenlights"
 description = "Project to blink LEDs in interesting patterns"
-version = "0.2.0"
+version = "0.2.1"
 
 long-description = """
 This is a complex project involving 3D printing and soldering as well as
@@ -11,9 +11,12 @@ This project is intended to replicate the look and feel of older computers
 with the switches and lights.  It uses the simulators from bbs_simcpu to
 drive the LEDs and act on the switches.  Using the Intel 8080 simulator,
 I was actually able to toggle a bootstrap program in using the panel and
-get it to boot CP/M.  If you use the Motorola 68000 simulator, it will
-load and run a simple multitasking OS.  The example simulator can be used
-to flash the lights in a variaty of ways.
+get it to boot CP/M.  A boot loader (boot.ihx) is included.  CP/M is not
+included.  There are places on the web where you can find a disassembled
+CP/M 2.2.  Then combine it with the BIOS from bbs_simcpu and add it to a
+disk image using the loadcpm tool.  If you use the Motorola 68000 simulator,
+it will load and run a simple multitasking OS.  The example simulator can
+be used to flash the lights in a variaty of ways.
 
 There is a lamp test program in the lamp-test directory that may be useful
 for debugging the hardware.
@@ -58,4 +61,4 @@ bbs_embed_linux = "~0.1.0"
 bbs_webif = "~0.1.0"
 
 [[depends-on]]
-bbs_simcpu = "~0.1.0"
+bbs_simcpu = "~0.3.2"

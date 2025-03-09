@@ -29,7 +29,7 @@ package Panel is
    --
    --  Instantiate disk controller
    --
-  package floppy_ctrl is new BBS.Sim_CPU.disk(sector_size => 128, max_drives => 16);
+  package floppy_ctrl is new BBS.Sim_CPU.disk(sector_size => 128);
    --
    --  Devices for processor simulator
    --
@@ -38,7 +38,7 @@ package Panel is
    tel1  : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
    tel2  : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
    mux   : aliased BBS.Sim_CPU.serial.mux.mux_tty;
-   fd    : aliased floppy_ctrl.disk_ctrl;
+   fd    : aliased floppy_ctrl.fd_ctrl(max_num => 7);
    clock : aliased BBS.Sim_CPU.Clock.clock_device;
    --
    --
