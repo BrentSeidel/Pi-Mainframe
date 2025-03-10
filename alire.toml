@@ -52,10 +52,10 @@ executables = ["blinkenlights"]
 bbs = "~0.1.0"
 
 [[depends-on]]
-bbs_embed_common = "~0.1.0"
+bbs_embed_common = "~0.2.0"
 
 [[depends-on]]
-bbs_embed_linux = "~0.2.0"
+bbs_embed_linux = "~0.1.0"
 
 [[depends-on]]
 bbs_webif = "~0.1.0"
