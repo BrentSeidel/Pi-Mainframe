@@ -4,14 +4,17 @@ with BBS.embed;
 with BBS.embed.i2c;
 with i2c;
 with BBS.Sim_CPU;
-with BBS.Sim_CPU.example;
-with BBS.Sim_CPU.i8080;
-with BBS.Sim_CPU.m68000;
-with BBS.Sim_CPU.Clock;
-with BBS.Sim_CPU.serial;
-with BBS.Sim_CPU.serial.mux;
-with BBS.Sim_CPU.serial.telnet;
-with BBS.Sim_CPU.disk;
+with BBS.Sim_CPU.bus;
+with BBS.Sim_CPU.CPU;
+--with BBS.Sim_CPU.CPU.example;
+--with BBS.Sim_CPU.CPU.i8080;
+--with BBS.Sim_CPU.CPU.m68000;
+with BBS.Sim_CPU.io.Clock;
+with BBS.Sim_CPU.io.serial;
+with BBS.Sim_CPU.io.serial.mux;
+with BBS.Sim_CPU.io.serial.telnet;
+with BBS.Sim_CPU.io.disk;
+--with BBS.Sim_CPU.bus.mem8;
 --
 --  This package contains information and code for the front panel of the simulator.
 --
@@ -22,24 +25,26 @@ package Panel is
    --
    --  Simulator.  Change this to which ever simulator is being used.
    --
-   sim_example : aliased BBS.Sim_CPU.example.simple;
-   sim_8080    : aliased BBS.Sim_CPU.i8080.i8080;
-   sim_68000   : aliased BBS.Sim_CPU.m68000.m68000;
-   CPU         : BBS.Sim_CPU.sim_access;
+--   sim_example : aliased BBS.Sim_CPU.CPU.example.simple;
+--   sim_8080    : aliased BBS.Sim_CPU.CPU.i8080.i8080;
+--   sim_68000   : aliased BBS.Sim_CPU.CPU.m68000.m68000;
+   cpu : BBS.Sim_CPU.CPU.sim_access;
+   bus : BBS.Sim_CPU.bus.bus_access;
    --
    --  Instantiate disk controller
    --
-  package floppy_ctrl is new BBS.Sim_CPU.disk(sector_size => 128);
+  package floppy_ctrl is new BBS.Sim_CPU.io.disk(sector_size => 128);
    --
    --  Devices for processor simulator
    --
-   tel   : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
-   tel0  : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
-   tel1  : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
-   tel2  : aliased BBS.Sim_CPU.serial.telnet.tel_tty;
-   mux   : aliased BBS.Sim_CPU.serial.mux.mux_tty;
-   fd    : aliased floppy_ctrl.fd_ctrl(max_num => 7);
-   clock : aliased BBS.Sim_CPU.Clock.clock_device;
+   tel   : aliased BBS.Sim_CPU.io.serial.telnet.tel_tty;
+   tel0  : aliased BBS.Sim_CPU.io.serial.telnet.tel_tty;
+   tel1  : aliased BBS.Sim_CPU.io.serial.telnet.tel_tty;
+   tel2  : aliased BBS.Sim_CPU.io.serial.telnet.tel_tty;
+   mux   : aliased BBS.Sim_CPU.io.serial.mux.mux_tty;
+--   fd    : aliased floppy_ctrl.fd_ctrl(max_num => 7);
+   fd    : aliased floppy_ctrl.fd_access := new floppy_ctrl.fd_ctrl(max_num => 7);
+   clock : aliased BBS.Sim_CPU.io.Clock.clock_device;
    --
    --
    --  Is selection automatic (True) or manual (False).  This is set by the web

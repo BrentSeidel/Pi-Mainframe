@@ -2,6 +2,13 @@ with Ada.Exceptions;
 with Ada.Integer_Text_IO;
 with Ada.Text_IO;
 with BBS;
+use type BBS.uint32;
+with BBS.Sim_CPU;
+with BBS.Sim_CPU.bus;
+with BBS.Sim_CPU.bus.mem8;
+with BBS.Sim_CPU.CPU.example;
+with BBS.Sim_CPU.CPU.i8080;
+with BBS.Sim_CPU.CPU.m68000;
 with BBS.embed;
 with BBS.embed.i2c;
 use type BBS.embed.i2c.err_code;
@@ -59,16 +66,26 @@ begin
    end loop;
    case selection is
       when 1 =>
-         Panel.CPU := Panel.sim_example'Access;
+         Panel.cpu := new BBS.Sim_CPU.CPU.example.simple;
+--         Panel.CPU := Panel.sim_example'Access;
          Panel.init_sim_example;
          Ada.Text_IO.Put_Line("Blinkenlights selected.");
       when 2 =>
-         Panel.CPU := Panel.sim_8080'Access;
-         Panel.sim_8080.variant(2);
+         Panel.cpu := new BBS.Sim_CPU.CPU.i8080.i8080;
+         Panel.bus := new BBS.Sim_CPU.bus.mem8.mem8io(2**16);
+         Panel.cpu.attach_bus(Panel.bus, 1);
+--         Panel.CPU := Panel.sim_8080'Access;
+--         Panel.sim_8080.variant(2);
+--         Panel.init_sim_8080;
+         Panel.cpu.variant(2);
          Panel.init_sim_8080;
          Ada.Text_IO.Put_Line("Zilog Z-80 selected.");
       when 3 =>
-         Panel.CPU := Panel.sim_68000'Access;
+         Panel.cpu := new BBS.Sim_CPU.CPU.m68000.m68000;
+         Panel.bus := new BBS.Sim_CPU.bus.mem8.mem8mem(2**24);
+         Panel.cpu.attach_bus(Panel.bus, 1);
+         Panel.cpu.variant(0);
+--         Panel.CPU := Panel.sim_68000'Access;
          Panel.init_sim_68000;
          Ada.Text_IO.Put_Line("Motorola 68000 selected.");
       when others =>  --  Should never happen

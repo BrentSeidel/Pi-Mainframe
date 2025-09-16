@@ -91,52 +91,52 @@ package body Panel is
    --
    procedure init_sim_example is
    begin
-     sim_example.start;
+     cpu.start;
    end;
    --
    procedure init_sim_8080 is
    begin
-     sim_8080.init;
-     sim_8080.attach_io(tel'Access, 0, BBS.Sim_CPU.BUS_IO);
+     cpu.init;
+     bus.attach_io(tel'Access, 0, BBS.Sim_CPU.BUS_IO);
      tel.setOwner(cpu);
      tel.init(tel'Access, 2171);
-     sim_8080.attach_io(fd'Access, 4, BBS.Sim_CPU.BUS_IO);
-     fd.setOwner(sim_8080'Access);
+     bus.attach_io(BBS.Sim_CPU.io.io_access(fd), 4, BBS.Sim_CPU.BUS_IO);
+     fd.setOwner(cpu);
      fd.open(0, floppy_ctrl.hd_geom, "test.img");
      fd.open(1, floppy_ctrl.floppy8_geom, "user.img");
      fd.open(2, floppy_ctrl.floppy8_geom, "fortran.img");
      fd.open(3, floppy_ctrl.floppy8_geom, "mbasic.img");
-     sim_8080.load("boot.ihx");
-     sim_8080.start(0);
+     cpu.load("boot.ihx");
+     cpu.start(0);
    end;
    --
    procedure init_sim_68000 is
    begin
-      sim_68000.init;
-      sim_68000.attach_io(clock'Access, 16#400#, BBS.Sim_CPU.BUS_MEMORY);
+      cpu.init;
+      bus.attach_io(clock'Access, 16#400#, BBS.Sim_CPU.BUS_MEMORY);
       clock.setOwner(CPU);
-      BBS.Sim_CPU.Clock.setBaseRate(1.0);
+      BBS.Sim_CPU.io.Clock.setBaseRate(1.0);
       clock.init(clock'Access);
       clock.setException(256+64);
-      sim_68000.attach_io(tel0'Access, 16#402#, BBS.Sim_CPU.BUS_MEMORY);
+      bus.attach_io(tel0'Access, 16#402#, BBS.Sim_CPU.BUS_MEMORY);
       tel0.setOwner(CPU);
       tel0.init(tel0'Access, 2171);
       tel0.setException(2*256+65);
-      sim_68000.attach_io(tel1'Access, 16#404#, BBS.Sim_CPU.BUS_MEMORY);
+      bus.attach_io(tel1'Access, 16#404#, BBS.Sim_CPU.BUS_MEMORY);
       tel1.setOwner(CPU);
       tel1.init(tel1'Access, 2172);
       tel1.setException(2*256+66);
-      sim_68000.attach_io(tel2'Access, 16#406#, BBS.Sim_CPU.BUS_MEMORY);
+      bus.attach_io(tel2'Access, 16#406#, BBS.Sim_CPU.BUS_MEMORY);
       tel2.setOwner(CPU);
       tel2.init(tel2'Access, 2173);
       tel2.setException(2*256+67);
-      sim_68000.attach_io(mux'Access, 16#408#, BBS.Sim_CPU.BUS_MEMORY);
+      bus.attach_io(mux'Access, 16#408#, BBS.Sim_CPU.BUS_MEMORY);
       mux.setOwner(CPU);
       mux.init(mux'Access, 3141);
       mux.setException(2*256+68);
-      sim_68000.load("Tasks.S");
-      sim_68000.load("OS68k.S");
-      sim_68000.start(16#2000#);
+      cpu.load("Tasks.S");
+      cpu.load("OS68k.S");
+      cpu.start(16#2000#);
    end;
    --
    --  Process the control switches that have action based on a transition to
