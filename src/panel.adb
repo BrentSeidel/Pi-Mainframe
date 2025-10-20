@@ -38,8 +38,8 @@ package body Panel is
       loop
          i2c.read_addr_data(pvt_sr_ad, res);
          i2c.read_ctrl(pvt_sr_ctl, res);
-         CPU.all.set_sr_ad(pvt_sr_ad);
-         CPU.all.set_sr_ctrl(pvt_sw_ctrl);
+         bus.all.set_sr_ad(pvt_sr_ad);
+         bus.all.set_sr_ctrl(pvt_sw_ctrl);
          process_switch;
          if pvt_starting then
             CPU.all.start;
@@ -54,7 +54,7 @@ package body Panel is
                CPU.all.examine;
             end if;
          end if;
-         lr_ctrl := CPU.all.get_lr_ctrl;
+         lr_ctrl := bus.all.get_lr_ctrl;
          lr_ctrl.ready := True;
          if CPU.all.halted then
             lr_ctrl.run   := False;
@@ -67,9 +67,9 @@ package body Panel is
          lr_ctrl.dep  := sw_ctrl.dep;
          lr_ctrl.addr := sw_ctrl.addr;
          if sw_ctrl.addr then
-            lr_ad := CPU.all.get_lr_addr;
+            lr_ad := bus.all.get_lr_addr;
          else
-            lr_ad := CPU.all.get_lr_data;
+            lr_ad := bus.all.get_lr_data;
          end if;
          i2c.set_addr_data(lr_ad, res);
          i2c.set_ctrl(lr_ctl, res);

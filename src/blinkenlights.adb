@@ -67,16 +67,15 @@ begin
    case selection is
       when 1 =>
          Panel.cpu := new BBS.Sim_CPU.CPU.example.simple;
---         Panel.CPU := Panel.sim_example'Access;
+         Panel.bus := new BBS.Sim_CPU.bus.bus;
+         Panel.cpu.attach_bus(Panel.bus, 1);
          Panel.init_sim_example;
+         Panel.cpu.variant(4);
          Ada.Text_IO.Put_Line("Blinkenlights selected.");
       when 2 =>
          Panel.cpu := new BBS.Sim_CPU.CPU.i8080.i8080;
          Panel.bus := new BBS.Sim_CPU.bus.mem8.mem8io(2**16);
          Panel.cpu.attach_bus(Panel.bus, 1);
---         Panel.CPU := Panel.sim_8080'Access;
---         Panel.sim_8080.variant(2);
---         Panel.init_sim_8080;
          Panel.cpu.variant(2);
          Panel.init_sim_8080;
          Ada.Text_IO.Put_Line("Zilog Z-80 selected.");
