@@ -1,6 +1,6 @@
 name = "blinkenlights"
 description = "Project to blink LEDs in interesting patterns"
-version = "0.2.1"
+version = "0.3.0"
 
 long-description = """
 This is a complex project involving 3D printing and soldering as well as
@@ -61,4 +61,4 @@ bbs_embed_linux = "~0.2.0"
 bbs_webif = "~0.1.0"
 
 [[depends-on]]
-bbs_simcpu = "~0.3.2"
+bbs_simcpu = "~0.4.0"
