@@ -9,6 +9,9 @@ obj/*
 alire/*
 config/*
 
+# Disk image files
+images/*
+
 # All Gerber files
 Gerber
 

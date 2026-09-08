@@ -27,6 +27,7 @@ begin
       Ada.Text_IO.Put_Line("1. Blinkenlights");
       Ada.Text_IO.Put_Line("2. Zilog Z-80");
       Ada.Text_IO.Put_Line("3. Motorola 68000");
+      Ada.Text_IO.Put_Line("4. PDP-11/34");
       Ada.Text_IO.Put("Selection: ");
       Ada.Integer_Text_IO.Get(selection, 0);
       --
@@ -37,7 +38,7 @@ begin
       begin
          null;  --  Nothing to do here.
       end;
-      exit when (selection > 0) and (selection < 4);
+      exit when (selection > 0) and (selection < 5);
    end loop;
    i2c.init_i2c;
    Hex_IO.Default_Width := 4;
@@ -59,18 +60,22 @@ begin
    end loop;
    case selection is
       when 1 =>
-         Panel.CPU := Panel.sim_example'Access;
+--         Panel.CPU := Panel.sim_example'Access;
          Panel.init_sim_example;
          Ada.Text_IO.Put_Line("Blinkenlights selected.");
       when 2 =>
-         Panel.CPU := Panel.sim_8080'Access;
-         Panel.sim_8080.variant(2);
+--         Panel.CPU := Panel.sim_8080'Access;
+--         Panel.sim_8080.variant(2);
          Panel.init_sim_8080;
          Ada.Text_IO.Put_Line("Zilog Z-80 selected.");
       when 3 =>
-         Panel.CPU := Panel.sim_68000'Access;
+--         Panel.CPU := Panel.sim_68000'Access;
          Panel.init_sim_68000;
          Ada.Text_IO.Put_Line("Motorola 68000 selected.");
+      when 4 =>
+--         Panel.CPU := Panel.sim_pdp11'Access;
+         Panel.init_sim_pdp11;
+         Ada.Text_IO.Put_Line("Digital PDP-11/04 selected.");
       when others =>  --  Should never happen
          null;
    end case;
