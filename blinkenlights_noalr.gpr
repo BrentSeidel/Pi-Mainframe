@@ -16,7 +16,8 @@ project blinkenlights_noalr is
    end Builder;
 
    package Compiler is
-      for Switches ("ada") use ("-g", "-gnato", "-gnatp", "-fstack-check", "-gnatf", "-gnat12", "-gnata", "-gnatVa", "-gnatw.X.d.f.g.h.k.l.n.o.s.u.wadhlt");
+      for switches ("Ada") use ("-g", "-gnateE", "-gnata", "-O1");
+--      for Switches ("ada") use ("-g", "-gnato", "-gnatp", "-fstack-check", "-gnatf", "-gnat12", "-gnata", "-gnatVa", "-gnatw.X.d.f.g.h.k.l.n.o.s.u.wadhlt");
    end Compiler;
 
    package Binder is
@@ -32,4 +33,3 @@ project blinkenlights_noalr is
    end Prove;
 
 end blinkenlights_noalr;
-

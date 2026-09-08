@@ -21,10 +21,6 @@ package Panel is
    --
    --  Simulator.  Change this to which ever simulator is being used.
    --
---   sim_example : aliased BBS.Sim_CPU.example.simple;
---   sim_8080    : aliased BBS.Sim_CPU.i8080.i8080;
---   sim_68000   : aliased BBS.Sim_CPU.m68000.m68000;
---   sim_pdp11   : aliased BBS.Sim_CPU.pdp11.pdp11;
    CPU : BBS.Sim_CPU.cpu.sim_access;
    bus : BBS.Sim_CPU.bus.bus_access;
    --
